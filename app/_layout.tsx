@@ -20,7 +20,7 @@ export default function RootLayout() {
             <Stack.Screen name="settings" options={{
                 headerShown: false,
                 headerStyle: {
-                    backgroundColor: '#25292e', // your custom color
+                    backgroundColor: '#211f1d', // your custom color
                 },
                 headerTintColor: '#ffffffff',
                 headerShadowVisible: false

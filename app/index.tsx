@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-        backgroundColor: '#25292e',
+        backgroundColor: '#211f1d',
      },
       settingsContainer: {
         position: 'absolute', //floats on top

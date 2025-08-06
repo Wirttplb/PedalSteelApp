@@ -5,6 +5,7 @@ import InlayDot from './dot';
 
 const NUM_FRETS = 12; // + 1
 const NUT_WIDTH = '4.3%';
+const NUM_STRINGS = 10;
 
 const Fretboard = () => {
 
@@ -25,6 +26,7 @@ const Fretboard = () => {
         // Position between frets
         // const left = (fret  )* fretSpacing + fretOffset - fretSpacing / 2;
         const left =  (fret - 0.1)* fretSpacing;
+        const diameter = 2 * screenWidth / 70;
 
         // For double dots on 12th, 24th fret
         const isDouble = fret % 12 === 0;
@@ -32,13 +34,30 @@ const Fretboard = () => {
         if (isDouble) {
             return (
             <React.Fragment key={fret}>
-                <InlayDot left={left} top={screenHeight / 3} />
-                <InlayDot left={left} top={2 * screenHeight / 3} />
+                <InlayDot left={left} top={screenHeight / 3 - diameter/2} diameter={diameter} />
+                <InlayDot left={left} top={2 * screenHeight / 3 - diameter/2} diameter={diameter}/>
             </React.Fragment>
             );
         } else {
-            return <InlayDot key={fret} left={left} top={dotTop} />;
+            return <InlayDot key={fret} left={left} top={dotTop-diameter/2} diameter={diameter}/>;
         }
+    });
+
+    // Strings (horizontal lines)
+    const strings = Array.from({ length: NUM_STRINGS }, (_, index) => {
+        const top = (index + 1) * (1.08 * screenHeight / (NUM_STRINGS + 1)) - 0.04 * screenHeight;
+        let height = screenHeight / 150;
+        if (index < 0.3 * NUM_STRINGS){ height*=3/5 } 
+        else if (index < 0.5 * NUM_STRINGS){ height*=4/5 } 
+        return (
+            <View key={`string-${index}`} style={{
+                position: 'absolute',
+                width: '100%',
+                top }}>
+                <View style={[styles.string, {height: height}]} />
+                <View style={[styles.stringShadow, {height: 0.3 * height, marginTop: height}]} />
+            </View>
+        );
     });
 
     // Add everything
@@ -49,17 +68,19 @@ const Fretboard = () => {
         <View style={styles.nutLine} />
         {frets}
         {dots}
+        {strings}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
     container:{
+    position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: '#25292e',
-    justifyContent: 'center', // Center vertically
-    alignItems: 'center',     // Center horizontally
+    backgroundColor: '#211f1d',
+    justifyContent: 'center',
+    alignItems: 'center',
     },
   neck: {
     width: '100%',
@@ -82,10 +103,18 @@ const styles = StyleSheet.create({
     left: NUT_WIDTH,
     backgroundColor: '#686868',
   },
-  fret:
-  {
+  string: {
     position: 'absolute',
-  }
+    left: 0,
+    width: '100%',
+    backgroundColor: '#e2dabfff',
+    },
+  stringShadow: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
+    backgroundColor: '#958963',
+    },
 });
 
 export default Fretboard;
