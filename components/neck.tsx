@@ -94,7 +94,7 @@ const Neck = ({ selectedKey, selectedMode }: NeckProps) => {
                     width: diameter,
                     height: diameter,
                     borderRadius: diameter / 2,
-                    backgroundColor: '#fa990f',
+                    backgroundColor: interval === '1' ? '#e45300ff' : '#fa990f',
                     justifyContent: 'center',
                     alignItems: 'center',
                     // Shadow for iOS / desktop browser

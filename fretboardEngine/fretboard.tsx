@@ -58,34 +58,7 @@ export class Fretboard {
       stringNotes.map((note) => (intervals.includes((note - keyInt + 12) % 12) ? note : null))
     );
   }
-
-//   generateMajorPentatonicScaleAsIntegers(key: string, startFret: number, endFret: number): (number | null)[][] {
-//     return this.generateScaleAsIntegers(key, [0, 2, 4, 7, 9], startFret, endFret);
-//   }
-
-//   generateMinorPentatonicScaleAsIntegers(key: string, startFret: number, endFret: number): (number | null)[][] {
-//     return this.generateScaleAsIntegers(key, [0, 3, 5, 7, 9], startFret, endFret);
-//   }
-
-//   generateMajorScaleAsIntegers(key: string, startFret: number, endFret: number): (number | null)[][] {
-//     return this.generateScaleAsIntegers(key, [0, 2, 4, 5, 7, 9, 11], startFret, endFret);
-//   }
-
-//   generateMinorScaleAsIntegers(key: string, startFret: number, endFret: number): (number | null)[][] {
-//     return this.generateScaleAsIntegers(key, [0, 2, 3, 5, 7, 8, 10], startFret, endFret);
-//   }
-
-//   generateMajorScaleAsIntervals(key: string, startFret: number, endFret: number): (string | null)[][] {
-//     const scaleInts = this.generateMajorScaleAsIntegers(key, startFret, endFret);
-//     return Fretboard.convertFretboardScaleToIntervals(key, scaleInts);
-//   }
-
-//   generateMinorScaleAsIntervals(key: string, startFret: number, endFret: number): (string | null)[][] {
-//     const scaleInts = this.generateMinorScaleAsIntegers(key, startFret, endFret);
-//     return Fretboard.convertFretboardScaleToIntervals(key, scaleInts);
-//   }
-
-  
+ 
   generateScaleAsIntervals(key: string, scale: string, startFret: number, endFret: number): (string | null)[][] {
     const scaleAsInts = getScaleAsIntegers(scale);
     const scaleInts = this.generateScaleAsIntegers(key, scaleAsInts, startFret, endFret);
