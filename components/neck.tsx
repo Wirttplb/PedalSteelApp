@@ -1,20 +1,23 @@
 import React from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import Fret from '../components/fret';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import * as fretboardEngine from '../fretboardEngine/fretboard';
 import InlayDot from './dot';
+import Fret from './fret';
 
 const NUM_FRETS = 12; // + 1
-const NUT_WIDTH = '4.3%';
+const screenWidth = Dimensions.get('window').width;
+const NUT_WIDTH = 0.043 * screenWidth;
 const NUM_STRINGS = 10;
 
 const Fretboard = () => {
 
+    const fretboard = fretboardEngine.Fretboard.initAsPedalSteelE9();
+
     // Calculate fret positions based on screen width
-    const screenWidth = Dimensions.get('window').width;
-    const fretOffset = screenWidth / 17;
     const fretSpacing = screenWidth  / (NUM_FRETS + 1);
+    const fretOffset = 0.9 * NUT_WIDTH + fretSpacing; // distance to 1st fret (not nut)
     const frets = Array.from({ length: NUM_FRETS }, (_, index) => (
-    <Fret key={index} left={index * fretSpacing + 2 * fretOffset}/>
+    <Fret key={index} left={index * fretSpacing + 1 * fretOffset}/>
   ));
 
     // Inlay dots
@@ -24,7 +27,6 @@ const Fretboard = () => {
 
     const dots = inlayFrets.map((fret, index) => {
         // Position between frets
-        // const left = (fret  )* fretSpacing + fretOffset - fretSpacing / 2;
         const left =  (fret - 0.1)* fretSpacing;
         const diameter = 2 * screenWidth / 70;
 
@@ -60,6 +62,43 @@ const Fretboard = () => {
         );
     });
 
+    // Notes, render disks for each note to display
+    const key = 'E';
+    const startFret = 0
+    const endFret = 12
+    const fretboardData = fretboard.generateMajorScaleAsIntervals(key, startFret, endFret)
+    const noteDisks = [];
+    const diameter = 2 * screenWidth / 70;
+
+    for (let stringIdx = 0; stringIdx < fretboardData.length; stringIdx++) {
+        for (let fretIdx = 0; fretIdx < fretboardData[stringIdx].length; fretIdx++) {
+            const interval = fretboardData[stringIdx][fretIdx];
+            if (interval) {
+            const left = fretIdx * fretSpacing + 1 * NUT_WIDTH - diameter / 2;
+            const top = (NUM_STRINGS - stringIdx) * (1.08 * screenHeight / (NUM_STRINGS + 1)) - 0.04 * screenHeight;
+
+            noteDisks.push(
+                <View
+                style={{
+                    position: 'absolute',
+                    left,
+                    top: top - diameter / 2,
+                    width: diameter,
+                    height: diameter,
+                    borderRadius: diameter / 2,
+                    backgroundColor: '#fa990f',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: diameter / 1.1, top:-diameter / 15 }}>
+                        {interval}
+                    </Text>
+                </View>
+            );
+        }}
+    }
+
+
     // Add everything
   return (
     <View style={styles.container}>
@@ -69,6 +108,7 @@ const Fretboard = () => {
         {frets}
         {dots}
         {strings}
+        {noteDisks}
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 interface InlayDotProps {
   left: number;
@@ -9,9 +9,6 @@ interface InlayDotProps {
 
 export default function InlayDot({ left, top, diameter }: InlayDotProps) {
 
-  const screenWidth = Dimensions.get('window').width;
-//   const radius = screenWidth / 70;
-//   const diameter = radius * 2;
     const radius = diameter / 2;
 
   return (

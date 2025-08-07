@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import Fretboard from '../components/fretboard';
+import Fretboard from '../components/neck';
 
 export default function SettingsScreen() {
     const router = useRouter();
@@ -18,7 +18,7 @@ export default function SettingsScreen() {
         </Pressable>
 
         {/* Dropdowns settings */}
-            <View style={styles.controls}>
+        <View style={styles.controls} pointerEvents="box-none">
             <View style={styles.dropdownRow}>
                 <Text style={styles.label}>Key:</Text>
                 <View style={styles.dropdownWrapper}>
