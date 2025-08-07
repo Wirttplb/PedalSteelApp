@@ -9,8 +9,14 @@ const screenWidth = Dimensions.get('window').width;
 const NUT_WIDTH = 0.043 * screenWidth;
 const NUM_STRINGS = 10;
 
-const Fretboard = () => {
+type NeckProps = {
+  selectedKey: string;
+  selectedMode: string;
+};
 
+const Neck = ({ selectedKey, selectedMode }: NeckProps) => {
+
+    // Initialize fretboard engine with E9 tuning
     const fretboard = fretboardEngine.Fretboard.initAsPedalSteelE9();
 
     // Calculate fret positions based on screen width
@@ -63,10 +69,11 @@ const Fretboard = () => {
     });
 
     // Notes, render disks for each note to display
-    const key = 'E';
     const startFret = 0
     const endFret = 12
-    const fretboardData = fretboard.generateMajorScaleAsIntervals(key, startFret, endFret)
+    let fretboardData: (string | null)[][] = [];
+    fretboardData = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret)
+
     const noteDisks = [];
     const diameter = 2 * screenWidth / 70;
 
@@ -79,6 +86,7 @@ const Fretboard = () => {
 
             noteDisks.push(
                 <View
+                key={`note-${stringIdx}-${fretIdx}`}
                 style={{
                     position: 'absolute',
                     left,
@@ -89,8 +97,15 @@ const Fretboard = () => {
                     backgroundColor: '#fa990f',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    // Shadow for iOS / desktop browser
+                    shadowColor: 'black',
+                    shadowOffset: { width: 2, height: 6 },
+                    shadowOpacity: 0.7,
+                    shadowRadius: diameter / 2,
+                    // Shadow for Android
+                    elevation: 5
                 }}>
-                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: diameter / 1.1, top:-diameter / 15 }}>
+                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: diameter / 1.1, top:-diameter / 6 }}>
                         {interval}
                     </Text>
                 </View>
@@ -157,4 +172,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Fretboard;
+export default Neck;

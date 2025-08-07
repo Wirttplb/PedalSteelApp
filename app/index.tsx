@@ -1,12 +1,16 @@
 import { Entypo } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import React from 'react';
 import { StyleSheet, View } from "react-native";
 import Neck from '../components/neck';
+import { useKey } from './keyContext';
 
 export default function Index() {
+    const { selectedKey, selectedMode } = useKey();
+
   return (
     <View style={styles.container}>
-        <Neck/>
+        <Neck selectedKey={selectedKey} selectedMode={selectedMode} />
         <View style={styles.settingsContainer}>
             <Link href="/settings" style={styles.settingsButton}>
                 { <Entypo name="dots-three-vertical" size={24} color="white" /> }

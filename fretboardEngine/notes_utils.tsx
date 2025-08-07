@@ -72,3 +72,18 @@ export function convertStrIntervalToInt(interval: string): number {
         throw new Error("Invalid interval name!");
     }
 }
+
+  export function getScaleAsIntegers(scale: string): number[] {
+    switch (scale) {
+      case 'Major':
+        return [0, 2, 4, 5, 7, 9, 11];
+      case 'Minor':
+        return [0, 2, 3, 5, 7, 8, 10];
+      case 'Major Pentatonic':
+        return [0, 2, 4, 7, 9];
+      case 'Minor Pentatonic':
+        return [0, 3, 5, 7, 10];
+      default:
+        throw new Error(`Invalid scale: ${scale}`);
+    }
+  }

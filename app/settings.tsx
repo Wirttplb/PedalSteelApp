@@ -1,17 +1,18 @@
 import { Entypo } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import Fretboard from '../components/neck';
+import Neck from '../components/neck';
+import { useKey } from './keyContext';
 
 export default function SettingsScreen() {
     const router = useRouter();
-    const [selectedKey, setSelectedKey] = useState('E');
+    const { selectedKey, setSelectedKey, selectedMode, setSelectedMode } = useKey();
 
   return (
     <View style={styles.container}>
-        <Fretboard/>
+        <Neck selectedKey={selectedKey} selectedMode={selectedMode} />
         <View style={styles.overlay} pointerEvents="none" />
         <Pressable onPress={() => router.back()} style={styles.backButton}>
             { <Entypo name="back" size={24} color="white" /> }
@@ -25,7 +26,7 @@ export default function SettingsScreen() {
                     <RNPickerSelect
                         placeholder={{}}
                         useNativeAndroidPickerStyle ={false}
-                        onValueChange={(itemValue) => setSelectedKey(itemValue)}
+                        onValueChange={(itemValue) => {setSelectedKey(itemValue);}}
                         items={[
                             { label: 'C', value: 'C' },
                             { label: 'C#', value: 'C#' },
@@ -62,12 +63,14 @@ export default function SettingsScreen() {
                     <RNPickerSelect
                         placeholder={{}}
                         useNativeAndroidPickerStyle ={false}
-                        onValueChange={(itemValue) => setSelectedKey(itemValue)}
+                        onValueChange={(itemValue) => setSelectedMode(itemValue)}
                         items={[
                             { label: 'Major', value: 'Major' },
                             { label: 'Minor', value: 'Minor' },
+                            { label: 'Major Pentatonic', value: 'Major Pentatonic' },
+                            { label: 'Minor Pentatonic', value: 'Minor Pentatonic' },
                         ]}
-                        value={selectedKey}
+                        value={selectedMode}
                         style={{
                             inputIOS: {
                                 fontSize: 46,
