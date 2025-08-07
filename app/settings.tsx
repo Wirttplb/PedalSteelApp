@@ -69,6 +69,12 @@ export default function SettingsScreen() {
                             { label: 'Minor', value: 'Minor' },
                             { label: 'Major Pentatonic', value: 'Major Pentatonic' },
                             { label: 'Minor Pentatonic', value: 'Minor Pentatonic' },
+                            { label: 'Dorian', value: 'Dorian' },
+                            { label: 'Phrygian', value: 'Phrygian' },
+                            { label: 'Lydian', value: 'Lydian' },
+                            { label: 'Mixolydian', value: 'Mixolydian' },
+                            { label: 'Aeolian', value: 'Aeolian' },
+                            { label: 'Locrian', value: 'Locrian' },
                         ]}
                         value={selectedMode}
                         style={{

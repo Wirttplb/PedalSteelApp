@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Test2",
-    "slug": "Test2",
+    "name": "PedalSteelApp",
+    "slug": "PedalSteelApp",
     "version": "1.0.0",
     "orientation": "landscape",
     "icon": "./assets/images/icon.png",
-    "scheme": "test2",
+    "scheme": "pedalsteelapp",
     "userInterfaceStyle": "automatic",
     "backgroundColor": "#25292e",
     "newArchEnabled": true,
@@ -17,7 +17,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#25292e"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.wirttplb.PedalSteelApp"
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +39,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "ac74970a-c11e-48e9-8594-37c78e0f9519"
+      }
     }
   }
 }

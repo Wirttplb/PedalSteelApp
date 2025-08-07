@@ -79,38 +79,54 @@ const Neck = ({ selectedKey, selectedMode }: NeckProps) => {
 
     for (let stringIdx = 0; stringIdx < fretboardData.length; stringIdx++) {
         for (let fretIdx = 0; fretIdx < fretboardData[stringIdx].length; fretIdx++) {
-            const interval = fretboardData[stringIdx][fretIdx];
+            let interval = fretboardData[stringIdx][fretIdx];
             if (interval) {
-            const left = fretIdx * fretSpacing + 1 * NUT_WIDTH - diameter / 2;
-            const top = (NUM_STRINGS - stringIdx) * (1.08 * screenHeight / (NUM_STRINGS + 1)) - 0.04 * screenHeight;
+                const left = fretIdx * fretSpacing + 1 * NUT_WIDTH - diameter / 2;
+                const top = (NUM_STRINGS - stringIdx) * (1.08 * screenHeight / (NUM_STRINGS + 1)) - 0.075 * screenHeight;
 
-            noteDisks.push(
-                <View
-                key={`note-${stringIdx}-${fretIdx}`}
-                style={{
+                interval = interval.replace(/b/g, '♭'); // replace 'b' with '♭'
+                
+                noteDisks.push(
+                    <View
+                    key={`note-parent-${stringIdx}-${fretIdx}`}
+                    style={{
                     position: 'absolute',
-                    left,
-                    top: top - diameter / 2,
-                    width: diameter,
-                    height: diameter,
-                    borderRadius: diameter / 2,
-                    backgroundColor: interval === '1' ? '#e45300ff' : '#fa990f',
+                    left: left,
+                    top: top,
+                    width: diameter * 1.5, // parent is bigger
+                    height: diameter * 1.5,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Shadow for iOS / desktop browser
-                    shadowColor: 'black',
-                    shadowOffset: { width: 2, height: 6 },
-                    shadowOpacity: 0.7,
-                    shadowRadius: diameter / 2,
-                    // Shadow for Android
-                    elevation: 5
-                }}>
-                    <Text style={{ color: 'black', fontWeight: 'bold', fontSize: diameter / 1.1, top:-diameter / 6 }}>
-                        {interval}
-                    </Text>
-                </View>
-            );
-        }}
+                    backgroundColor: 'transparent', // parent is transparent
+                    }}>
+                        <View
+                        // key={`note-${stringIdx}-${fretIdx}`}
+                        style={{
+                            position: 'absolute',
+                            width: diameter,
+                            height: diameter,
+                            borderRadius: diameter / 2,
+                            backgroundColor: interval === '1' ? '#e45300ff' : '#fa990f',
+                            // Shadow for iOS / desktop browser
+                            shadowColor: 'black',
+                            shadowOffset: { width: 2, height: 6 },
+                            shadowOpacity: 0.7,
+                            shadowRadius: diameter / 2,
+                            // Shadow for Android
+                            elevation: 5
+                        }}>
+                        </View>
+                        <Text style={{
+                            color: 'black',
+                            fontWeight: 'bold',
+                            fontSize: diameter / 1.,
+                            top:- 0.05 * diameter}}>
+                            {interval}
+                        </Text>
+                    </View>
+                );
+            }
+        }
     }
 
 
