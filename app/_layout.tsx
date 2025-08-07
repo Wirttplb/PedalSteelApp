@@ -10,7 +10,7 @@ export default function RootLayout() {
     // Hide the navigation bar on Android
     useEffect(() => {
     NavigationBar.setVisibilityAsync('hidden');
-    NavigationBar.setBehaviorAsync('immersive'); // Add this line
+    NavigationBar.setBehaviorAsync('immersive'); // TS error but works
     });
 
   return(

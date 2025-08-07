@@ -6,11 +6,11 @@ import Neck from '../components/neck';
 import { useKey } from './keyContext';
 
 export default function Index() {
-    const { selectedKey, selectedMode } = useKey();
+    const { selectedKey, selectedMode, chordMode, chordType } = useKey();
 
   return (
     <View style={styles.container}>
-        <Neck selectedKey={selectedKey} selectedMode={selectedMode} />
+        <Neck selectedKey={selectedKey} selectedMode={selectedMode} chordMode={chordMode} chordType={chordType}/>
         <View style={styles.settingsContainer}>
             <Link href="/settings" style={styles.settingsButton}>
                 { <Entypo name="dots-three-vertical" size={24} color="white" /> }

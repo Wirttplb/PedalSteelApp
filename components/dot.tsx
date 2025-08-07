@@ -8,7 +8,6 @@ interface InlayDotProps {
 }
 
 export default function InlayDot({ left, top, diameter }: InlayDotProps) {
-
     const radius = diameter / 2;
 
   return (

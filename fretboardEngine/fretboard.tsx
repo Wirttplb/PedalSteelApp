@@ -46,7 +46,7 @@ export class Fretboard {
 
   generateFretboard(startFret: number, endFret: number): number[][] {
     return this.tuning.map((openNote) =>
-      Array.from({ length: endFret - startFret + 1 }, (_, fret) => (openNote + startFret + fret) % 12)
+      Array.from({ length: endFret - startFret + 1 }, (_, fret) => (openNote + fret) % 12) // mistake from gpt?
     );
   }
 
@@ -55,7 +55,7 @@ export class Fretboard {
     const fretboard = this.generateFretboard(startFret, endFret);
 
     return fretboard.map((stringNotes) =>
-      stringNotes.map((note) => (intervals.includes((note - keyInt + 12) % 12) ? note : null))
+      stringNotes.map((note) => (intervals.includes((note - keyInt) % 12) ? note : null))
     );
   }
  
@@ -78,7 +78,7 @@ export class Fretboard {
       return stringNotes.map((note) => {
         if (fret === null || fret === undefined) return null;
         const voicingNote = (fret + this.tuning[stringIndex]) % 12;
-        return voicingNote === note ? (voicingNote - baseKeyInt + 12) % 12 : null;
+        return voicingNote === note ? (voicingNote - baseKeyInt) % 12 : null;
       });
     });
   }

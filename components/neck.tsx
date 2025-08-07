@@ -12,9 +12,11 @@ const NUM_STRINGS = 10;
 type NeckProps = {
   selectedKey: string;
   selectedMode: string;
+  chordMode: string;
+  chordType: string;
 };
 
-const Neck = ({ selectedKey, selectedMode }: NeckProps) => {
+const Neck = ({ selectedKey, selectedMode, chordMode, chordType }: NeckProps) => {
 
     // Initialize fretboard engine with E9 tuning
     const fretboard = fretboardEngine.Fretboard.initAsPedalSteelE9();
@@ -81,7 +83,7 @@ const Neck = ({ selectedKey, selectedMode }: NeckProps) => {
         for (let fretIdx = 0; fretIdx < fretboardData[stringIdx].length; fretIdx++) {
             let interval = fretboardData[stringIdx][fretIdx];
             if (interval) {
-                const left = fretIdx * fretSpacing + 1 * NUT_WIDTH - diameter / 2;
+                const left = fretIdx * fretSpacing + 1 * NUT_WIDTH - diameter / 2 - 0.005 * screenWidth;
                 const top = (NUM_STRINGS - stringIdx) * (1.08 * screenHeight / (NUM_STRINGS + 1)) - 0.075 * screenHeight;
 
                 interval = interval.replace(/b/g, '♭'); // replace 'b' with '♭'
@@ -100,7 +102,6 @@ const Neck = ({ selectedKey, selectedMode }: NeckProps) => {
                     backgroundColor: 'transparent', // parent is transparent
                     }}>
                         <View
-                        // key={`note-${stringIdx}-${fretIdx}`}
                         style={{
                             position: 'absolute',
                             width: diameter,

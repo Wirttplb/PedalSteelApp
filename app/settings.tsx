@@ -1,18 +1,21 @@
 import { Entypo } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import Neck from '../components/neck';
 import { useKey } from './keyContext';
 
 export default function SettingsScreen() {
     const router = useRouter();
-    const { selectedKey, setSelectedKey, selectedMode, setSelectedMode } = useKey();
+    const { selectedKey, setSelectedKey,
+        selectedMode, setSelectedMode,
+        chordMode, setChordMode,
+        chordType, setChordType } = useKey();
 
   return (
     <View style={styles.container}>
-        <Neck selectedKey={selectedKey} selectedMode={selectedMode} />
+        <Neck selectedKey={selectedKey} selectedMode={selectedMode} chordMode={chordMode} chordType={chordType}/>
         <View style={styles.overlay} pointerEvents="none" />
         <Pressable onPress={() => router.back()} style={styles.backButton}>
             { <Entypo name="back" size={24} color="white" /> }
@@ -21,7 +24,32 @@ export default function SettingsScreen() {
         {/* Dropdowns settings */}
         <View style={styles.controls} pointerEvents="box-none">
             <View style={styles.dropdownRow}>
-                <Text style={styles.label}>Key:</Text>
+                <View style={styles.dropdownWrapper}>
+                    <RNPickerSelect
+                        placeholder={{}}
+                        useNativeAndroidPickerStyle ={false}
+                        onValueChange={(itemValue) => {setChordMode(itemValue);}}
+                        items={[
+                            { label: 'Scale', value: 'Scale' },
+                            { label: 'Chord', value: 'Chord' },
+                        ]}
+                        value={chordMode}
+                        style={{
+                            inputIOS: {
+                                fontSize: 46,
+                                color: 'white',
+                                padding: 20,
+                            },
+                            inputAndroid: {
+                                fontSize: 46,
+                                color: 'white',
+                                padding: 20,
+                            },
+                        }}
+                    />
+                </View>
+            </View>
+            <View style={styles.dropdownRow}>
                 <View style={styles.dropdownWrapper}>
                     <RNPickerSelect
                         placeholder={{}}
@@ -58,8 +86,7 @@ export default function SettingsScreen() {
                 </View>
             </View>
             <View style={styles.dropdownRow}>
-                <Text style={styles.label}>Mode:</Text>
-                <View style={styles.dropdownWrapper}>
+                <View style={[styles.dropdownWrapper, {opacity: chordMode === 'Scale' ? 1 : 0.5}]}>
                     <RNPickerSelect
                         placeholder={{}}
                         useNativeAndroidPickerStyle ={false}
@@ -77,6 +104,30 @@ export default function SettingsScreen() {
                             { label: 'Locrian', value: 'Locrian' },
                         ]}
                         value={selectedMode}
+                        style={{
+                            inputIOS: {
+                                fontSize: 46,
+                                color: 'white',
+                                padding: 20,
+                            },
+                            inputAndroid: {
+                                fontSize: 46,
+                                color: 'white',
+                                padding: 20,
+                            },
+                        }}
+                    />
+                </View>
+                <View style={[styles.dropdownWrapper, {opacity: chordMode === 'Chord' ? 1 : 0.5}]}>
+                    <RNPickerSelect
+                        placeholder={{}}
+                        useNativeAndroidPickerStyle ={false}
+                        onValueChange={(itemValue) => {setChordType(itemValue);}}
+                        items={[
+                            { label: 'M', value: 'M' },
+                            { label: 'm', value: 'm' },
+                        ]}
+                        value={chordType}
                         style={{
                             inputIOS: {
                                 fontSize: 46,
@@ -114,13 +165,12 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.4)', // semi-transparent grey
   },
-    controls: {
+  controls: {
     flexDirection: 'column',
     },
     dropdownRow: {
-    top: 0.2*screenHeight,
-    left: 0.2*screenHeight,
-    padding: 20,
+    left: 0.1*screenHeight,
+    padding: 10,
     flexDirection: 'row',
   },
   dropdownWrapper: {
@@ -130,12 +180,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#333',
     justifyContent: 'center',
+    marginLeft: 20
   },
    label: {
-    padding: 20,
+    padding: 0,
     color: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 46,
   },
+  picker:
+{
+    // inputIOS: {
+    //     fontSize: 46,
+    //     color: 'white',
+    //     padding: 20,
+    // },
+    // inputAndroid: {
+    //     fontSize: 46,
+    //     color: 'white',
+    //     padding: 20,
+    // }
+  }
 });

@@ -19,9 +19,10 @@ export class Voicing {
     return voicing;
   }
 
-//   getNumberOfNotes(): number {
-//     return this.notes.reduce((count, note) => note !== null ? count + 1 : count, 0);
-//   }
+  getNumberOfNotes(): number {
+    const count = this.notes.reduce((count, note) => (note !== null && count != null) ? count + 1 : count, 0);
+    return count !== null ? count : 0;
+  }
 
   isPartOfOtherVoicing(other: Voicing): boolean {
     for (const pedal of this.pedals) {
@@ -74,13 +75,14 @@ export class Chord {
         )
       };
 
+      // Apply pedal change
       for (const pedal of voicing.pedals) {
         const pedalObj = Pedal.initFromName(pedal);
 
         for (let i = 0; i < voicingDict.intervals.length; i++) {
           for (const change of pedalObj.changes) {
             if (change[0] === i && voicingDict.intervals[i] !== null) {
-              voicingDict.intervals[i] = (voicingDict.intervals[i] + change[1]) % 12;
+              voicingDict.intervals[i] = (voicingDict.intervals[i] + change[1] + 12) % 12;
             }
           }
         }
