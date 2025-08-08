@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 import { View } from 'react-native';
 import { KeyProvider } from './keyContext';
 
-export default function RootLayout() {
 
+export default function RootLayout() {
     // Hide the navigation bar on Android
     useEffect(() => {
     NavigationBar.setVisibilityAsync('hidden');

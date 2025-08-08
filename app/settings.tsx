@@ -48,6 +48,31 @@ export default function SettingsScreen() {
                         }}
                     />
                 </View>
+                <View style={styles.dropdownWrapper}>
+                    <RNPickerSelect
+                        placeholder={{}}
+                        useNativeAndroidPickerStyle ={false}
+                        onValueChange={(itemValue) => {}}
+                        items={[
+                            { label: 'E9', value: 'E9' },
+                            { label: 'Open E', value: 'Open E' },
+                            { label: 'Standard', value: 'Standard' },
+                        ]}
+                        value={chordMode}
+                        style={{
+                            inputIOS: {
+                                fontSize: 46,
+                                color: 'white',
+                                padding: 20,
+                            },
+                            inputAndroid: {
+                                fontSize: 46,
+                                color: 'white',
+                                padding: 20,
+                            },
+                        }}
+                    />
+                </View>
             </View>
             <View style={styles.dropdownRow}>
                 <View style={styles.dropdownWrapper}>
