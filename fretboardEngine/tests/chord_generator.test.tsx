@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { ChordGenerator } from '../chord_generator';
+import { importE9ChordsFromJson } from '../chord_importer';
 import { Chord } from '../chords';
 import { Fretboard } from '../fretboard';
 
@@ -91,4 +92,22 @@ describe('ChordGenerator', () => {
     const outputPath = path.join(__dirname, './data/e9_generated_simple_chords.json');
     fs.writeFileSync(outputPath, JSON.stringify(jsonDict, null, 2));
   });
+
+    test('load chords from json', () => {
+            const chordsFile = path.join(__dirname, './data/e9_chords_shortlist.json');
+            const chords = importE9ChordsFromJson(chordsFile);
+
+            const majorChord = chords.find(chord => chord.name === "M");
+            if (majorChord){
+                for (const voicing of majorChord.voicings) {
+                console.log("Pedals:", voicing.pedals);
+                console.log("Notes:", voicing.notes);
+                console.log("Intervals:", voicing.intervals);
+                }
+            }
+            else
+            {
+                console.error("Major chord not found in imported chords.");
+            }
+    });
 });

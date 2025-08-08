@@ -1,3 +1,4 @@
+import { importE9ChordsFromJson } from './chord_importer';
 import { Voicing } from './chords';
 import {
     convertIntIntervalToStr,
@@ -83,7 +84,7 @@ export class Fretboard {
     });
   }
 
-  getAllPedalCombinations(maxPedals = 7): string[][] {
+  getAllPedalCombinations(maxPedals: number = 7): string[][] {
     return Pedal.getAllPedalCombinations(this.getPedalsAsStr(), maxPedals);
   }
 
@@ -132,5 +133,27 @@ export class Fretboard {
     );
 
     return result;
+  }
+
+  voicingToFretboardData(selectedKey: string, chordType: string, voicingIdx: number, startFret: number, endFret: number): (string | null)[][]
+  {
+    // load chord data
+    const readFromShortlist = true;
+    const chords = importE9ChordsFromJson("", readFromShortlist);
+
+    const chord = chords.find(chord => chord.name === chordType);
+    if (chord)
+    {
+        const voicing = chord.voicings[voicingIdx];
+        const fretboardDataAsInts = this.generateVoicing(voicing);
+        const pedals = voicing.pedals.map(name => Pedal.initFromName(name));
+
+        return Fretboard.convertFretboardScaleToIntervals(selectedKey, fretboardDataAsInts, pedals)
+    }
+    else
+    {
+        console.error("Chord not found in imported chords.");
+        return []
+    }
   }
 }

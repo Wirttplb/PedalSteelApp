@@ -4,17 +4,21 @@ import { Pedal } from './pedal';
 export class Voicing {
   pedals: string[] = [];
   notes: (number | null)[] = [];
+  intervals: (string | null)[] = []
 
   constructor() {
     this.pedals = [];
     this.notes = [];
   }
 
-  static fromE9Json(voicingJson: { pedals: string[]; notes: string[] }): Voicing {
+  static fromE9Json(voicingJson: { pedals: string[]; notes: string[]; intervals: string[] }): Voicing {
     const voicing = new Voicing();
     voicing.pedals = voicingJson.pedals;
     voicing.notes = voicingJson.notes.map(jsonNote =>
       jsonNote !== MUTED_STRING_CHAR ? parseInt(jsonNote, 10) : null
+    );
+    voicing.intervals = voicingJson.intervals.map(jsonInterval =>
+      jsonInterval !== MUTED_STRING_CHAR ? jsonInterval : null
     );
     return voicing;
   }
@@ -49,18 +53,18 @@ export class Voicing {
 
 export class Chord {
   key: string;
-  type: string;
+  name: string;
   voicings: Voicing[] = [];
 
-  constructor(key: string, type: string) {
+  constructor(key: string, name: string) {
     this.key = key;
-    this.type = type;
+    this.name = name;
     this.voicings = [];
   }
 
   toJson(tuning: number[]): any {
     const jsonDict: any = {
-      name: this.type,
+      name: this.name,
       voicings: []
     };
 

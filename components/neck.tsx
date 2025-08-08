@@ -91,7 +91,15 @@ const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckP
     const startFret = 0
     const endFret = 12
     let fretboardData: (string | null)[][] = [];
-    fretboardData = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret)
+
+    if (chordMode === 'Scale') {
+        fretboardData = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret)
+    }
+    else if (chordMode === 'Chord') {
+        fretboardData = fretboard.voicingToFretboardData(selectedKey, chordType, 1, startFret, endFret); // 1 = voicing number
+    } else {
+        throw new Error('Invalid chord mode!');
+    }
 
     const noteDisks = [];
     const diameter = 2 * screenWidth / 70;
