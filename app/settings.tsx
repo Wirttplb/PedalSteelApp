@@ -11,11 +11,12 @@ export default function SettingsScreen() {
     const { selectedKey, setSelectedKey,
         selectedMode, setSelectedMode,
         chordMode, setChordMode,
-        chordType, setChordType } = useKey();
+        chordType, setChordType,
+        tuning, setTuning } = useKey();
 
   return (
     <View style={styles.container}>
-        <Neck selectedKey={selectedKey} selectedMode={selectedMode} chordMode={chordMode} chordType={chordType}/>
+        <Neck selectedKey={selectedKey} selectedMode={selectedMode} chordMode={chordMode} chordType={chordType} tuning={tuning}/>
         <View style={styles.overlay} pointerEvents="none" />
         <Pressable onPress={() => router.back()} style={styles.backButton}>
             { <Entypo name="back" size={24} color="white" /> }
@@ -52,13 +53,13 @@ export default function SettingsScreen() {
                     <RNPickerSelect
                         placeholder={{}}
                         useNativeAndroidPickerStyle ={false}
-                        onValueChange={(itemValue) => {}}
+                        onValueChange={(itemValue) => {setTuning(itemValue);}}
                         items={[
                             { label: 'E9', value: 'E9' },
                             { label: 'Open E', value: 'Open E' },
                             { label: 'Standard', value: 'Standard' },
                         ]}
-                        value={chordMode}
+                        value={tuning}
                         style={{
                             inputIOS: {
                                 fontSize: 46,

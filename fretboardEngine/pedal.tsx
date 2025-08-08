@@ -25,7 +25,7 @@ export class Pedal {
     return pedal;
   }
 
-  static getAllPedalCombinations(pedals: string[]): string[][] {
+  static getAllPedalCombinations(pedals: string[], maxPedals: number = 7): string[][] {
     let list: string[][] = [[]]; // start with empty combination
 
     for (let i = 1; i <= 3; i++) {
@@ -38,6 +38,8 @@ export class Pedal {
       const has = (x: string) => combo.includes(x);
 
       if (
+        combo.length > maxPedals ||
+        // these combinations are impossible with my setup
         (has("A") && has("A/2")) ||
         (has("D") && has("D/2")) ||
         ((has("A") || has("A/2")) && has("C")) ||

@@ -43,9 +43,9 @@ export class ChordGenerator {
     this.fretboard = fretboard;
   }
 
-  generateVoicings(formula: string[], key: string): Voicing[] {
+  generateVoicings(formula: string[], key: string, maxPedals = 7): Voicing[] {
     const formulaAsInt = formula.map(convertStrIntervalToInt);
-    const pedalCombinations = this.fretboard.getAllPedalCombinations();
+    const pedalCombinations = this.fretboard.getAllPedalCombinations(maxPedals);
     const voicings: Voicing[] = [];
 
     for (let fret = 0; fret < 12; fret++) {
@@ -93,16 +93,16 @@ export class ChordGenerator {
     return voicings;
   }
 
-  static generateE9Chords(keyAsStr: string, minNbNotes = 0): Record<string, Chord> {
+  static generateE9Chords(keyAsStr: string, minNbNotes = 0, ignoreSubsets = false, maxPedals = 7): Record<string, Chord> {
     const chordGenerator = new ChordGenerator(Fretboard.initAsPedalSteelE9());
     const chords: Record<string, Chord> = {};
 
     for (const [key, value] of Object.entries(CHORD_FORMULAS)) {
       const chord = new Chord(keyAsStr, key);
-      chord.voicings = chordGenerator.generateVoicings(value, keyAsStr);
+      chord.voicings = chordGenerator.generateVoicings(value, keyAsStr, maxPedals);
 
       const filteredVoicings = chord.voicings.filter(
-        v => v.getNumberOfNotes() >= minNbNotes && !v.isPartOfOtherVoicings(chord.voicings)
+        v => v.getNumberOfNotes() >= minNbNotes && (!ignoreSubsets || !v.isPartOfOtherVoicings(chord.voicings))
       );
 
       chord.voicings = filteredVoicings;

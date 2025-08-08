@@ -18,7 +18,7 @@ describe('ChordGenerator', () => {
   });
 
   test('generate E9 chords and check structure', () => {
-    const chords = ChordGenerator.generateE9Chords('E');
+    const chords = ChordGenerator.generateE9Chords('E', 0, true);
 
     expect(chords['M'].voicings[0].pedals).toEqual([]);
     expect('m' in chords).toBeTruthy();
@@ -75,11 +75,20 @@ describe('ChordGenerator', () => {
   });
 
   test('write E9 chords with min_nb_notes to json', () => {
-    const chords = ChordGenerator.generateE9Chords('E', 6);
+    const chords = ChordGenerator.generateE9Chords('E', 6, true);
     const fretboard = Fretboard.initAsPedalSteelE9();
     const jsonDict = Chord.listToJson(chords, fretboard.tuning);
 
     const outputPath = path.join(__dirname, './data/e9_generated_chords.json');
+    fs.writeFileSync(outputPath, JSON.stringify(jsonDict, null, 2));
+  });
+
+    test('write E9 chords with simple pedal combinations to json', () => {
+    const chords = ChordGenerator.generateE9Chords('E', 6, false, 2);
+    const fretboard = Fretboard.initAsPedalSteelE9();
+    const jsonDict = Chord.listToJson(chords, fretboard.tuning);
+
+    const outputPath = path.join(__dirname, './data/e9_generated_simple_chords.json');
     fs.writeFileSync(outputPath, JSON.stringify(jsonDict, null, 2));
   });
 });

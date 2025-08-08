@@ -6,9 +6,11 @@ type KeyContextType = {
   selectedMode: string;
   setSelectedMode: (mode: string) => void;
   chordMode: string;
-  setChordMode: (mode: string) => void;
+  setChordMode: (chordMode: string) => void;
   chordType: string;
-  setChordType: (mode: string) => void;
+  setChordType: (chordType: string) => void;
+  tuning: string;
+  setTuning: (tuning: string) => void;
 };
 
 const KeyContext = createContext<KeyContextType | undefined>(undefined);
@@ -18,12 +20,15 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedMode, setSelectedMode] = useState('Major');
   const [chordMode, setChordMode] = useState('Scale');
   const [chordType, setChordType] = useState('M');
+  const [tuning, setTuning] = useState('E9');
+  
   return (
     <KeyContext.Provider value={{
         selectedKey, setSelectedKey,
         selectedMode, setSelectedMode,
         chordMode, setChordMode,
-        chordType, setChordType
+        chordType, setChordType,
+        tuning, setTuning,
         }}>
       {children}
     </KeyContext.Provider>

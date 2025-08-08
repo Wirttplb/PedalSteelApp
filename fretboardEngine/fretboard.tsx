@@ -83,8 +83,8 @@ export class Fretboard {
     });
   }
 
-  getAllPedalCombinations(): string[][] {
-    return Pedal.getAllPedalCombinations(this.getPedalsAsStr());
+  getAllPedalCombinations(maxPedals = 7): string[][] {
+    return Pedal.getAllPedalCombinations(this.getPedalsAsStr(), maxPedals);
   }
 
   getIntervalsAtFret(fret: number, pedals: Pedal[], key = 'E'): number[] {

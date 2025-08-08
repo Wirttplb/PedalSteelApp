@@ -7,19 +7,36 @@ import Fret from './fret';
 const NUM_FRETS = 12; // + 1
 const screenWidth = Dimensions.get('window').width;
 const NUT_WIDTH = 0.043 * screenWidth;
-const NUM_STRINGS = 10;
 
 type NeckProps = {
   selectedKey: string;
   selectedMode: string;
   chordMode: string;
   chordType: string;
+  tuning: string;
 };
 
-const Neck = ({ selectedKey, selectedMode, chordMode, chordType }: NeckProps) => {
+const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckProps) => {
 
-    // Initialize fretboard engine with E9 tuning
-    const fretboard = fretboardEngine.Fretboard.initAsPedalSteelE9();
+    // Initialize fretboard
+    let fretboard: fretboardEngine.Fretboard;
+    let numStrings = 10;
+
+    if (tuning === 'E9') {
+        fretboard = fretboardEngine.Fretboard.initAsPedalSteelE9();
+        numStrings = 10;
+    }
+    else if (tuning === 'Open E') {
+        fretboard = fretboardEngine.Fretboard.initAsGuitarOpenE();
+        numStrings = 6;
+    }
+    else if (tuning === 'Standard') {
+        fretboard = fretboardEngine.Fretboard.initAsGuitarStandard();
+        numStrings = 6;
+    }
+    else {
+        throw new Error('Invalid tuning!');
+    }   
 
     // Calculate fret positions based on screen width
     const fretSpacing = screenWidth  / (NUM_FRETS + 1);
@@ -54,11 +71,11 @@ const Neck = ({ selectedKey, selectedMode, chordMode, chordType }: NeckProps) =>
     });
 
     // Strings (horizontal lines)
-    const strings = Array.from({ length: NUM_STRINGS }, (_, index) => {
-        const top = (index + 1) * (1.08 * screenHeight / (NUM_STRINGS + 1)) - 0.04 * screenHeight;
+    const strings = Array.from({ length: numStrings }, (_, index) => {
+        const top = (index + 1) * (1.08 * screenHeight / (numStrings + 1)) - 0.04 * screenHeight;
         let height = screenHeight / 150;
-        if (index < 0.3 * NUM_STRINGS){ height*=3/5 } 
-        else if (index < 0.5 * NUM_STRINGS){ height*=4/5 } 
+        if (index < 0.3 * numStrings){ height*=3/5 } 
+        else if (index < 0.5 * numStrings){ height*=4/5 } 
         return (
             <View key={`string-${index}`} style={{
                 position: 'absolute',
@@ -84,7 +101,7 @@ const Neck = ({ selectedKey, selectedMode, chordMode, chordType }: NeckProps) =>
             let interval = fretboardData[stringIdx][fretIdx];
             if (interval) {
                 const left = fretIdx * fretSpacing + 1 * NUT_WIDTH - diameter / 2 - 0.005 * screenWidth;
-                const top = (NUM_STRINGS - stringIdx) * (1.08 * screenHeight / (NUM_STRINGS + 1)) - 0.075 * screenHeight;
+                const top = (numStrings - stringIdx) * (1.08 * screenHeight / (numStrings + 1)) - 0.075 * screenHeight;
 
                 interval = interval.replace(/b/g, '♭'); // replace 'b' with '♭'
                 
