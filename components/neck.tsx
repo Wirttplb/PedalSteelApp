@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import * as fretboardEngine from '../fretboardEngine/fretboard';
+import { Pedal, getPedalsFromString } from '../fretboardEngine/pedal';
 import InlayDot from './dot';
 import Fret from './fret';
 
@@ -13,10 +14,11 @@ type NeckProps = {
   selectedMode: string;
   chordMode: string;
   chordType: string;
+  voicingIdx: number;
   tuning: string;
 };
 
-const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckProps) => {
+const Neck = ({ selectedKey, selectedMode, chordMode, chordType, voicingIdx, tuning }: NeckProps) => {
 
     // Initialize fretboard
     let fretboard: fretboardEngine.Fretboard;
@@ -90,23 +92,29 @@ const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckP
     // Notes, render disks for each note to display
     const startFret = 0
     const endFret = 12
-    let fretboardData: (string | null)[][] = [];
+    let fretboardNotes: (string | null)[][] = [];
+    let pedalsData: Pedal[] = [];
 
     if (chordMode === 'Scale') {
-        fretboardData = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret)
+        fretboardNotes = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret)
     }
     else if (chordMode === 'Chord') {
-        fretboardData = fretboard.voicingToFretboardData(selectedKey, chordType, 1, startFret, endFret); // 1 = voicing number
+        let {fretboardData, pedals} = fretboard.voicingToFretboardData(selectedKey, chordType, voicingIdx);
+        fretboardNotes = fretboardData;
+        pedalsData = pedals;
     } else {
         throw new Error('Invalid chord mode!');
     }
 
     const noteDisks = [];
+    const pedalLabels = [];
     const diameter = 2 * screenWidth / 70;
 
-    for (let stringIdx = 0; stringIdx < fretboardData.length; stringIdx++) {
-        for (let fretIdx = 0; fretIdx < fretboardData[stringIdx].length; fretIdx++) {
-            let interval = fretboardData[stringIdx][fretIdx];
+    for (let stringIdx = 0; stringIdx < fretboardNotes.length; stringIdx++) {
+        const pedalForString: Pedal[] = getPedalsFromString(stringIdx, pedalsData);
+
+        for (let fretIdx = 0; fretIdx < fretboardNotes[stringIdx].length; fretIdx++) {
+            let interval = fretboardNotes[stringIdx][fretIdx];
             if (interval) {
                 const left = fretIdx * fretSpacing + 1 * NUT_WIDTH - diameter / 2 - 0.005 * screenWidth;
                 const top = (numStrings - stringIdx) * (1.08 * screenHeight / (numStrings + 1)) - 0.075 * screenHeight;
@@ -151,6 +159,25 @@ const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckP
                         </Text>
                     </View>
                 );
+
+                if (pedalForString.length >= 1)
+                {
+                    pedalLabels.push(
+                        <View
+                        style={{
+                        position: 'absolute',
+                        left: left + 0.04 * screenWidth,
+                        top: top
+                        }}>
+                            <Text style={{
+                            color: '#52ff60ff',
+                            fontWeight: 'bold',
+                            fontSize: diameter / 1.}}>
+                            {pedalForString[0].name}
+                            </Text>
+                        </View>
+                    );
+                }
             }
         }
     }
@@ -166,6 +193,7 @@ const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckP
         {dots}
         {strings}
         {noteDisks}
+        {pedalLabels}
     </View>
   );
 };

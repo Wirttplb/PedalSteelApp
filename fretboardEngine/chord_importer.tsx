@@ -1,6 +1,4 @@
-import { readFileSync } from 'fs';
 import { Chord, Voicing } from './chords';
-import shortListData from './tests/data/e9_generated_simple_chords.json';
 
 interface VoicingJson {
   // Define the expected structure of a voicing
@@ -14,27 +12,15 @@ interface ChordJson {
   voicings: VoicingJson[];
 }
 
-interface ChordsFile {
+export interface ChordsFile {
   chords: ChordJson[];
 }
 
-export function importE9ChordsFromJson(filepath: string, readFromShortlist = false): Chord[] {
-    
-    let data: ChordsFile;
-    if (readFromShortlist)
-    {
-        data = shortListData as ChordsFile;
-    }
-    else
-    {
-        const fileContent = readFileSync(filepath, 'utf-8');
-        data = JSON.parse(fileContent);
-    }
+export function importE9ChordsFromJson(data: ChordsFile): Chord[] {
+    const chords: Chord[] = [];
 
-  const chords: Chord[] = [];
-
-  for (const chordJson of data.chords) {
-    const chord = new Chord('E', chordJson.name);
+    for (const chordJson of data.chords) {
+      const chord = new Chord('E', chordJson.name);
 
     for (const voicingJson of chordJson.voicings) {
       const voicing = Voicing.fromE9Json(voicingJson);

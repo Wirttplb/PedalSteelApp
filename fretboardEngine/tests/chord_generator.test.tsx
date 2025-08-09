@@ -6,6 +6,7 @@ import path from 'path';
 import { ChordGenerator } from '../chord_generator';
 import { importE9ChordsFromJson } from '../chord_importer';
 import { Chord } from '../chords';
+import { readJsonFile } from '../file_utils';
 import { Fretboard } from '../fretboard';
 
 describe('ChordGenerator', () => {
@@ -95,15 +96,12 @@ describe('ChordGenerator', () => {
 
     test('load chords from json', () => {
             const chordsFile = path.join(__dirname, './data/e9_chords_shortlist.json');
-            const chords = importE9ChordsFromJson(chordsFile);
+            const data = readJsonFile(chordsFile);
+            const chords = importE9ChordsFromJson(data);
 
             const majorChord = chords.find(chord => chord.name === "M");
             if (majorChord){
-                for (const voicing of majorChord.voicings) {
-                console.log("Pedals:", voicing.pedals);
-                console.log("Notes:", voicing.notes);
-                console.log("Intervals:", voicing.intervals);
-                }
+                // chord found
             }
             else
             {

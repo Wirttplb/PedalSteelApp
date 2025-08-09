@@ -1,4 +1,4 @@
-import { importE9ChordsFromJson } from './chord_importer';
+import { ChordsFile, importE9ChordsFromJson } from './chord_importer';
 import { Voicing } from './chords';
 import {
     convertIntIntervalToStr,
@@ -8,6 +8,7 @@ import {
     getScaleAsIntegers,
 } from './notes_utils';
 import { E9_PEDAL_CHANGES, Pedal } from './pedal';
+import chordsData from './tests/data/e9_chords_shortlist.json';
 
 export class Fretboard {
   tuning: number[] = [];
@@ -135,25 +136,29 @@ export class Fretboard {
     return result;
   }
 
-  voicingToFretboardData(selectedKey: string, chordType: string, voicingIdx: number, startFret: number, endFret: number): (string | null)[][]
+  voicingToFretboardData(selectedKey: string, chordType: string, voicingIdx: number): { fretboardData: (string | null)[][], pedals: Pedal[] }
   {
     // load chord data
-    const readFromShortlist = true;
-    const chords = importE9ChordsFromJson("", readFromShortlist);
+    let data = chordsData as ChordsFile;
+    const chords = importE9ChordsFromJson(data);
 
     const chord = chords.find(chord => chord.name === chordType);
+    
     if (chord)
     {
+        if (voicingIdx >= chord.voicings.length) // avoid crash when out of bounds
+            voicingIdx = chord.voicings.length - 1;
+
         const voicing = chord.voicings[voicingIdx];
         const fretboardDataAsInts = this.generateVoicing(voicing);
         const pedals = voicing.pedals.map(name => Pedal.initFromName(name));
-
-        return Fretboard.convertFretboardScaleToIntervals(selectedKey, fretboardDataAsInts, pedals)
+        const fretboardData = Fretboard.convertFretboardScaleToIntervals(selectedKey, fretboardDataAsInts, pedals)
+        return { fretboardData, pedals };
     }
     else
     {
         console.error("Chord not found in imported chords.");
-        return []
+        return { fretboardData: [], pedals: [] };
     }
   }
 }

@@ -12,11 +12,12 @@ export default function SettingsScreen() {
         selectedMode, setSelectedMode,
         chordMode, setChordMode,
         chordType, setChordType,
+        voicingIdx, setVoicingIdx,
         tuning, setTuning } = useKey();
 
   return (
     <View style={styles.container}>
-        <Neck selectedKey={selectedKey} selectedMode={selectedMode} chordMode={chordMode} chordType={chordType} tuning={tuning}/>
+        <Neck selectedKey={selectedKey} selectedMode={selectedMode} chordMode={chordMode} chordType={chordType} voicingIdx={voicingIdx} tuning={tuning}/>
         <View style={styles.overlay} pointerEvents="none" />
         <Pressable onPress={() => router.back()} style={styles.backButton}>
             { <Entypo name="back" size={24} color="white" /> }
@@ -152,8 +153,63 @@ export default function SettingsScreen() {
                         items={[
                             { label: 'M', value: 'M' },
                             { label: 'm', value: 'm' },
+                            { label: 'm7', value: 'm7' },
+                            { label: 'M7', value: 'M7' },
+                            { label: 'sus2', value: 'sus2' },
+                            { label: 'sus4', value: 'sus4' },
+                            { label: 'add9', value: 'add9' },
+                            { label: 'madd9', value: 'madd9' },
+                            { label: 'M6', value: 'M6' },
+                            { label: 'aug', value: 'aug' },
+                            { label: 'dim', value: 'dim' },
+                            { label: 'Mb5', value: 'Mb5' },
+                            { label: 'm7b5', value: 'm7b5' },
+                            { label: 'mb5bb7', value: 'mb5bb7' },
+                            { label: 'M6add9', value: 'M6add9' },
+                            { label: 'M7/6', value: 'M7/6' },
+                            { label: 'mm6', value: 'mm6' },
+                            { label: 'mM6', value: 'mM6' },
+                            { label: 'M9', value: 'M9' },
+                            { label: 'm9', value: 'm9' },
+                            { label: 'mM9', value: 'mM9' },
+                            { label: '9', value: '9' },
+                            { label: '7b9', value: '7b9' },
+                            { label: '7#9', value: '7#9' },
+                            { label: 'b5b13', value: 'b5b13' },
+                            { label: '11', value: '11' },
+                            { label: '13', value: '13' },
                         ]}
                         value={chordType}
+                        style={{
+                            inputIOS: {
+                                fontSize: 46,
+                                color: 'white',
+                                padding: 20,
+                            },
+                            inputAndroid: {
+                                fontSize: 46,
+                                color: 'white',
+                                padding: 20,
+                            },
+                        }}
+                    />
+                </View>
+                <View style={[styles.dropdownWrapper, {opacity: chordMode === 'Chord' ? 1 : 0.5}]}>
+                    <RNPickerSelect
+                        placeholder={{}}
+                        useNativeAndroidPickerStyle ={false}
+                        onValueChange={(itemValue) => {setVoicingIdx(itemValue);}}
+                        items={[
+                            { label: '#1', value: 0 },
+                            { label: '#2', value: 1 },
+                            { label: '#3', value: 2 },
+                            { label: '#4', value: 3 },
+                            { label: '#5', value: 4 },
+                            { label: '#6', value: 5 },
+                            { label: '#7', value: 6 },
+                            { label: '#8', value: 7 },
+                        ]}
+                        value={voicingIdx}
                         style={{
                             inputIOS: {
                                 fontSize: 46,

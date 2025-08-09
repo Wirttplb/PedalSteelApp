@@ -78,3 +78,20 @@ function uniqueCombinations<T>(arr: T[], r: number): T[][] {
   combine(0, []);
   return result;
 }
+
+export function getPedalsFromString(string: number, pedals: Pedal[]) : Pedal[]
+{
+    // returns Pedals[] corresponding to string index
+    const result: Pedal[] = [];
+
+    pedals.forEach((pedal, pedalIndex) => { // loop on Pedals
+        pedal.changes.forEach((change, changeIndex) => { // loop on changes
+            if (change[0] == string)
+            {
+                result.push(pedal)
+            }
+        })
+    });
+
+  return result;
+}
