@@ -9,8 +9,6 @@ type KeyContextType = {
   setChordMode: (chordMode: string) => void;
   chordType: string;
   setChordType: (chordType: string) => void;
-  voicingIdx: number;
-  setVoicingIdx: (voicingIdx: number) => void;
   tuning: string;
   setTuning: (tuning: string) => void;
 };
@@ -22,7 +20,6 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedMode, setSelectedMode] = useState('Major');
   const [chordMode, setChordMode] = useState('Scale');
   const [chordType, setChordType] = useState('M');
-  const [voicingIdx, setVoicingIdx] = useState(0);
   const [tuning, setTuning] = useState('E9');
   
   return (
@@ -31,7 +28,6 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
         selectedMode, setSelectedMode,
         chordMode, setChordMode,
         chordType, setChordType,
-        voicingIdx, setVoicingIdx,
         tuning, setTuning,
         }}>
       {children}

@@ -12,12 +12,11 @@ export default function SettingsScreen() {
         selectedMode, setSelectedMode,
         chordMode, setChordMode,
         chordType, setChordType,
-        voicingIdx, setVoicingIdx,
         tuning, setTuning } = useKey();
 
   return (
     <View style={styles.container}>
-        <Neck selectedKey={selectedKey} selectedMode={selectedMode} chordMode={chordMode} chordType={chordType} voicingIdx={voicingIdx} tuning={tuning}/>
+        <Neck selectedKey={selectedKey} selectedMode={selectedMode} chordMode={chordMode} chordType={chordType} tuning={tuning}/>
         <View style={styles.overlay} pointerEvents="none" />
         <Pressable onPress={() => router.back()} style={styles.backButton}>
             { <Entypo name="back" size={24} color="white" /> }
@@ -31,6 +30,7 @@ export default function SettingsScreen() {
                         placeholder={{}}
                         useNativeAndroidPickerStyle ={false}
                         onValueChange={(itemValue) => {setChordMode(itemValue);}}
+                        disabled={tuning !== 'E9'}
                         items={[
                             { label: 'Scale', value: 'Scale' },
                             { label: 'Chord', value: 'Chord' },
@@ -54,7 +54,10 @@ export default function SettingsScreen() {
                     <RNPickerSelect
                         placeholder={{}}
                         useNativeAndroidPickerStyle ={false}
-                        onValueChange={(itemValue) => {setTuning(itemValue);}}
+                        onValueChange={(itemValue) => {
+                            setTuning(itemValue);
+                            setChordMode('Scale');
+                        }}
                         items={[
                             { label: 'E9', value: 'E9' },
                             { label: 'Open E', value: 'Open E' },
@@ -180,36 +183,6 @@ export default function SettingsScreen() {
                             { label: '13', value: '13' },
                         ]}
                         value={chordType}
-                        style={{
-                            inputIOS: {
-                                fontSize: 46,
-                                color: 'white',
-                                padding: 20,
-                            },
-                            inputAndroid: {
-                                fontSize: 46,
-                                color: 'white',
-                                padding: 20,
-                            },
-                        }}
-                    />
-                </View>
-                <View style={[styles.dropdownWrapper, {opacity: chordMode === 'Chord' ? 1 : 0.5}]}>
-                    <RNPickerSelect
-                        placeholder={{}}
-                        useNativeAndroidPickerStyle ={false}
-                        onValueChange={(itemValue) => {setVoicingIdx(itemValue);}}
-                        items={[
-                            { label: '#1', value: 0 },
-                            { label: '#2', value: 1 },
-                            { label: '#3', value: 2 },
-                            { label: '#4', value: 3 },
-                            { label: '#5', value: 4 },
-                            { label: '#6', value: 5 },
-                            { label: '#7', value: 6 },
-                            { label: '#8', value: 7 },
-                        ]}
-                        value={voicingIdx}
                         style={{
                             inputIOS: {
                                 fontSize: 46,

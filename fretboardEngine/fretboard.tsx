@@ -67,8 +67,8 @@ export class Fretboard {
     return Fretboard.convertFretboardScaleToIntervals(key, scaleInts);
   }
 
-  generateVoicing(voicing: Voicing): (number | null)[][] {
-    const baseKeyInt = convertStrNoteToInt('C');
+  generateVoicing(voicing: Voicing, key: string = 'E'): (number | null)[][] {
+    const keyOffset = convertStrNoteToInt(key) - convertStrNoteToInt('E');
     const fretboard = this.generateFretboard(0, 12);
 
     if (fretboard.length !== voicing.notes.length) {
@@ -79,8 +79,9 @@ export class Fretboard {
       const fret = voicing.notes[stringIndex];
       return stringNotes.map((note) => {
         if (fret === null || fret === undefined) return null;
-        const voicingNote = (fret + this.tuning[stringIndex] + 12) % 12;
-        return voicingNote === note ? (voicingNote - baseKeyInt + 12) % 12 : null;
+        const voicingNote = (fret + keyOffset + this.tuning[stringIndex] + 12) % 12;
+        console.log(voicingNote)
+        return voicingNote === note ? (voicingNote + 12) % 12 : null;
       });
     });
   }
@@ -138,7 +139,7 @@ export class Fretboard {
 
   voicingToFretboardData(selectedKey: string, chordType: string, voicingIdx: number): { fretboardData: (string | null)[][], pedals: Pedal[] }
   {
-    // load chord data
+    // load chords data (everything in E in the file)
     let data = chordsData as ChordsFile;
     const chords = importE9ChordsFromJson(data);
 
@@ -147,10 +148,10 @@ export class Fretboard {
     if (chord)
     {
         if (voicingIdx >= chord.voicings.length) // avoid crash when out of bounds
-            voicingIdx = chord.voicings.length - 1;
+            return { fretboardData: [], pedals: [] };
 
         const voicing = chord.voicings[voicingIdx];
-        const fretboardDataAsInts = this.generateVoicing(voicing);
+        const fretboardDataAsInts = this.generateVoicing(voicing, selectedKey);
         const pedals = voicing.pedals.map(name => Pedal.initFromName(name));
         const fretboardData = Fretboard.convertFretboardScaleToIntervals(selectedKey, fretboardDataAsInts, pedals)
         return { fretboardData, pedals };

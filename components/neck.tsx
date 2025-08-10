@@ -14,11 +14,10 @@ type NeckProps = {
   selectedMode: string;
   chordMode: string;
   chordType: string;
-  voicingIdx: number;
   tuning: string;
 };
 
-const Neck = ({ selectedKey, selectedMode, chordMode, chordType, voicingIdx, tuning }: NeckProps) => {
+const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckProps) => {
 
     // Initialize fretboard
     let fretboard: fretboardEngine.Fretboard;
@@ -95,88 +94,97 @@ const Neck = ({ selectedKey, selectedMode, chordMode, chordType, voicingIdx, tun
     let fretboardNotes: (string | null)[][] = [];
     let pedalsData: Pedal[] = [];
 
-    if (chordMode === 'Scale') {
-        fretboardNotes = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret)
-    }
-    else if (chordMode === 'Chord') {
-        let {fretboardData, pedals} = fretboard.voicingToFretboardData(selectedKey, chordType, voicingIdx);
-        fretboardNotes = fretboardData;
-        pedalsData = pedals;
-    } else {
-        throw new Error('Invalid chord mode!');
-    }
-
     const noteDisks = [];
     const pedalLabels = [];
     const diameter = 2 * screenWidth / 70;
 
-    for (let stringIdx = 0; stringIdx < fretboardNotes.length; stringIdx++) {
-        const pedalForString: Pedal[] = getPedalsFromString(stringIdx, pedalsData);
+    let maxIdx = 1
+    if (chordMode === 'Chord') {
+            maxIdx = 9;
+        }
 
-        for (let fretIdx = 0; fretIdx < fretboardNotes[stringIdx].length; fretIdx++) {
-            let interval = fretboardNotes[stringIdx][fretIdx];
-            if (interval) {
-                const left = fretIdx * fretSpacing + 1 * NUT_WIDTH - diameter / 2 - 0.005 * screenWidth;
-                const top = (numStrings - stringIdx) * (1.08 * screenHeight / (numStrings + 1)) - 0.075 * screenHeight;
+    for (let voicingIdx = 0; voicingIdx < maxIdx; voicingIdx++) {
 
-                interval = interval.replace(/b/g, '♭'); // replace 'b' with '♭'
-                
-                noteDisks.push(
-                    <View
-                    key={`note-parent-${stringIdx}-${fretIdx}`}
-                    style={{
-                    position: 'absolute',
-                    left: left,
-                    top: top,
-                    width: diameter * 1.5, // parent is bigger
-                    height: diameter * 1.5,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: 'transparent', // parent is transparent
-                    }}>
+        // For chords we display all voicings at the same time (1 per fret max)
+        if (chordMode === 'Scale') {
+            fretboardNotes = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret)
+        }
+        else if (chordMode === 'Chord') {
+            let {fretboardData, pedals} = fretboard.voicingToFretboardData(selectedKey, chordType, voicingIdx);
+            fretboardNotes = fretboardData;
+            pedalsData = pedals;
+        } else {
+            throw new Error('Invalid chord mode!');
+        }
+
+        for (let stringIdx = 0; stringIdx < fretboardNotes.length; stringIdx++) {
+            const pedalForString: Pedal[] = getPedalsFromString(stringIdx, pedalsData);
+
+            for (let fretIdx = 0; fretIdx < fretboardNotes[stringIdx].length; fretIdx++) {
+                let interval = fretboardNotes[stringIdx][fretIdx];
+                if (interval) {
+                    const left = fretIdx * fretSpacing + 1 * NUT_WIDTH - diameter / 2 - 0.005 * screenWidth;
+                    const top = (numStrings - stringIdx) * (1.08 * screenHeight / (numStrings + 1)) - 0.075 * screenHeight;
+
+                    interval = interval.replace(/b/g, '♭'); // replace 'b' with '♭'
+                    
+                    noteDisks.push(
                         <View
-                        style={{
-                            position: 'absolute',
-                            width: diameter,
-                            height: diameter,
-                            borderRadius: diameter / 2,
-                            backgroundColor: interval === '1' ? '#e45300ff' : '#fa990f',
-                            // Shadow for iOS / desktop browser
-                            shadowColor: 'black',
-                            shadowOffset: { width: 2, height: 6 },
-                            shadowOpacity: 0.7,
-                            shadowRadius: diameter / 2,
-                            // Shadow for Android
-                            elevation: 5
-                        }}>
-                        </View>
-                        <Text style={{
-                            color: 'black',
-                            fontWeight: 'bold',
-                            fontSize: diameter / 1.,
-                            top:- 0.05 * diameter}}>
-                            {interval}
-                        </Text>
-                    </View>
-                );
-
-                if (pedalForString.length >= 1)
-                {
-                    pedalLabels.push(
-                        <View
+                        key={`note-parent-${stringIdx}-${fretIdx}`}
                         style={{
                         position: 'absolute',
-                        left: left + 0.04 * screenWidth,
-                        top: top
+                        left: left,
+                        top: top,
+                        width: diameter * 1.5, // parent is bigger
+                        height: diameter * 1.5,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'transparent', // parent is transparent
                         }}>
+                            <View
+                            style={{
+                                position: 'absolute',
+                                width: diameter,
+                                height: diameter,
+                                borderRadius: diameter / 2,
+                                backgroundColor: interval === '1' ? '#e45300ff' : '#fa990f',
+                                // Shadow for iOS / desktop browser
+                                shadowColor: 'black',
+                                shadowOffset: { width: 2, height: 6 },
+                                shadowOpacity: 0.7,
+                                shadowRadius: diameter / 2,
+                                // Shadow for Android
+                                elevation: 5
+                            }}>
+                            </View>
                             <Text style={{
-                            color: '#52ff60ff',
-                            fontWeight: 'bold',
-                            fontSize: diameter / 1.}}>
-                            {pedalForString[0].name}
+                                color: 'black',
+                                fontWeight: 'bold',
+                                fontSize: diameter / 1.,
+                                top:- 0.05 * diameter}}>
+                                {interval}
                             </Text>
                         </View>
                     );
+
+                    if (pedalForString.length >= 1)
+                    {
+                        pedalLabels.push(
+                            <View
+                            style={{
+                            position: 'absolute',
+                            left: left + 0.04 * screenWidth,
+                            top: top
+                            }}>
+                                <Text style={{
+                                color: '#52ff60ff',
+                                fontWeight: 'bold',
+                                fontSize: diameter / 1.}}>
+                                {pedalForString[0].name}
+                                </Text>
+                            </View>
+                        );
+                    }
                 }
             }
         }
