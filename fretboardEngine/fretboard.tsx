@@ -80,7 +80,6 @@ export class Fretboard {
       return stringNotes.map((note) => {
         if (fret === null || fret === undefined) return null;
         const voicingNote = (fret + keyOffset + this.tuning[stringIndex] + 12) % 12;
-        console.log(voicingNote)
         return voicingNote === note ? (voicingNote + 12) % 12 : null;
       });
     });

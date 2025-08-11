@@ -171,6 +171,7 @@ const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckP
                     {
                         pedalLabels.push(
                             <View
+                            key={`pedal-${stringIdx}-${fretIdx}`}
                             style={{
                             position: 'absolute',
                             left: left + 0.04 * screenWidth,

@@ -25,7 +25,7 @@ export default function SettingsScreen() {
         {/* Dropdowns settings */}
         <View style={styles.controls} pointerEvents="box-none">
             <View style={styles.dropdownRow}>
-                <View style={styles.dropdownWrapper}>
+                <View style={[styles.dropdownWrapper, {opacity: tuning === 'E9' ? 1 : 0.5}]}>
                     <RNPickerSelect
                         placeholder={{}}
                         useNativeAndroidPickerStyle ={false}
