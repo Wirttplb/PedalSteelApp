@@ -132,6 +132,8 @@ export default function SettingsScreen() {
                             { label: 'Mixolydian', value: 'Mixolydian' },
                             { label: 'Aeolian', value: 'Aeolian' },
                             { label: 'Locrian', value: 'Locrian' },
+                            { label: 'Diminished Seventh', value: 'Diminished Seventh' },
+                            { label: 'Whole-tone', value: 'Whole-tone' },
                         ]}
                         value={selectedMode}
                         style={{

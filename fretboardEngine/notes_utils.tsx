@@ -95,6 +95,10 @@ export function convertStrIntervalToInt(interval: string): number {
         return [0, 2, 4, 7, 9];
       case 'Minor Pentatonic':
         return [0, 3, 5, 7, 10];
+      case 'Diminished Seventh':
+        return [0, 3, 6, 9];
+      case 'Whole-tone':
+        return [0, 2, 4, 6, 8, 10];
       default:
         throw new Error(`Invalid scale: ${scale}`);
     }
