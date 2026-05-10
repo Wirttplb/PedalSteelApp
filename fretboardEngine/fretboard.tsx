@@ -1,14 +1,14 @@
-import { ChordsFile, importE9ChordsFromJson } from './chord_importer';
-import { Voicing } from './chords';
+import { ChordsFile, importE9ChordsFromJson } from "./chord_importer";
+import { Voicing } from "./chords";
 import {
     convertIntIntervalToStr,
     convertIntNotesToStr,
     convertStrNoteToInt,
     convertStrNotesToInt,
     getScaleAsIntegers,
-} from './notes_utils';
-import { E9_PEDAL_CHANGES, Pedal } from './pedal';
-import chordsData from './tests/data/e9_chords_shortlist.json';
+} from "./notes_utils";
+import { E9_PEDAL_CHANGES, Pedal } from "./pedal";
+import chordsData from "./tests/data/e9_chords_shortlist.json";
 
 export class Fretboard {
   tuning: number[] = [];
@@ -23,15 +23,15 @@ export class Fretboard {
   }
 
   static initAsGuitarStandard(): Fretboard {
-    return Fretboard.initFromTuning(['E', 'A', 'D', 'G', 'G', 'E']);
+    return Fretboard.initFromTuning(["E", "A", "D", "G", "G", "E"]);
   }
 
   static initAsGuitarOpenE(): Fretboard {
-    return Fretboard.initFromTuning(['E', 'B', 'E', 'G#', 'B', 'E']);
+    return Fretboard.initFromTuning(["E", "B", "E", "G#", "B", "E"]);
   }
 
   static initAsPedalSteelE9(): Fretboard {
-    const fretboard = Fretboard.initFromTuning(['B', 'D', 'E', 'F#', 'G#', 'B', 'E', 'G#', 'D#', 'F#']);
+    const fretboard = Fretboard.initFromTuning(["B", "D", "E", "F#", "G#", "B", "E", "G#", "D#", "F#"]);
     for (const pedalName of Object.keys(E9_PEDAL_CHANGES)) {
       fretboard.pedals.push(Pedal.initFromName(pedalName));
     }
@@ -47,32 +47,62 @@ export class Fretboard {
   }
 
   generateFretboard(startFret: number, endFret: number): number[][] {
-    return this.tuning.map((openNote) =>
-      Array.from({ length: endFret - startFret + 1 }, (_, fret) => (openNote + fret + 12) % 12) // mistake from gpt?
+    return this.tuning.map(
+      (openNote) => Array.from({ length: endFret - startFret + 1 }, (_, fret) => (openNote + fret + 12) % 12), // mistake from gpt?
     );
   }
 
-  generateScaleAsIntegers(key: string, intervals: number[], startFret: number, endFret: number): (number | null)[][] {
+  generateScaleAsIntegers(
+    key: string,
+    intervals: number[],
+    startFret: number,
+    endFret: number,
+    activePedals: string[] = [],
+  ): (number | null)[][] {
     const keyInt = convertStrNoteToInt(key);
     const fretboard = this.generateFretboard(startFret, endFret);
 
-    return fretboard.map((stringNotes) =>
-      stringNotes.map((note) => (intervals.includes((note - keyInt + 12) % 12) ? note : null))
+    return fretboard.map((stringNotes, stringIndex) =>
+      stringNotes.map((note) => {
+        let actualNote = note;
+        for (const pedalName of activePedals) {
+          const pedal = this.pedals.find((p) => p.name === pedalName);
+          if (pedal) {
+            const change = pedal.changes.find((c) => c[0] === stringIndex);
+            if (change) {
+              actualNote += change[1];
+            }
+          }
+        }
+        return intervals.includes((actualNote - keyInt + 12) % 12) ? note : null;
+      }),
     );
   }
- 
-  generateScaleAsIntervals(key: string, scale: string, startFret: number, endFret: number): (string | null)[][] {
+
+  generateScaleAsIntervals(
+    key: string,
+    scale: string,
+    startFret: number,
+    endFret: number,
+    activePedals: string[] = [],
+  ): (string | null)[][] {
     const scaleAsInts = getScaleAsIntegers(scale);
-    const scaleInts = this.generateScaleAsIntegers(key, scaleAsInts, startFret, endFret);
-    return Fretboard.convertFretboardScaleToIntervals(key, scaleInts);
+    const scaleInts = this.generateScaleAsIntegers(key, scaleAsInts, startFret, endFret, activePedals);
+
+    // Apply pedals to intervals calculation
+    const pedalsToApply = activePedals
+      .map((name) => this.pedals.find((p) => p.name === name))
+      .filter((p): p is Pedal => !!p);
+
+    return Fretboard.convertFretboardScaleToIntervals(key, scaleInts, pedalsToApply);
   }
 
-  generateVoicing(voicing: Voicing, key: string = 'E'): (number | null)[][] {
-    const keyOffset = convertStrNoteToInt(key) - convertStrNoteToInt('E');
+  generateVoicing(voicing: Voicing, key: string = "E"): (number | null)[][] {
+    const keyOffset = convertStrNoteToInt(key) - convertStrNoteToInt("E");
     const fretboard = this.generateFretboard(0, 12);
 
     if (fretboard.length !== voicing.notes.length) {
-      throw new Error('Voicing and tuning do not match!');
+      throw new Error("Voicing and tuning do not match!");
     }
 
     return fretboard.map((stringNotes, stringIndex) => {
@@ -89,14 +119,14 @@ export class Fretboard {
     return Pedal.getAllPedalCombinations(this.getPedalsAsStr(), maxPedals);
   }
 
-  getIntervalsAtFret(fret: number, pedals: Pedal[], key = 'E'): number[] {
+  getIntervalsAtFret(fret: number, pedals: Pedal[], key = "E"): number[] {
     const keyInt = convertStrNoteToInt(key);
     const intervals = this.tuning.map((note) => (note + fret - keyInt + 12) % 12);
 
     const pedalNames = this.getPedalsAsStr();
     for (const pedal of pedals) {
       if (!pedalNames.includes(pedal.name)) {
-        throw new Error('Invalid pedal');
+        throw new Error("Invalid pedal");
       }
 
       for (const [stringIndex, shift] of pedal.changes) {
@@ -110,7 +140,7 @@ export class Fretboard {
   static convertFretboardScaleToIntervals(
     key: string,
     scale: (number | null)[][],
-    pedalsToApply?: Pedal[]
+    pedalsToApply?: Pedal[],
   ): (string | null)[][] {
     const keyInt = convertStrNoteToInt(key);
     const result = scale.map((stringScale, stringIndex) =>
@@ -130,35 +160,36 @@ export class Fretboard {
 
         const interval = (actualNote - keyInt + 12) % 12;
         return convertIntIntervalToStr(interval);
-      })
+      }),
     );
 
     return result;
   }
 
-  voicingToFretboardData(selectedKey: string, chordType: string, voicingIdx: number): { fretboardData: (string | null)[][], pedals: Pedal[] }
-  {
+  voicingToFretboardData(
+    selectedKey: string,
+    chordType: string,
+    voicingIdx: number,
+  ): { fretboardData: (string | null)[][]; pedals: Pedal[] } {
     // load chords data (everything in E in the file)
     let data = chordsData as ChordsFile;
     const chords = importE9ChordsFromJson(data);
 
-    const chord = chords.find(chord => chord.name === chordType);
-    
-    if (chord)
-    {
-        if (voicingIdx >= chord.voicings.length) // avoid crash when out of bounds
-            return { fretboardData: [], pedals: [] };
+    const chord = chords.find((chord) => chord.name === chordType);
 
-        const voicing = chord.voicings[voicingIdx];
-        const fretboardDataAsInts = this.generateVoicing(voicing, selectedKey);
-        const pedals = voicing.pedals.map(name => Pedal.initFromName(name));
-        const fretboardData = Fretboard.convertFretboardScaleToIntervals(selectedKey, fretboardDataAsInts, pedals)
-        return { fretboardData, pedals };
-    }
-    else
-    {
-        console.error("Chord not found in imported chords.");
+    if (chord) {
+      if (voicingIdx >= chord.voicings.length)
+        // avoid crash when out of bounds
         return { fretboardData: [], pedals: [] };
+
+      const voicing = chord.voicings[voicingIdx];
+      const fretboardDataAsInts = this.generateVoicing(voicing, selectedKey);
+      const pedals = voicing.pedals.map((name) => Pedal.initFromName(name));
+      const fretboardData = Fretboard.convertFretboardScaleToIntervals(selectedKey, fretboardDataAsInts, pedals);
+      return { fretboardData, pedals };
+    } else {
+      console.error("Chord not found in imported chords.");
+      return { fretboardData: [], pedals: [] };
     }
   }
 }
