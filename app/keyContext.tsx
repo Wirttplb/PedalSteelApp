@@ -14,8 +14,8 @@ type KeyContextType = {
   setTuning: (tuning: string) => void;
   pedals: Pedal[];
   setPedals: (pedals: Pedal[]) => void;
-  activePedals: string[];
-  setActivePedals: (pedals: string[]) => void;
+  activePedals: number[];
+  setActivePedals: (pedals: number[]) => void;
 };
 
 const KeyContext = createContext<KeyContextType | undefined>(undefined);
@@ -35,7 +35,7 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const [pedals, setPedals] = useState<Pedal[]>(initialPedals);
-  const [activePedals, setActivePedals] = useState<string[]>([]);
+  const [activePedals, setActivePedals] = useState<number[]>([]);
 
   return (
     <KeyContext.Provider

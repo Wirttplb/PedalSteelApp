@@ -57,7 +57,7 @@ export class Fretboard {
     intervals: number[],
     startFret: number,
     endFret: number,
-    activePedals: string[] = [],
+    activePedals: number[] = [],
   ): (number | null)[][] {
     const keyInt = convertStrNoteToInt(key);
     const fretboard = this.generateFretboard(startFret, endFret);
@@ -65,8 +65,8 @@ export class Fretboard {
     return fretboard.map((stringNotes, stringIndex) =>
       stringNotes.map((note) => {
         let actualNote = note;
-        for (const pedalName of activePedals) {
-          const pedal = this.pedals.find((p) => p.name === pedalName);
+        for (const pedalIdx of activePedals) {
+          const pedal = this.pedals[pedalIdx];
           if (pedal) {
             const change = pedal.changes.find((c) => c[0] === stringIndex);
             if (change) {
@@ -84,15 +84,12 @@ export class Fretboard {
     scale: string,
     startFret: number,
     endFret: number,
-    activePedals: string[] = [],
+    activePedals: number[] = [],
   ): (string | null)[][] {
     const scaleAsInts = getScaleAsIntegers(scale);
     const scaleInts = this.generateScaleAsIntegers(key, scaleAsInts, startFret, endFret, activePedals);
 
-    // Apply pedals to intervals calculation
-    const pedalsToApply = activePedals
-      .map((name) => this.pedals.find((p) => p.name === name))
-      .filter((p): p is Pedal => !!p);
+    const pedalsToApply = activePedals.map((idx) => this.pedals[idx]).filter((p): p is Pedal => !!p);
 
     return Fretboard.convertFretboardScaleToIntervals(key, scaleInts, pedalsToApply);
   }

@@ -16,7 +16,7 @@ type NeckProps = {
   chordType: string;
   tuning: string;
   pedals: Pedal[];
-  activePedals?: string[];
+  activePedals?: number[];
 };
 
 const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning, pedals, activePedals = [] }: NeckProps) => {

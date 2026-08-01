@@ -1,7 +1,7 @@
 import { Entypo } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Dimensions, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import CopedantConfig from "../components/copedantConfig";
 import Neck from "../components/neck";
@@ -40,6 +40,7 @@ export default function SettingsScreen() {
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <View style={styles.controls} pointerEvents="box-none">
+          <Text style={styles.sectionTitle}>Mode Selection</Text>
           <View style={styles.dropdownRow}>
             <View style={[styles.dropdownWrapper, { opacity: tuning === "E9" ? 1 : 0.5 }]}>
               <RNPickerSelect
@@ -171,6 +172,7 @@ export default function SettingsScreen() {
             </View>
           </View>
 
+          <Text style={styles.sectionTitle}>Copedant Configuration</Text>
           <CopedantConfig />
         </View>
       </ScrollView>
@@ -191,10 +193,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#211f1d",
   },
   scrollView: {
-    flex: 1,
-    marginTop: 60,
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 5,
   },
   scrollContent: {
+    paddingTop: 60,
     paddingBottom: 40,
   },
   backButton: {
@@ -206,7 +209,15 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor: "rgba(0, 0, 0, 0.65)",
+  },
+  sectionTitle: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 20,
+    marginBottom: 12,
   },
   controls: {
     paddingHorizontal: 10,
