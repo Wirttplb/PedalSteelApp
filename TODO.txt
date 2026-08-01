@@ -1,6 +1,2 @@
-Right now the lever setup is hardcoded (it is my own setup)
-I would like to make the lever configuration editable.
-New UI for the user to select their copedant (3 pedals + up to 4 levers).
-Chord voicings should be recalculated automatically.
-Scales can be shown with any pedal down/lever activated, it updates automatically.
-For now we only support E9 tuning.
+In scale mode and E9, display buttons to activate each pedal or lever.
+Scales should update automatically. Right now we can select copedants (or at least do something with the UI) but nothing happens.

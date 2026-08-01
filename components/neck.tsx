@@ -15,9 +15,11 @@ type NeckProps = {
   chordMode: string;
   chordType: string;
   tuning: string;
+  pedals: Pedal[];
+  activePedals?: string[];
 };
 
-const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckProps) => {
+const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning, pedals, activePedals = [] }: NeckProps) => {
 
     // Initialize fretboard
     let fretboard: fretboardEngine.Fretboard;
@@ -25,6 +27,7 @@ const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckP
 
     if (tuning === 'E9') {
         fretboard = fretboardEngine.Fretboard.initAsPedalSteelE9();
+        fretboard.pedals = pedals;
         numStrings = 10;
     }
     else if (tuning === 'Open E') {
@@ -107,7 +110,7 @@ const Neck = ({ selectedKey, selectedMode, chordMode, chordType, tuning }: NeckP
 
         // For chords we display all voicings at the same time (1 per fret max)
         if (chordMode === 'Scale') {
-            fretboardNotes = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret)
+            fretboardNotes = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret, activePedals)
         }
         else if (chordMode === 'Chord') {
             let {fretboardData, pedals} = fretboard.voicingToFretboardData(selectedKey, chordType, voicingIdx);
