@@ -6,11 +6,13 @@ export class Voicing {
   pedalObjects: Pedal[] = []; // Pedal objects for internal use
   notes: (number | null)[] = [];
   intervals: (string | null)[] = [];
+  generatedForKey: string = "E"; // Track what key this voicing was generated for
 
   constructor() {
     this.pedals = [];
     this.pedalObjects = [];
     this.notes = [];
+    this.generatedForKey = "E";
   }
 
   static fromE9Json(
@@ -29,6 +31,7 @@ export class Voicing {
     voicing.intervals = voicingJson.intervals.map((jsonInterval) =>
       jsonInterval !== MUTED_STRING_CHAR ? jsonInterval : null,
     );
+    voicing.generatedForKey = "E"; // Static chords from JSON are in key E
     return voicing;
   }
 

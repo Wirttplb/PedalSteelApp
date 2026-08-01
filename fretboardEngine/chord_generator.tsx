@@ -64,6 +64,7 @@ export class ChordGenerator {
         voicing.pedals = pedalCombination;
         voicing.pedalObjects = pedalsToApply;
         voicing.notes = [...intervalsAtFret];
+        voicing.generatedForKey = key;
 
         for (let i = 0; i < voicing.notes.length; i++) {
           const note = voicing.notes[i]; // weird but needed to avoid TS error

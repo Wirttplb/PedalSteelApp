@@ -95,21 +95,29 @@ export class Fretboard {
   }
 
   generateVoicing(voicing: Voicing, key: string = "E"): (number | null)[][] {
-    const keyOffset = convertStrNoteToInt(key) - convertStrNoteToInt("E");
     const fretboard = this.generateFretboard(0, 12);
 
     if (fretboard.length !== voicing.notes.length) {
       throw new Error("Voicing and tuning do not match!");
     }
 
+    // Check if the voicing was generated for a different key than the current one
+    // Static chords from JSON are in key "E", dynamic chords are generated for the selected key
+    const voicingKey = voicing.generatedForKey || "E";
+    const keyOffset = convertStrNoteToInt(key) - convertStrNoteToInt(voicingKey);
+
     return fretboard.map((stringNotes, stringIndex) => {
       const fret = voicing.notes[stringIndex];
-      return stringNotes.map((note) => {
+      return stringNotes.map((note, fretIndex) => {
         if (fret === null || fret === undefined) return null;
-        // Transpose the fret position by the key offset
-        const transposedFret = (fret + keyOffset + 12) % 12;
-        const voicingNote = (transposedFret + this.tuning[stringIndex] + 12) % 12;
-        return voicingNote === note ? (voicingNote + 12) % 12 : null;
+        // If the voicing was generated for a different key, transpose the fret position
+        if (keyOffset !== 0) {
+          const transposedFret = (fret + keyOffset + 12) % 12;
+          const voicingNote = (transposedFret + this.tuning[stringIndex] + 12) % 12;
+          return voicingNote === note ? (voicingNote + 12) % 12 : null;
+        }
+        // Voicing was generated for the same key - only show note at the correct fret position
+        return fretIndex === fret ? note : null;
       });
     });
   }
