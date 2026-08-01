@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { useKey } from "../app/keyContext";
 import { Pedal } from "../fretboardEngine/pedal";
@@ -8,6 +8,18 @@ export default function CopedantConfig() {
   const { tuning, pedals, setPedals } = useKey();
 
   if (tuning !== "E9") return null;
+
+  const handleRename = (pedalName: string, newName: string) => {
+    setPedals(
+      pedals.map((p) => {
+        if (p.name !== pedalName) return p;
+        const newP = new Pedal();
+        newP.name = newName;
+        newP.changes = [...p.changes];
+        return newP;
+      }),
+    );
+  };
 
   const handlePedalChange = (pedalName: string, stringIdx: number, semitones: number) => {
     const newPedals = pedals.map((p) => {
@@ -38,27 +50,33 @@ export default function CopedantConfig() {
     <View style={styles.pedalConfigSection}>
       <Text style={styles.sectionTitle}>Copedant Configuration</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View>
-          {/* Header row: pedal names */}
-          <View style={styles.tableRow}>
-            <View style={styles.stringLabelCell} />
-            {pedals.map((pedal) => (
-              <View key={pedal.name} style={styles.cell}>
-                <Text style={styles.pedalLabel}>{pedal.name}</Text>
+        <View style={styles.table}>
+          {/* String label column */}
+          <View style={styles.column}>
+            <View style={[styles.cell, styles.stringLabelCell]} />
+            {Array.from({ length: 10 }, (_, rowIdx) => 9 - rowIdx).map((i, rowIdx) => (
+              <View key={i} style={[styles.cell, styles.stringLabelCell]}>
+                <Text style={styles.stringLabel}>Str {rowIdx + 1}</Text>
               </View>
             ))}
           </View>
-          {/* One row per string */}
-          {Array.from({ length: 10 }, (_, rowIdx) => 9 - rowIdx).map((i, rowIdx) => (
-            <View key={i} style={styles.tableRow}>
-              <View style={styles.stringLabelCell}>
-                <Text style={styles.stringLabel}>Str {rowIdx + 1}</Text>
+
+          {/* One column per pedal */}
+          {pedals.map((pedal, colIdx) => (
+            <View key={colIdx} style={styles.column}>
+              <View style={styles.cell}>
+                <TextInput
+                  style={styles.pedalLabelInput}
+                  value={pedal.name}
+                  onChangeText={(text) => handleRename(pedal.name, text)}
+                  selectTextOnFocus
+                />
               </View>
-              {pedals.map((pedal) => {
+              {Array.from({ length: 10 }, (_, rowIdx) => 9 - rowIdx).map((i) => {
                 const change = pedal.changes.find((c) => c[0] === i);
                 const value = change ? change[1] : 0;
                 return (
-                  <View key={pedal.name} style={styles.cell}>
+                  <View key={i} style={styles.cell}>
                     <RNPickerSelect
                       placeholder={{ label: "0", value: 0 }}
                       onValueChange={(val) => handlePedalChange(pedal.name, i, val)}
@@ -102,6 +120,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: "center",
   },
+  table: {
+    flexDirection: "row",
+  },
+  column: {
+    flexDirection: "column",
+  },
   tableRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -116,14 +140,18 @@ const styles = StyleSheet.create({
   },
   cell: {
     width: 60,
+    height: 35,
     alignItems: "center",
     justifyContent: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#444",
   },
-  pedalLabel: {
+  pedalLabelInput: {
     color: "white",
     fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",
+    width: 56,
   },
   stringLabel: {
     color: "#aaa",
