@@ -1,7 +1,7 @@
 import { Entypo } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import CopedantConfig from "../components/copedantConfig";
 import Neck from "../components/neck";
@@ -21,6 +21,8 @@ export default function SettingsScreen() {
     tuning,
     setTuning,
     pedals,
+    intervalsColorCode,
+    setIntervalsColorCode,
   } = useKey();
 
   return (
@@ -32,6 +34,7 @@ export default function SettingsScreen() {
         chordType={chordType}
         tuning={tuning}
         pedals={pedals}
+        intervalsColorCode={intervalsColorCode}
       />
       <View style={styles.overlay} pointerEvents="none" />
       <Pressable onPress={() => router.back()} style={styles.backButton}>
@@ -174,6 +177,17 @@ export default function SettingsScreen() {
 
           <Text style={styles.sectionTitle}>Copedant Configuration</Text>
           <CopedantConfig />
+
+          <Text style={styles.sectionTitle}>UI Customization</Text>
+          <View style={styles.toggleRow}>
+            <Text style={styles.toggleLabel}>Intervals color code</Text>
+            <Switch
+              value={intervalsColorCode}
+              onValueChange={setIntervalsColorCode}
+              trackColor={{ false: "#555", true: "#fa990f" }}
+              thumbColor={intervalsColorCode ? "white" : "#aaa"}
+            />
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -221,6 +235,21 @@ const styles = StyleSheet.create({
   },
   controls: {
     paddingHorizontal: 10,
+  },
+  toggleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderRadius: 8,
+    marginHorizontal: 10,
+  },
+  toggleLabel: {
+    color: "white",
+    fontSize: 16,
   },
   dropdownRow: {
     flexDirection: "row",

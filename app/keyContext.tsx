@@ -16,6 +16,8 @@ type KeyContextType = {
   setPedals: (pedals: Pedal[]) => void;
   activePedals: number[];
   setActivePedals: (pedals: number[]) => void;
+  intervalsColorCode: boolean;
+  setIntervalsColorCode: (v: boolean) => void;
 };
 
 const KeyContext = createContext<KeyContextType | undefined>(undefined);
@@ -36,6 +38,7 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [pedals, setPedals] = useState<Pedal[]>(initialPedals);
   const [activePedals, setActivePedals] = useState<number[]>([]);
+  const [intervalsColorCode, setIntervalsColorCode] = useState(false);
 
   return (
     <KeyContext.Provider
@@ -54,6 +57,8 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
         setPedals,
         activePedals,
         setActivePedals,
+        intervalsColorCode,
+        setIntervalsColorCode,
       }}
     >
       {children}
