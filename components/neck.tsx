@@ -30,15 +30,6 @@ const INTERVAL_COLORS: Record<string, string> = {
   "7": "#ad32ff",
 };
 
-// Shared style for pedal change labels
-const PEDAL_CHANGE_LABEL_STYLE = {
-  color: "white",
-  fontWeight: "bold",
-  textShadowColor: "black",
-  textShadowOffset: { width: 1, height: 1 },
-  textShadowRadius: 2,
-};
-
 function getIntervalColor(interval: string, colorCode: boolean): string {
   if (!colorCode) return interval === "1" ? "#e45300ff" : "#fa990f";
   return INTERVAL_COLORS[interval] ?? "#fa990f";
@@ -170,11 +161,23 @@ const Neck = ({
       bestVoicings.push(best);
     }
     // Return voicings sorted by fret
-    return bestVoicings.sort((a, b) => {
+    const sortedVoicings = bestVoicings.sort((a, b) => {
       const fretA = a.notes.find((n) => n !== null) ?? 0;
       const fretB = b.notes.find((n) => n !== null) ?? 0;
       return fretA - fretB;
     });
+
+    // Add transposed octave voicings for display (fret 12 = fret 0 + 12)
+    const voicingsWithOctave = [...sortedVoicings];
+    for (const voicing of sortedVoicings) {
+      const fret = voicing.notes.find((n) => n !== null);
+      if (fret === 0) {
+        // This is a voicing at fret 0 (open position), add its octave at fret 12
+        voicingsWithOctave.push(voicing.transposeOctaveUp());
+      }
+    }
+
+    return voicingsWithOctave;
   }, [chordsGeneratedDynamically, chordMode, chordType, selectedKey, pedals, disabledPedals]);
 
   // Notes, render disks for each note to display
@@ -189,7 +192,7 @@ const Neck = ({
 
   let maxIdx = 1;
   if (chordMode === "Chord") {
-    maxIdx = 9;
+    maxIdx = chordsGeneratedDynamically ? dynamicVoicings.length : 9;
   }
 
   for (let voicingIdx = 0; voicingIdx < maxIdx; voicingIdx++) {

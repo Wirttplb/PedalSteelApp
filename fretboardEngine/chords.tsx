@@ -61,6 +61,16 @@ export class Voicing {
   isPartOfOtherVoicings(others: Voicing[]): boolean {
     return others.some((other) => other !== this && this.isPartOfOtherVoicing(other));
   }
+
+  // Create a new voicing transposed up by 12 frets (one octave)
+  transposeOctaveUp(): Voicing {
+    const transposed = new Voicing();
+    transposed.pedals = [...this.pedals];
+    transposed.pedalObjects = [...this.pedalObjects];
+    transposed.generatedForKey = this.generatedForKey;
+    transposed.notes = this.notes.map((note) => (note !== null ? note + 12 : null));
+    return transposed;
+  }
 }
 
 export class Chord {
