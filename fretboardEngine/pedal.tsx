@@ -125,11 +125,10 @@ export class Pedal {
         return;
       }
 
-      // Can't press all 3 main pedals (A, B, C) at once with one foot
+      // Can't press all 3 main pedals (A, B, C or just A + C) at once with one foot
       const hasA = comboPhysicalNames.includes("A");
-      const hasB = comboPhysicalNames.includes("B");
       const hasC = comboPhysicalNames.includes("C");
-      if (hasA && hasB && hasC) {
+      if (hasA && hasC) {
         toDelete.push(i);
         return;
       }

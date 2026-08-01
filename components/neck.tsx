@@ -278,7 +278,7 @@ const Neck = ({
                     fontSize: diameter / 1,
                   }}
                 >
-                  {pedalForString[0].physicalName}
+                  {pedalForString[0].name}
                 </Text>
               </View>,
             );

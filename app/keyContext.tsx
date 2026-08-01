@@ -5,10 +5,23 @@ import { Pedal, PhysicalPedal, STANDARD_E9_PEDAL_CHANGES } from "../fretboardEng
 const STORAGE_KEY = "pedalsteel_settings";
 
 export function buildInitialPedals(): Pedal[] {
+  // map default pedal names to my physical pedal setup
+  const physicalPedalMap: Record<string, PhysicalPedal> = {
+    A: "A",
+    "A/2": "A",
+    B: "B",
+    C: "C",
+    E: "RKL",
+    F: "RKR",
+    G: "LKR",
+    D: "LKL",
+    "D/2": "LKL",
+  };
+
   return Object.keys(STANDARD_E9_PEDAL_CHANGES).map((name) => {
     const p = new Pedal();
     p.name = name;
-    p.physicalName = name as PhysicalPedal;
+    p.physicalName = physicalPedalMap[name] || "A";
     p.changes = STANDARD_E9_PEDAL_CHANGES[name];
     return p;
   });
