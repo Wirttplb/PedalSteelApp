@@ -1,2 +1,3 @@
-In scale mode and E9, display buttons to activate each pedal or lever.
-Scales should update automatically. Right now we can select copedants (or at least do something with the UI) but nothing happens.
+TODO:
+Persistent settings.
+Dynamically generated chords.

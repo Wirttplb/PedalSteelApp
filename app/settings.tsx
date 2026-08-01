@@ -126,6 +126,7 @@ export default function SettingsScreen() {
                   { label: "Aeolian", value: "Aeolian" },
                   { label: "Locrian", value: "Locrian" },
                   { label: "Diminished Seventh", value: "Diminished Seventh" },
+                  { label: "Augmented", value: "Augmented" },
                   { label: "Whole-tone", value: "Whole-tone" },
                 ]}
                 value={selectedMode}
@@ -243,7 +244,7 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    backgroundColor: "rgba(255,255,255,0.05)",
+    backgroundColor: "rgba(255,255,255,0)",
     borderRadius: 8,
     marginHorizontal: 10,
   },

@@ -18,8 +18,6 @@ export default function CopedantConfig() {
   const pedalsLenRef = useRef(pedals.length);
   pedalsLenRef.current = pedals.length;
 
-  if (tuning !== "E9") return null;
-
   const handleRemovePedal = (colIdx: number) => {
     setPedals(pedals.filter((_, i) => i !== colIdx));
   };
@@ -106,6 +104,8 @@ export default function CopedantConfig() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [pedals.length],
   );
+
+  if (tuning !== "E9") return null;
 
   return (
     <View style={styles.pedalConfigSection}>

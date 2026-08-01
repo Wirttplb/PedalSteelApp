@@ -20,8 +20,8 @@ const INTERVAL_COLORS: Record<string, string> = {
   "5": "#ff5151",
   "♭6": "#f472b6",
   "6": "#f472b6",
-  "♭7": "#a78bfa",
-  "7": "#a78bfa",
+  "♭7": "#ad32ff",
+  "7": "#ad32ff",
 };
 
 function getIntervalColor(interval: string, colorCode: boolean): string {
@@ -232,6 +232,42 @@ const Neck = ({
     }
   }
 
+  // Pedal change labels shown left of the nut when pedals are active
+  const pedalChangeLabels: React.ReactNode[] = [];
+  if (chordMode === "Scale" && activePedals.length > 0) {
+    const stringChanges: Record<number, number> = {};
+    for (const pedalIdx of activePedals) {
+      const pedal = pedals[pedalIdx];
+      if (!pedal) continue;
+      for (const [stringIdx, semitones] of pedal.changes) {
+        stringChanges[stringIdx] = (stringChanges[stringIdx] ?? 0) + semitones;
+      }
+    }
+    for (const [key, total] of Object.entries(stringChanges)) {
+      if (total === 0) continue;
+      const stringIdx = parseInt(key);
+      const top = (numStrings - stringIdx) * ((1.08 * screenHeight) / (numStrings + 1)) - 0.065 * screenHeight;
+      const label = total > 0 ? `+${total}` : `${total}`;
+      pedalChangeLabels.push(
+        <Text
+          key={`pchange-${stringIdx}`}
+          style={{
+            position: "absolute",
+            left: 2,
+            top: top - diameter * 0.4,
+            width: NUT_WIDTH - 2,
+            color: "white",
+            fontSize: NUT_WIDTH * 0.5,
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          {label}
+        </Text>,
+      );
+    }
+  }
+
   // Add everything
   return (
     <View style={styles.container}>
@@ -243,6 +279,7 @@ const Neck = ({
       {strings}
       {noteDisks}
       {pedalLabels}
+      {pedalChangeLabels}
     </View>
   );
 };

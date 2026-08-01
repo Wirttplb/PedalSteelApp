@@ -27,7 +27,7 @@ export default function Index() {
 
       <View style={styles.settingsContainer}>
         <Link href="/settings" style={styles.settingsButton}>
-          {<Entypo name="dots-three-vertical" size={24} color="white" />}
+          {<Entypo name="dots-three-horizontal" size={24} color="white" />}
         </Link>
       </View>
     </View>
