@@ -40,6 +40,8 @@ type KeyContextType = {
   setActivePedals: (pedals: number[]) => void;
   intervalsColorCode: boolean;
   setIntervalsColorCode: (v: boolean) => void;
+  chordsGeneratedDynamically: boolean;
+  setChordsGeneratedDynamically: (v: boolean) => void;
 };
 
 const KeyContext = createContext<KeyContextType | undefined>(undefined);
@@ -53,6 +55,7 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
   const [pedals, setPedals] = useState<Pedal[]>(buildInitialPedals());
   const [activePedals, setActivePedals] = useState<number[]>([]);
   const [intervalsColorCode, setIntervalsColorCode] = useState(false);
+  const [chordsGeneratedDynamically, setChordsGeneratedDynamically] = useState(false);
 
   // Load persisted settings once on mount
   const loaded = useRef(false);
@@ -68,6 +71,8 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
           if (s.tuning) setTuning(s.tuning);
           if (s.pedals) setPedals(pedalsFromJSON(s.pedals));
           if (typeof s.intervalsColorCode === "boolean") setIntervalsColorCode(s.intervalsColorCode);
+          if (typeof s.chordsGeneratedDynamically === "boolean")
+            setChordsGeneratedDynamically(s.chordsGeneratedDynamically);
         } catch {}
       }
       loaded.current = true;
@@ -85,9 +90,10 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
       tuning,
       pedals: pedals.map((p) => ({ name: p.name, changes: p.changes })),
       intervalsColorCode,
+      chordsGeneratedDynamically,
     };
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  }, [selectedKey, selectedMode, chordMode, chordType, tuning, pedals, intervalsColorCode]);
+  }, [selectedKey, selectedMode, chordMode, chordType, tuning, pedals, intervalsColorCode, chordsGeneratedDynamically]);
 
   return (
     <KeyContext.Provider
@@ -108,6 +114,8 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
         setActivePedals,
         intervalsColorCode,
         setIntervalsColorCode,
+        chordsGeneratedDynamically,
+        setChordsGeneratedDynamically,
       }}
     >
       {children}

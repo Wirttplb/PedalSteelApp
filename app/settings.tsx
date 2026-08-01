@@ -23,6 +23,8 @@ export default function SettingsScreen() {
     pedals,
     intervalsColorCode,
     setIntervalsColorCode,
+    chordsGeneratedDynamically,
+    setChordsGeneratedDynamically,
   } = useKey();
 
   return (
@@ -128,6 +130,7 @@ export default function SettingsScreen() {
                   { label: "Diminished Seventh", value: "Diminished Seventh" },
                   { label: "Augmented", value: "Augmented" },
                   { label: "Whole-tone", value: "Whole-tone" },
+                  { label: "Chromatic", value: "Chromatic" },
                 ]}
                 value={selectedMode}
                 style={pickerStyles}
@@ -174,6 +177,16 @@ export default function SettingsScreen() {
                 style={pickerStyles}
               />
             </View>
+          </View>
+
+          <View style={styles.toggleRow}>
+            <Text style={styles.toggleLabel}>Chords dynamically generated</Text>
+            <Switch
+              value={chordsGeneratedDynamically}
+              onValueChange={setChordsGeneratedDynamically}
+              trackColor={{ false: "#555", true: "#fa990f" }}
+              thumbColor={chordsGeneratedDynamically ? "white" : "#aaa"}
+            />
           </View>
 
           <Text style={styles.sectionTitle}>Copedant Configuration</Text>

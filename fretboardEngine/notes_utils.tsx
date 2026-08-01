@@ -154,6 +154,8 @@ export function getScaleAsIntegers(scale: string): number[] {
       return [0, 4, 8];
     case "Whole-tone":
       return [0, 2, 4, 6, 8, 10];
+    case "Chromatic":
+      return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     default:
       throw new Error(`Invalid scale: ${scale}`);
   }
