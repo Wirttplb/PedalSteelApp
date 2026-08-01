@@ -1,3 +1,5 @@
 TODO:
 Persistent settings.
 Dynamically generated chords.
+
+Enable/Disable pedals (not delete) for chord generation.

@@ -7,8 +7,17 @@ import PedalControls from "../components/pedalControls";
 import { useKey } from "./keyContext";
 
 export default function Index() {
-  const { selectedKey, selectedMode, chordMode, chordType, tuning, pedals, activePedals, intervalsColorCode } =
-    useKey();
+  const {
+    selectedKey,
+    selectedMode,
+    chordMode,
+    chordType,
+    tuning,
+    pedals,
+    activePedals,
+    intervalsColorCode,
+    chordsGeneratedDynamically,
+  } = useKey();
 
   return (
     <View style={styles.container}>
@@ -21,6 +30,7 @@ export default function Index() {
         pedals={pedals}
         activePedals={activePedals}
         intervalsColorCode={intervalsColorCode}
+        chordsGeneratedDynamically={chordsGeneratedDynamically}
       />
 
       {chordMode === "Scale" && tuning === "E9" && <PedalControls />}

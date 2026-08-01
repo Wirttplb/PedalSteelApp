@@ -2,10 +2,12 @@ import React, { useMemo, useRef, useState } from "react";
 import type { ViewStyle } from "react-native";
 import { PanResponder, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
-import { useKey } from "../app/keyContext";
-import { Pedal } from "../fretboardEngine/pedal";
+import { buildInitialPedals, useKey } from "../app/keyContext";
+import { Pedal, PHYSICAL_PEDALS, PhysicalPedal } from "../fretboardEngine/pedal";
 
 const COLUMN_WIDTH = 60;
+
+const PHYSICAL_PEDAL_ITEMS = PHYSICAL_PEDALS.map((p) => ({ label: p, value: p }));
 
 export default function CopedantConfig() {
   const { tuning, pedals, setPedals } = useKey();
@@ -25,8 +27,13 @@ export default function CopedantConfig() {
   const handleAddPedal = () => {
     const newP = new Pedal();
     newP.name = "New";
+    newP.physicalName = "A";
     newP.changes = [];
     setPedals([...pedals, newP]);
+  };
+
+  const handleResetToDefault = () => {
+    setPedals(buildInitialPedals());
   };
 
   const handleRename = (colIdx: number, newName: string) => {
@@ -35,7 +42,21 @@ export default function CopedantConfig() {
         if (i !== colIdx) return p;
         const newP = new Pedal();
         newP.name = newName;
+        newP.physicalName = p.physicalName;
         newP.changes = [...p.changes];
+        return newP;
+      }),
+    );
+  };
+
+  const handlePhysicalChange = (colIdx: number, newPhysicalName: PhysicalPedal) => {
+    setPedals(
+      pedals.map((p, i) => {
+        if (i !== colIdx) return p;
+        const newP = new Pedal();
+        newP.name = p.name;
+        newP.physicalName = newPhysicalName;
+        newP.changes = E9_PEDAL_CHANGES[newPhysicalName] ?? [];
         return newP;
       }),
     );
@@ -47,6 +68,7 @@ export default function CopedantConfig() {
         if (i !== colIdx) return p;
         const newP = new Pedal();
         newP.name = p.name;
+        newP.physicalName = p.physicalName;
         const changes = [...p.changes];
         const existingIdx = changes.findIndex((c) => c[0] === stringIdx);
         if (semitones === 0) {
@@ -115,6 +137,7 @@ export default function CopedantConfig() {
           <View key="string-labels" style={styles.column}>
             <View key="lbl-drag" style={[styles.cell, styles.stringLabelCell]} />
             <View key="lbl-name" style={[styles.cell, styles.stringLabelCell]} />
+            <View key="lbl-physical" style={[styles.cell, styles.stringLabelCell]} />
             {Array.from({ length: 10 }, (_, rowIdx) => 9 - rowIdx).map((i, rowIdx) => (
               <View key={`lbl-${i}`} style={[styles.cell, styles.stringLabelCell]}>
                 <Text style={styles.stringLabel}>{rowIdx + 1}</Text>
@@ -145,6 +168,18 @@ export default function CopedantConfig() {
                   value={pedal.name}
                   onChangeText={(text) => handleRename(colIdx, text)}
                   selectTextOnFocus
+                />
+              </View>
+
+              {/* Physical pedal/lever selector */}
+              <View key="physical" style={styles.cell}>
+                <RNPickerSelect
+                  placeholder={{}}
+                  onValueChange={(val) => handlePhysicalChange(colIdx, val as PhysicalPedal)}
+                  items={PHYSICAL_PEDAL_ITEMS}
+                  value={pedal.physicalName}
+                  style={smallPickerStyles}
+                  useNativeAndroidPickerStyle={false}
                 />
               </View>
 
@@ -184,9 +219,14 @@ export default function CopedantConfig() {
           ))}
         </View>
       </ScrollView>
-      <Pressable style={styles.addPedalButton} onPress={handleAddPedal}>
-        <Text style={styles.addPedalButtonText}>+ Add Pedal</Text>
-      </Pressable>
+      <View style={styles.buttonRow}>
+        <Pressable style={styles.addPedalButton} onPress={handleAddPedal}>
+          <Text style={styles.addPedalButtonText}>+ Add Pedal</Text>
+        </Pressable>
+        <Pressable style={styles.resetButton} onPress={handleResetToDefault}>
+          <Text style={styles.resetButtonText}>Reset</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -260,13 +300,32 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingVertical: 8,
     paddingHorizontal: 20,
-    backgroundColor: "rgba(255,255,255,0.1)",
+    backgroundColor: "rgba(116, 116, 116, 0.5)",
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#666",
   },
   addPedalButtonText: {
     color: "white",
+    fontSize: 14,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 10,
+    marginTop: 10,
+  },
+  resetButton: {
+    marginTop: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    backgroundColor: "#ac89574d",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#fa990f",
+  },
+  resetButtonText: {
+    color: "#fa990f",
     fontSize: 14,
   },
   pedalLabelInput: {

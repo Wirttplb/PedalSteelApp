@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { CHORD_FORMULAS, ChordGenerator } from "../fretboardEngine/chord_generator";
+import { Voicing } from "../fretboardEngine/chords";
 import * as fretboardEngine from "../fretboardEngine/fretboard";
 import { Pedal, getPedalsFromString } from "../fretboardEngine/pedal";
 import InlayDot from "./dot";
@@ -38,6 +40,7 @@ type NeckProps = {
   pedals: Pedal[];
   activePedals?: number[];
   intervalsColorCode?: boolean;
+  chordsGeneratedDynamically?: boolean;
 };
 
 const Neck = ({
@@ -49,6 +52,7 @@ const Neck = ({
   pedals,
   activePedals = [],
   intervalsColorCode = false,
+  chordsGeneratedDynamically = false,
 }: NeckProps) => {
   // Initialize fretboard
   let fretboard: fretboardEngine.Fretboard;
@@ -124,6 +128,45 @@ const Neck = ({
     );
   });
 
+  // Pre-compute dynamic voicings when key/chordType/pedals change (only in Chord mode)
+  const dynamicVoicings = useMemo<Voicing[]>(() => {
+    if (!chordsGeneratedDynamically || chordMode !== "Chord") return [];
+    const formula = CHORD_FORMULAS[chordType];
+    if (!formula) return [];
+    const fb = fretboardEngine.Fretboard.initAsPedalSteelE9();
+    fb.pedals = pedals;
+    const allVoicings = new ChordGenerator(fb).generateVoicings(formula, selectedKey);
+
+    // Filter to only show one voicing per fret - select the one with most notes
+    const voicingsByFret = new Map<number, Voicing[]>();
+    for (const voicing of allVoicings) {
+      // Find the fret this voicing is at (first non-null note)
+      const fret = voicing.notes.find((n) => n !== null);
+      if (fret !== undefined && fret !== null) {
+        if (!voicingsByFret.has(fret)) {
+          voicingsByFret.set(fret, []);
+        }
+        voicingsByFret.get(fret)!.push(voicing);
+      }
+    }
+    // For each fret, select the voicing with the most non-null notes (most complete)
+    const bestVoicings: Voicing[] = [];
+    for (const [fret, voicings] of voicingsByFret.entries()) {
+      const best = voicings.reduce((prev, curr) => {
+        const prevNotes = prev.notes.filter((n) => n !== null).length;
+        const currNotes = curr.notes.filter((n) => n !== null).length;
+        return currNotes > prevNotes ? curr : prev;
+      });
+      bestVoicings.push(best);
+    }
+    // Return voicings sorted by fret
+    return bestVoicings.sort((a, b) => {
+      const fretA = a.notes.find((n) => n !== null) ?? 0;
+      const fretB = b.notes.find((n) => n !== null) ?? 0;
+      return fretA - fretB;
+    });
+  }, [chordsGeneratedDynamically, chordMode, chordType, selectedKey, pedals]);
+
   // Notes, render disks for each note to display
   const startFret = 0;
   const endFret = 12;
@@ -144,9 +187,22 @@ const Neck = ({
     if (chordMode === "Scale") {
       fretboardNotes = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret, activePedals);
     } else if (chordMode === "Chord") {
-      let { fretboardData, pedals } = fretboard.voicingToFretboardData(selectedKey, chordType, voicingIdx);
-      fretboardNotes = fretboardData;
-      pedalsData = pedals;
+      if (chordsGeneratedDynamically) {
+        if (voicingIdx >= dynamicVoicings.length) continue;
+        const voicing = dynamicVoicings[voicingIdx];
+        const fretboardDataAsInts = fretboard.generateVoicing(voicing, selectedKey);
+        // voicing.pedals now contains physical names
+        pedalsData = voicing.pedals.map((name) => Pedal.initFromName(name));
+        fretboardNotes = fretboardEngine.Fretboard.convertFretboardScaleToIntervals(
+          selectedKey,
+          fretboardDataAsInts,
+          pedalsData,
+        );
+      } else {
+        let { fretboardData, pedals: pd } = fretboard.voicingToFretboardData(selectedKey, chordType, voicingIdx);
+        fretboardNotes = fretboardData;
+        pedalsData = pd;
+      }
     } else {
       throw new Error("Invalid chord mode!");
     }
@@ -164,7 +220,7 @@ const Neck = ({
 
           noteDisks.push(
             <View
-              key={`note-parent-${stringIdx}-${fretIdx}`}
+              key={`note-parent-${voicingIdx}-${stringIdx}-${fretIdx}`}
               style={{
                 position: "absolute",
                 left: left,
@@ -208,7 +264,7 @@ const Neck = ({
           if (pedalForString.length >= 1) {
             pedalLabels.push(
               <View
-                key={`pedal-${stringIdx}-${fretIdx}`}
+                key={`pedal-${voicingIdx}-${stringIdx}-${fretIdx}`}
                 style={{
                   position: "absolute",
                   left: left + 0.04 * screenWidth,
@@ -222,7 +278,7 @@ const Neck = ({
                     fontSize: diameter / 1,
                   }}
                 >
-                  {pedalForString[0].name}
+                  {pedalForString[0].physicalName}
                 </Text>
               </View>,
             );

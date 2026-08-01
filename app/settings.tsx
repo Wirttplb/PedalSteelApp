@@ -21,6 +21,7 @@ export default function SettingsScreen() {
     tuning,
     setTuning,
     pedals,
+    setPedals,
     intervalsColorCode,
     setIntervalsColorCode,
     chordsGeneratedDynamically,
@@ -37,6 +38,7 @@ export default function SettingsScreen() {
         tuning={tuning}
         pedals={pedals}
         intervalsColorCode={intervalsColorCode}
+        chordsGeneratedDynamically={chordsGeneratedDynamically}
       />
       <View style={styles.overlay} pointerEvents="none" />
       <Pressable onPress={() => router.back()} style={styles.backButton}>
