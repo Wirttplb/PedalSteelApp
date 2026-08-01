@@ -3,29 +3,49 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useKey } from "../app/keyContext";
 
 export default function PedalControls() {
-  const { pedals, activePedals, setActivePedals } = useKey();
+  const { pedals, activePedals, setActivePedals, disabledPedals, setDisabledPedals, chordMode } = useKey();
 
   const togglePedal = (index: number) => {
-    if (activePedals.includes(index)) {
-      setActivePedals(activePedals.filter((p) => p !== index));
+    if (chordMode === "Scale") {
+      // Scale mode: toggle active pedals
+      if (activePedals.includes(index)) {
+        setActivePedals(activePedals.filter((p) => p !== index));
+      } else {
+        setActivePedals([...activePedals, index]);
+      }
     } else {
-      setActivePedals([...activePedals, index]);
+      // Chord mode: toggle disabled pedals
+      if (disabledPedals.includes(index)) {
+        setDisabledPedals(disabledPedals.filter((p) => p !== index));
+      } else {
+        setDisabledPedals([...disabledPedals, index]);
+      }
     }
   };
 
   return (
     <View style={styles.pedalControls}>
-      {pedals.map((pedal, index) => (
-        <Pressable
-          key={index}
-          style={[styles.pedalButton, activePedals.includes(index) && styles.pedalButtonActive]}
-          onPress={() => togglePedal(index)}
-        >
-          <Text style={[styles.pedalButtonText, activePedals.includes(index) && styles.pedalButtonTextActive]}>
-            {pedal.name}
-          </Text>
-        </Pressable>
-      ))}
+      {pedals.map((pedal, index) => {
+        const isActive = chordMode === "Scale" && activePedals.includes(index);
+        const isDisabled = chordMode === "Chord" && disabledPedals.includes(index);
+        return (
+          <Pressable
+            key={index}
+            style={[styles.pedalButton, isActive && styles.pedalButtonActive, isDisabled && styles.pedalButtonDisabled]}
+            onPress={() => togglePedal(index)}
+          >
+            <Text
+              style={[
+                styles.pedalButtonText,
+                isActive && styles.pedalButtonTextActive,
+                isDisabled && styles.pedalButtonTextDisabled,
+              ]}
+            >
+              {pedal.name}
+            </Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 }
@@ -58,6 +78,11 @@ const styles = StyleSheet.create({
     borderColor: "white",
     opacity: 0.7,
   },
+  pedalButtonDisabled: {
+    opacity: 0.3,
+    backgroundColor: "#666",
+    borderColor: "#999",
+  },
   pedalButtonText: {
     color: "white",
     fontWeight: "bold",
@@ -65,5 +90,8 @@ const styles = StyleSheet.create({
   },
   pedalButtonTextActive: {
     color: "black",
+  },
+  pedalButtonTextDisabled: {
+    color: "#999",
   },
 });

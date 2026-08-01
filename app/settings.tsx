@@ -3,8 +3,11 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { Dimensions, Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
-import CopedantConfig from "../components/copedantConfig";
-import Neck from "../components/neck";
+import ChordSelector from "../components/ChordSelector";
+import CopedantConfig from "../components/CopedantConfig";
+import KeySelector from "../components/KeySelector";
+import Neck from "../components/Neck";
+import ScaleSelector from "../components/ScaleSelector";
 import { useKey } from "./keyContext";
 
 export default function SettingsScreen() {
@@ -29,11 +32,14 @@ export default function SettingsScreen() {
     tuning,
     setTuning,
     pedals,
-    setPedals,
     intervalsColorCode,
     setIntervalsColorCode,
     chordsGeneratedDynamically,
     setChordsGeneratedDynamically,
+    showPedalChangeLabels,
+    setShowPedalChangeLabels,
+    showPedalNameLabels,
+    setShowPedalNameLabels,
   } = useKey();
 
   return (
@@ -47,6 +53,8 @@ export default function SettingsScreen() {
         pedals={pedals}
         intervalsColorCode={intervalsColorCode}
         chordsGeneratedDynamically={chordsGeneratedDynamically}
+        showPedalChangeLabels={showPedalChangeLabels}
+        showPedalNameLabels={showPedalNameLabels}
       />
       <View style={styles.overlay} pointerEvents="none" />
       <Pressable onPress={handleBack} style={styles.backButton}>
@@ -56,23 +64,23 @@ export default function SettingsScreen() {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <View style={styles.controls} pointerEvents="box-none">
           <Text style={styles.sectionTitle}>Mode Selection</Text>
+          <View style={styles.toggleRow}>
+            <Text style={styles.toggleLabel}>Scale</Text>
+            <Switch
+              value={chordMode === "Chord"}
+              onValueChange={(value) => setChordMode(value ? "Chord" : "Scale")}
+              trackColor={{
+                false: bidirectionalSwitchColors.track,
+                true: bidirectionalSwitchColors.track,
+              }}
+              thumbColor={
+                chordMode === "Chord" ? bidirectionalSwitchColors.thumbOn : bidirectionalSwitchColors.thumbOff
+              }
+              style={styles.switch}
+            />
+            <Text style={styles.toggleLabel}>Chord</Text>
+          </View>
           <View style={styles.dropdownRow}>
-            <View style={[styles.dropdownWrapper, { opacity: tuning === "E9" ? 1 : 0.5 }]}>
-              <RNPickerSelect
-                placeholder={{}}
-                useNativeAndroidPickerStyle={false}
-                onValueChange={(itemValue) => {
-                  setChordMode(itemValue);
-                }}
-                disabled={tuning !== "E9"}
-                items={[
-                  { label: "Scale", value: "Scale" },
-                  { label: "Chord", value: "Chord" },
-                ]}
-                value={chordMode}
-                style={pickerStyles}
-              />
-            </View>
             <View style={styles.dropdownWrapper}>
               <RNPickerSelect
                 placeholder={{}}
@@ -90,113 +98,32 @@ export default function SettingsScreen() {
                 style={pickerStyles}
               />
             </View>
+            <KeySelector />
           </View>
-
-          <View style={styles.dropdownRow}>
-            <View style={styles.dropdownWrapper}>
-              <RNPickerSelect
-                placeholder={{}}
-                useNativeAndroidPickerStyle={false}
-                onValueChange={(itemValue) => {
-                  setSelectedKey(itemValue);
-                }}
-                items={[
-                  { label: "C", value: "C" },
-                  { label: "C#", value: "C#" },
-                  { label: "D", value: "D" },
-                  { label: "D#", value: "D#" },
-                  { label: "E", value: "E" },
-                  { label: "F", value: "F" },
-                  { label: "F#", value: "F#" },
-                  { label: "G", value: "G" },
-                  { label: "G#", value: "G#" },
-                  { label: "A", value: "A" },
-                  { label: "A#", value: "A#" },
-                  { label: "B", value: "B" },
-                ]}
-                value={selectedKey}
-                style={pickerStyles}
-              />
-            </View>
-          </View>
-
           <View style={styles.dropdownRow}>
             <View style={[styles.dropdownWrapper, { opacity: chordMode === "Scale" ? 1 : 0.5 }]}>
-              <RNPickerSelect
-                placeholder={{}}
-                useNativeAndroidPickerStyle={false}
-                onValueChange={(itemValue) => setSelectedMode(itemValue)}
-                items={[
-                  { label: "Major", value: "Major" },
-                  { label: "Minor", value: "Minor" },
-                  { label: "Major Pentatonic", value: "Major Pentatonic" },
-                  { label: "Minor Pentatonic", value: "Minor Pentatonic" },
-                  { label: "Dorian", value: "Dorian" },
-                  { label: "Phrygian", value: "Phrygian" },
-                  { label: "Lydian", value: "Lydian" },
-                  { label: "Mixolydian", value: "Mixolydian" },
-                  { label: "Aeolian", value: "Aeolian" },
-                  { label: "Locrian", value: "Locrian" },
-                  { label: "Diminished Seventh", value: "Diminished Seventh" },
-                  { label: "Augmented", value: "Augmented" },
-                  { label: "Whole-tone", value: "Whole-tone" },
-                  { label: "Chromatic", value: "Chromatic" },
-                ]}
-                value={selectedMode}
-                style={pickerStyles}
-              />
+              <ScaleSelector />
             </View>
             <View style={[styles.dropdownWrapper, { opacity: chordMode === "Chord" ? 1 : 0.5 }]}>
-              <RNPickerSelect
-                placeholder={{}}
-                useNativeAndroidPickerStyle={false}
-                onValueChange={(itemValue) => {
-                  setChordType(itemValue);
-                }}
-                items={[
-                  { label: "M", value: "M" },
-                  { label: "m", value: "m" },
-                  { label: "M7", value: "M7" },
-                  { label: "m7", value: "m7" },
-                  { label: "7", value: "7" },
-                  { label: "aug", value: "aug" },
-                  { label: "dim", value: "dim" },
-                  { label: "sus2", value: "sus2" },
-                  { label: "sus4", value: "sus4" },
-                  { label: "M6", value: "M6" },
-                  { label: "mm6", value: "mm6" },
-                  { label: "mM6", value: "mM6" },
-                  { label: "M7/6", value: "M7/6" },
-                  { label: "M6add9", value: "M6add9" },
-                  { label: "add9", value: "add9" },
-                  { label: "madd9", value: "madd9" },
-                  { label: "M9", value: "M9" },
-                  { label: "m9", value: "m9" },
-                  { label: "mM9", value: "mM9" },
-                  { label: "9", value: "9" },
-                  { label: "7b9", value: "7b9" },
-                  { label: "7#9", value: "7#9" },
-                  { label: "11", value: "11" },
-                  { label: "13", value: "13" },
-                  { label: "Mb5", value: "Mb5" },
-                  { label: "m7b5", value: "m7b5" },
-                  { label: "mb5bb7", value: "mb5bb7" },
-                  { label: "b5b13", value: "b5b13" },
-                ]}
-                value={chordType}
-                style={pickerStyles}
-              />
+              <ChordSelector />
             </View>
           </View>
 
           <View style={styles.toggleRow}>
-            <Text style={styles.toggleLabel}>Chords dynamically generated</Text>
+            <Text style={styles.toggleLabel}>Generate chords dynamically</Text>
             <Switch
-              value={chordsGeneratedDynamically}
-              onValueChange={setChordsGeneratedDynamically}
-              trackColor={{ false: "#555", true: "#fa990f" }}
-              thumbColor={chordsGeneratedDynamically ? "white" : "#aaa"}
+              value={!chordsGeneratedDynamically}
+              onValueChange={(value) => setChordsGeneratedDynamically(!value)}
+              trackColor={{
+                false: bidirectionalSwitchColors.track,
+                true: bidirectionalSwitchColors.track,
+              }}
+              thumbColor={
+                !chordsGeneratedDynamically ? bidirectionalSwitchColors.thumbOn : bidirectionalSwitchColors.thumbOff
+              }
+              style={[styles.switch, chordMode === "Scale" && { opacity: 0.5 }]}
             />
+            <Text style={styles.toggleLabel}>Use dictionary</Text>
           </View>
 
           <Text style={styles.sectionTitle}>Copedant Configuration</Text>
@@ -205,12 +132,15 @@ export default function SettingsScreen() {
           <Text style={styles.sectionTitle}>UI Customization</Text>
           <View style={styles.toggleRow}>
             <Text style={styles.toggleLabel}>Intervals color code</Text>
-            <Switch
-              value={intervalsColorCode}
-              onValueChange={setIntervalsColorCode}
-              trackColor={{ false: "#555", true: "#fa990f" }}
-              thumbColor={intervalsColorCode ? "white" : "#aaa"}
-            />
+            <Switch value={intervalsColorCode} onValueChange={setIntervalsColorCode} style={styles.switch} />
+          </View>
+          <View style={styles.toggleRow}>
+            <Text style={styles.toggleLabel}>Show pedal change labels (+n/-n)</Text>
+            <Switch value={showPedalChangeLabels} onValueChange={setShowPedalChangeLabels} style={styles.switch} />
+          </View>
+          <View style={styles.toggleRow}>
+            <Text style={styles.toggleLabel}>Show pedal name labels</Text>
+            <Switch value={showPedalNameLabels} onValueChange={setShowPedalNameLabels} style={styles.switch} />
           </View>
         </View>
       </ScrollView>
@@ -223,6 +153,12 @@ const screenHeight = Dimensions.get("window").height;
 const pickerStyles = {
   inputIOS: { fontSize: 24, color: "white", padding: 10 },
   inputAndroid: { fontSize: 24, color: "white", padding: 10 },
+};
+
+const bidirectionalSwitchColors = {
+  track: "#a3d3cf",
+  thumbOn: "#009688",
+  thumbOff: "#009688",
 };
 
 const styles = StyleSheet.create({
@@ -274,6 +210,9 @@ const styles = StyleSheet.create({
   toggleLabel: {
     color: "white",
     fontSize: 16,
+  },
+  switch: {
+    transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }],
   },
   dropdownRow: {
     flexDirection: "row",

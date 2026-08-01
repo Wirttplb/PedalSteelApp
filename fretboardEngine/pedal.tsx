@@ -80,10 +80,9 @@ export class Pedal {
       return p;
     });
 
-    // Return combinations of user-defined pedal names (which are unique identifiers)
+    // Return combinations of user-defined pedal names
     // but validate based on physical names
     const pedalNames = pedalObjects.map((p) => p.name);
-    const physicalNames = pedalObjects.map((p) => p.physicalName);
     let list: string[][] = [[]]; // start with empty combination
 
     for (let i = 1; i <= 3; i++) {

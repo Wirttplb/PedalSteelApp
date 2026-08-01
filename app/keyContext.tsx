@@ -53,10 +53,16 @@ type KeyContextType = {
   setPedals: (pedals: Pedal[]) => void;
   activePedals: number[];
   setActivePedals: (pedals: number[]) => void;
+  disabledPedals: number[];
+  setDisabledPedals: (pedals: number[]) => void;
   intervalsColorCode: boolean;
   setIntervalsColorCode: (v: boolean) => void;
   chordsGeneratedDynamically: boolean;
   setChordsGeneratedDynamically: (v: boolean) => void;
+  showPedalChangeLabels: boolean;
+  setShowPedalChangeLabels: (v: boolean) => void;
+  showPedalNameLabels: boolean;
+  setShowPedalNameLabels: (v: boolean) => void;
 };
 
 const KeyContext = createContext<KeyContextType | undefined>(undefined);
@@ -69,8 +75,11 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
   const [tuning, setTuning] = useState("E9");
   const [pedals, setPedals] = useState<Pedal[]>(buildInitialPedals());
   const [activePedals, setActivePedals] = useState<number[]>([]);
+  const [disabledPedals, setDisabledPedals] = useState<number[]>([]);
   const [intervalsColorCode, setIntervalsColorCode] = useState(false);
   const [chordsGeneratedDynamically, setChordsGeneratedDynamically] = useState(false);
+  const [showPedalChangeLabels, setShowPedalChangeLabels] = useState(true);
+  const [showPedalNameLabels, setShowPedalNameLabels] = useState(true);
 
   // Load persisted settings once on mount
   const loaded = useRef(false);
@@ -85,9 +94,12 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
           if (s.chordType) setChordType(s.chordType);
           if (s.tuning) setTuning(s.tuning);
           if (s.pedals) setPedals(pedalsFromJSON(s.pedals));
+          if (s.disabledPedals) setDisabledPedals(s.disabledPedals);
           if (typeof s.intervalsColorCode === "boolean") setIntervalsColorCode(s.intervalsColorCode);
           if (typeof s.chordsGeneratedDynamically === "boolean")
             setChordsGeneratedDynamically(s.chordsGeneratedDynamically);
+          if (typeof s.showPedalChangeLabels === "boolean") setShowPedalChangeLabels(s.showPedalChangeLabels);
+          if (typeof s.showPedalNameLabels === "boolean") setShowPedalNameLabels(s.showPedalNameLabels);
         } catch {}
       }
       loaded.current = true;
@@ -104,11 +116,25 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
       chordType,
       tuning,
       pedals: pedals.map((p) => ({ name: p.name, physicalName: p.physicalName, changes: p.changes })),
+      disabledPedals,
       intervalsColorCode,
       chordsGeneratedDynamically,
+      showPedalChangeLabels,
+      showPedalNameLabels,
     };
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  }, [selectedKey, selectedMode, chordMode, chordType, tuning, pedals, intervalsColorCode, chordsGeneratedDynamically]);
+  }, [
+    selectedKey,
+    selectedMode,
+    chordMode,
+    chordType,
+    tuning,
+    pedals,
+    intervalsColorCode,
+    chordsGeneratedDynamically,
+    showPedalChangeLabels,
+    showPedalNameLabels,
+  ]);
 
   return (
     <KeyContext.Provider
@@ -127,10 +153,16 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
         setPedals,
         activePedals,
         setActivePedals,
+        disabledPedals,
+        setDisabledPedals,
         intervalsColorCode,
         setIntervalsColorCode,
         chordsGeneratedDynamically,
         setChordsGeneratedDynamically,
+        showPedalChangeLabels,
+        setShowPedalChangeLabels,
+        showPedalNameLabels,
+        setShowPedalNameLabels,
       }}
     >
       {children}

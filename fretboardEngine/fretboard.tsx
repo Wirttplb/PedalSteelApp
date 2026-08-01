@@ -106,7 +106,9 @@ export class Fretboard {
       const fret = voicing.notes[stringIndex];
       return stringNotes.map((note) => {
         if (fret === null || fret === undefined) return null;
-        const voicingNote = (fret + keyOffset + this.tuning[stringIndex] + 12) % 12;
+        // Transpose the fret position by the key offset
+        const transposedFret = (fret + keyOffset + 12) % 12;
+        const voicingNote = (transposedFret + this.tuning[stringIndex] + 12) % 12;
         return voicingNote === note ? (voicingNote + 12) % 12 : null;
       });
     });
@@ -156,7 +158,7 @@ export class Fretboard {
           }
         }
 
-        const interval = (actualNote - keyInt + 12) % 12;
+        const interval = (((actualNote - keyInt) % 12) + 12) % 12;
         return convertIntIntervalToStr(interval);
       }),
     );

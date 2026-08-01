@@ -1,11 +1,15 @@
 import React, { useMemo } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { CHORD_FORMULAS, ChordGenerator } from "../fretboardEngine/chord_generator";
 import { Voicing } from "../fretboardEngine/chords";
 import * as fretboardEngine from "../fretboardEngine/fretboard";
 import { Pedal, getPedalsFromString } from "../fretboardEngine/pedal";
-import InlayDot from "./dot";
-import Fret from "./fret";
+import InlayDot from "./Dot";
+import Fret from "./Fret";
+import { NoteDisk } from "./NoteDisk";
+import { PedalChangeLabel } from "./PedalChangeLabel";
+import { PedalLabel } from "./PedalLabel";
+import { StringComponent } from "./StringComponent";
 
 const NUM_FRETS = 12; // + 1
 const screenWidth = Dimensions.get("window").width;
@@ -26,6 +30,15 @@ const INTERVAL_COLORS: Record<string, string> = {
   "7": "#ad32ff",
 };
 
+// Shared style for pedal change labels
+const PEDAL_CHANGE_LABEL_STYLE = {
+  color: "white",
+  fontWeight: "bold",
+  textShadowColor: "black",
+  textShadowOffset: { width: 1, height: 1 },
+  textShadowRadius: 2,
+};
+
 function getIntervalColor(interval: string, colorCode: boolean): string {
   if (!colorCode) return interval === "1" ? "#e45300ff" : "#fa990f";
   return INTERVAL_COLORS[interval] ?? "#fa990f";
@@ -39,8 +52,11 @@ type NeckProps = {
   tuning: string;
   pedals: Pedal[];
   activePedals?: number[];
+  disabledPedals?: number[];
   intervalsColorCode?: boolean;
   chordsGeneratedDynamically?: boolean;
+  showPedalChangeLabels?: boolean;
+  showPedalNameLabels?: boolean;
 };
 
 const Neck = ({
@@ -51,8 +67,11 @@ const Neck = ({
   tuning,
   pedals,
   activePedals = [],
+  disabledPedals = [],
   intervalsColorCode = false,
   chordsGeneratedDynamically = false,
+  showPedalChangeLabels = true,
+  showPedalNameLabels = true,
 }: NeckProps) => {
   // Initialize fretboard
   let fretboard: fretboardEngine.Fretboard;
@@ -105,28 +124,9 @@ const Neck = ({
   });
 
   // Strings (horizontal lines)
-  const strings = Array.from({ length: numStrings }, (_, index) => {
-    const top = (index + 1) * ((1.08 * screenHeight) / (numStrings + 1)) - 0.04 * screenHeight;
-    let height = screenHeight / 150;
-    if (index < 0.3 * numStrings) {
-      height *= 3 / 5;
-    } else if (index < 0.5 * numStrings) {
-      height *= 4 / 5;
-    }
-    return (
-      <View
-        key={`string-${index}`}
-        style={{
-          position: "absolute",
-          width: "100%",
-          top,
-        }}
-      >
-        <View style={[styles.string, { height: height }]} />
-        <View style={[styles.stringShadow, { height: 0.3 * height, marginTop: height }]} />
-      </View>
-    );
-  });
+  const strings = Array.from({ length: numStrings }, (_, index) => (
+    <StringComponent key={index} index={index} numStrings={numStrings} screenHeight={screenHeight} />
+  ));
 
   // Pre-compute dynamic voicings when key/chordType/pedals change (only in Chord mode)
   const dynamicVoicings = useMemo<Voicing[]>(() => {
@@ -137,9 +137,19 @@ const Neck = ({
     fb.pedals = pedals;
     const allVoicings = new ChordGenerator(fb).generateVoicings(formula, selectedKey);
 
+    // Filter out voicings that use disabled pedals
+    const filteredVoicings = allVoicings.filter((voicing) => {
+      // voicing.pedals contains user-defined names
+      // Check if any of the pedals in this voicing are disabled
+      return !voicing.pedals.some((pedalName) => {
+        const pedalIndex = pedals.findIndex((p) => p.name === pedalName);
+        return pedalIndex !== -1 && disabledPedals.includes(pedalIndex);
+      });
+    });
+
     // Filter to only show one voicing per fret - select the one with most notes
     const voicingsByFret = new Map<number, Voicing[]>();
-    for (const voicing of allVoicings) {
+    for (const voicing of filteredVoicings) {
       // Find the fret this voicing is at (first non-null note)
       const fret = voicing.notes.find((n) => n !== null);
       if (fret !== undefined && fret !== null) {
@@ -165,7 +175,7 @@ const Neck = ({
       const fretB = b.notes.find((n) => n !== null) ?? 0;
       return fretA - fretB;
     });
-  }, [chordsGeneratedDynamically, chordMode, chordType, selectedKey, pedals]);
+  }, [chordsGeneratedDynamically, chordMode, chordType, selectedKey, pedals, disabledPedals]);
 
   // Notes, render disks for each note to display
   const startFret = 0;
@@ -191,8 +201,8 @@ const Neck = ({
         if (voicingIdx >= dynamicVoicings.length) continue;
         const voicing = dynamicVoicings[voicingIdx];
         const fretboardDataAsInts = fretboard.generateVoicing(voicing, selectedKey);
-        // voicing.pedals now contains physical names
-        pedalsData = voicing.pedals.map((name) => Pedal.initFromName(name));
+        // Use the actual Pedal objects from the voicing
+        pedalsData = voicing.pedalObjects;
         fretboardNotes = fretboardEngine.Fretboard.convertFretboardScaleToIntervals(
           selectedKey,
           fretboardDataAsInts,
@@ -210,6 +220,16 @@ const Neck = ({
     for (let stringIdx = 0; stringIdx < fretboardNotes.length; stringIdx++) {
       const pedalForString: Pedal[] = getPedalsFromString(stringIdx, pedalsData);
 
+      // Calculate total semitone change for this string from all pedals in this voicing
+      let stringTotalChange = 0;
+      for (const pedal of pedalForString) {
+        for (const [sIdx, semitones] of pedal.changes) {
+          if (sIdx === stringIdx) {
+            stringTotalChange += semitones;
+          }
+        }
+      }
+
       for (let fretIdx = 0; fretIdx < fretboardNotes[stringIdx].length; fretIdx++) {
         let interval = fretboardNotes[stringIdx][fretIdx];
         if (interval) {
@@ -219,68 +239,29 @@ const Neck = ({
           interval = interval.replace(/b/g, "♭"); // replace 'b' with '♭'
 
           noteDisks.push(
-            <View
-              key={`note-parent-${voicingIdx}-${stringIdx}-${fretIdx}`}
-              style={{
-                position: "absolute",
-                left: left,
-                top: top,
-                width: diameter * 1.5, // parent is bigger
-                height: diameter * 1.5,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "transparent", // parent is transparent
-              }}
-            >
-              <View
-                style={{
-                  position: "absolute",
-                  width: diameter,
-                  height: diameter,
-                  borderRadius: diameter / 2,
-                  backgroundColor: getIntervalColor(interval, intervalsColorCode),
-                  // Shadow for iOS / desktop browser
-                  shadowColor: "black",
-                  shadowOffset: { width: 2, height: 6 },
-                  shadowOpacity: 0.7,
-                  shadowRadius: diameter / 2,
-                  // Shadow for Android
-                  elevation: 5,
-                }}
-              ></View>
-              <Text
-                style={{
-                  color: "black",
-                  fontWeight: "bold",
-                  fontSize: diameter / 1,
-                  top: -0.05 * diameter,
-                }}
-              >
-                {interval}
-              </Text>
-            </View>,
+            <NoteDisk
+              key={`note-${voicingIdx}-${stringIdx}-${fretIdx}`}
+              left={left}
+              top={top}
+              diameter={diameter}
+              interval={interval}
+              colorCode={intervalsColorCode}
+              stringTotalChange={stringTotalChange}
+              chordMode={chordMode}
+              getIntervalColor={getIntervalColor}
+              showPedalChangeLabels={showPedalChangeLabels}
+            />,
           );
 
-          if (pedalForString.length >= 1) {
+          if (pedalForString.length >= 1 && showPedalNameLabels) {
             pedalLabels.push(
-              <View
+              <PedalLabel
                 key={`pedal-${voicingIdx}-${stringIdx}-${fretIdx}`}
-                style={{
-                  position: "absolute",
-                  left: left + 0.04 * screenWidth,
-                  top: top,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#52ff60ff",
-                    fontWeight: "bold",
-                    fontSize: diameter / 1,
-                  }}
-                >
-                  {pedalForString[0].name}
-                </Text>
-              </View>,
+                left={left}
+                top={top}
+                diameter={diameter}
+                pedalName={pedalForString[0].name}
+              />,
             );
           }
         }
@@ -290,7 +271,7 @@ const Neck = ({
 
   // Pedal change labels shown left of the nut when pedals are active
   const pedalChangeLabels: React.ReactNode[] = [];
-  if (chordMode === "Scale" && activePedals.length > 0) {
+  if (chordMode === "Scale" && activePedals.length > 0 && showPedalChangeLabels) {
     const stringChanges: Record<number, number> = {};
     for (const pedalIdx of activePedals) {
       const pedal = pedals[pedalIdx];
@@ -302,24 +283,17 @@ const Neck = ({
     for (const [key, total] of Object.entries(stringChanges)) {
       if (total === 0) continue;
       const stringIdx = parseInt(key);
-      const top = (numStrings - stringIdx) * ((1.08 * screenHeight) / (numStrings + 1)) - 0.065 * screenHeight;
       const label = total > 0 ? `+${total}` : `${total}`;
       pedalChangeLabels.push(
-        <Text
+        <PedalChangeLabel
           key={`pchange-${stringIdx}`}
-          style={{
-            position: "absolute",
-            left: 2,
-            top: top - diameter * 0.4,
-            width: NUT_WIDTH - 2,
-            color: "white",
-            fontSize: NUT_WIDTH * 0.5,
-            fontWeight: "bold",
-            textAlign: "center",
-          }}
-        >
-          {label}
-        </Text>,
+          stringIdx={stringIdx}
+          numStrings={numStrings}
+          screenHeight={screenHeight}
+          diameter={diameter}
+          NUT_WIDTH={NUT_WIDTH}
+          label={label}
+        />,
       );
     }
   }
