@@ -56,7 +56,7 @@ export default function CopedantConfig() {
         const newP = new Pedal();
         newP.name = p.name;
         newP.physicalName = newPhysicalName;
-        newP.changes = E9_PEDAL_CHANGES[newPhysicalName] ?? [];
+        newP.changes = p.changes;
         return newP;
       }),
     );

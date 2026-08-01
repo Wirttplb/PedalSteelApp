@@ -5,7 +5,7 @@ import { Fretboard } from "./fretboard";
 import { convertStrIntervalToInt } from "./notes_utils";
 import { Pedal } from "./pedal";
 
-const CHORD_FORMULAS: Record<string, string[]> = {
+export const CHORD_FORMULAS: Record<string, string[]> = {
   M: ["1", "3", "5"],
   m: ["1", "b3", "5"],
   m7: ["1", "b3", "5", "b7"],
@@ -45,19 +45,24 @@ export class ChordGenerator {
 
   generateVoicings(formula: string[], key: string, maxPedals = 7): Voicing[] {
     const formulaAsInt = formula.map(convertStrIntervalToInt);
-    const pedalCombinations = this.fretboard.getAllPedalCombinations(maxPedals);
+    const pedalCombinations = Pedal.getAllPedalCombinations(this.fretboard.pedals, maxPedals);
     const voicings: Voicing[] = [];
 
     for (let fret = 0; fret < 12; fret++) {
       for (const pedalCombination of pedalCombinations) {
-        const pedalsToApply: Pedal[] = pedalCombination.map(Pedal.initFromName);
+        // pedalCombination is an array of user-defined names, look up Pedal objects
+        const pedalsToApply: Pedal[] = pedalCombination
+          .map((name) => this.fretboard.pedals.find((p) => p.name === name))
+          .filter((p): p is Pedal => p !== undefined);
         const intervalsAtFret = this.fretboard.getIntervalsAtFret(fret, pedalsToApply, key);
 
         const chordNotComplete = formulaAsInt.some((interval) => !intervalsAtFret.includes(interval));
         if (chordNotComplete) continue;
 
         const voicing = new Voicing();
+        // Store user-defined names for backward compatibility
         voicing.pedals = pedalCombination;
+        voicing.pedalObjects = pedalsToApply;
         voicing.notes = [...intervalsAtFret];
 
         for (let i = 0; i < voicing.notes.length; i++) {

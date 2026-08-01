@@ -7,7 +7,7 @@ import {
     convertStrNotesToInt,
     getScaleAsIntegers,
 } from "./notes_utils";
-import { E9_PEDAL_CHANGES, Pedal } from "./pedal";
+import { Pedal, STANDARD_E9_PEDAL_CHANGES } from "./pedal";
 import chordsData from "./tests/data/e9_chords_shortlist.json";
 
 export class Fretboard {
@@ -32,7 +32,7 @@ export class Fretboard {
 
   static initAsPedalSteelE9(): Fretboard {
     const fretboard = Fretboard.initFromTuning(["B", "D", "E", "F#", "G#", "B", "E", "G#", "D#", "F#"]);
-    for (const pedalName of Object.keys(E9_PEDAL_CHANGES)) {
+    for (const pedalName of Object.keys(STANDARD_E9_PEDAL_CHANGES)) {
       fretboard.pedals.push(Pedal.initFromName(pedalName));
     }
     return fretboard;
@@ -113,17 +113,18 @@ export class Fretboard {
   }
 
   getAllPedalCombinations(maxPedals: number = 7): string[][] {
-    return Pedal.getAllPedalCombinations(this.getPedalsAsStr(), maxPedals);
+    return Pedal.getAllPedalCombinations(this.pedals, maxPedals);
   }
 
   getIntervalsAtFret(fret: number, pedals: Pedal[], key = "E"): number[] {
     const keyInt = convertStrNoteToInt(key);
     const intervals = this.tuning.map((note) => (note + fret - keyInt + 12) % 12);
 
-    const pedalNames = this.getPedalsAsStr();
+    const physicalNames = this.pedals.map((p) => p.physicalName);
     for (const pedal of pedals) {
-      if (!pedalNames.includes(pedal.name)) {
-        throw new Error("Invalid pedal");
+      // Validate using physical names
+      if (!physicalNames.includes(pedal.physicalName)) {
+        continue; // Skip unknown physical pedals
       }
 
       for (const [stringIndex, shift] of pedal.changes) {
@@ -170,7 +171,7 @@ export class Fretboard {
   ): { fretboardData: (string | null)[][]; pedals: Pedal[] } {
     // load chords data (everything in E in the file)
     let data = chordsData as ChordsFile;
-    const chords = importE9ChordsFromJson(data);
+    const chords = importE9ChordsFromJson(data, this.pedals);
 
     const chord = chords.find((chord) => chord.name === chordType);
 
@@ -181,7 +182,7 @@ export class Fretboard {
 
       const voicing = chord.voicings[voicingIdx];
       const fretboardDataAsInts = this.generateVoicing(voicing, selectedKey);
-      const pedals = voicing.pedals.map((name) => Pedal.initFromName(name));
+      const pedals = voicing.pedalObjects; // Use Pedal objects
       const fretboardData = Fretboard.convertFretboardScaleToIntervals(selectedKey, fretboardDataAsInts, pedals);
       return { fretboardData, pedals };
     } else {

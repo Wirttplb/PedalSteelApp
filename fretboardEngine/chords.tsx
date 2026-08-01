@@ -1,30 +1,39 @@
-import { convertIntIntervalToStr, convertStrNoteToInt, MUTED_STRING_CHAR } from './notes_utils';
-import { Pedal } from './pedal';
+import { convertIntIntervalToStr, convertStrNoteToInt, MUTED_STRING_CHAR } from "./notes_utils";
+import { Pedal } from "./pedal";
 
 export class Voicing {
-  pedals: string[] = [];
+  pedals: string[] = []; // User-defined pedal names (for backward compatibility with tests)
+  pedalObjects: Pedal[] = []; // Pedal objects for internal use
   notes: (number | null)[] = [];
-  intervals: (string | null)[] = []
+  intervals: (string | null)[] = [];
 
   constructor() {
     this.pedals = [];
+    this.pedalObjects = [];
     this.notes = [];
   }
 
-  static fromE9Json(voicingJson: { pedals: string[]; notes: string[]; intervals: string[] }): Voicing {
+  static fromE9Json(
+    voicingJson: { pedals: string[]; notes: string[]; intervals: string[] },
+    allPedals: Pedal[],
+  ): Voicing {
     const voicing = new Voicing();
+    // Look up Pedal objects by user-defined name
     voicing.pedals = voicingJson.pedals;
-    voicing.notes = voicingJson.notes.map(jsonNote =>
-      jsonNote !== MUTED_STRING_CHAR ? parseInt(jsonNote, 10) : null
+    voicing.pedalObjects = voicingJson.pedals
+      .map((name) => allPedals.find((p) => p.name === name))
+      .filter((p): p is Pedal => p !== undefined);
+    voicing.notes = voicingJson.notes.map((jsonNote) =>
+      jsonNote !== MUTED_STRING_CHAR ? parseInt(jsonNote, 10) : null,
     );
-    voicing.intervals = voicingJson.intervals.map(jsonInterval =>
-      jsonInterval !== MUTED_STRING_CHAR ? jsonInterval : null
+    voicing.intervals = voicingJson.intervals.map((jsonInterval) =>
+      jsonInterval !== MUTED_STRING_CHAR ? jsonInterval : null,
     );
     return voicing;
   }
 
   getNumberOfNotes(): number {
-    const count = this.notes.reduce((count, note) => (note !== null && count != null) ? count + 1 : count, 0);
+    const count = this.notes.reduce((count, note) => (note !== null && count != null ? count + 1 : count), 0);
     return count !== null ? count : 0;
   }
 
@@ -47,7 +56,7 @@ export class Voicing {
   }
 
   isPartOfOtherVoicings(others: Voicing[]): boolean {
-    return others.some(other => other !== this && this.isPartOfOtherVoicing(other));
+    return others.some((other) => other !== this && this.isPartOfOtherVoicing(other));
   }
 }
 
@@ -65,7 +74,7 @@ export class Chord {
   toJson(tuning: number[]): any {
     const jsonDict: any = {
       name: this.name,
-      voicings: []
+      voicings: [],
     };
 
     const keyAsInt = convertStrNoteToInt(this.key);
@@ -73,16 +82,13 @@ export class Chord {
     for (const voicing of this.voicings) {
       const voicingDict: any = {
         pedals: voicing.pedals,
-        notes: voicing.notes.map(note => note !== null ? note : MUTED_STRING_CHAR),
-        intervals: voicing.notes.map((note, i) => 
-          note !== null ? (note + tuning[i] - keyAsInt + 12) % 12 : null
-        )
+        pedalPhysicalNames: voicing.pedalObjects.map((p) => p.physicalName),
+        notes: voicing.notes.map((note) => (note !== null ? note : MUTED_STRING_CHAR)),
+        intervals: voicing.notes.map((note, i) => (note !== null ? (note + tuning[i] - keyAsInt + 12) % 12 : null)),
       };
 
-      // Apply pedal change
-      for (const pedal of voicing.pedals) {
-        const pedalObj = Pedal.initFromName(pedal);
-
+      // Apply pedal change - use Pedal objects directly
+      for (const pedalObj of voicing.pedalObjects) {
         for (let i = 0; i < voicingDict.intervals.length; i++) {
           for (const change of pedalObj.changes) {
             if (change[0] === i && voicingDict.intervals[i] !== null) {
@@ -93,7 +99,7 @@ export class Chord {
       }
 
       voicingDict.intervals = voicingDict.intervals.map((interval: number | null) =>
-        interval !== null ? convertIntIntervalToStr(interval) : MUTED_STRING_CHAR
+        interval !== null ? convertIntIntervalToStr(interval) : MUTED_STRING_CHAR,
       );
 
       jsonDict.voicings.push(voicingDict);
@@ -104,7 +110,7 @@ export class Chord {
 
   static listToJson(chords: Record<string, Chord>, tuning: number[]): any {
     return {
-      chords: Object.values(chords).map(chord => chord.toJson(tuning))
+      chords: Object.values(chords).map((chord) => chord.toJson(tuning)),
     };
   }
 }

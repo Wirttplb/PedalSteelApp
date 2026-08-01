@@ -9,6 +9,14 @@ import { useKey } from "./keyContext";
 
 export default function SettingsScreen() {
   const router = useRouter();
+
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/");
+    }
+  };
   const {
     selectedKey,
     setSelectedKey,
@@ -41,7 +49,7 @@ export default function SettingsScreen() {
         chordsGeneratedDynamically={chordsGeneratedDynamically}
       />
       <View style={styles.overlay} pointerEvents="none" />
-      <Pressable onPress={() => router.back()} style={styles.backButton}>
+      <Pressable onPress={handleBack} style={styles.backButton}>
         {<Entypo name="back" size={24} color="white" />}
       </Pressable>
 

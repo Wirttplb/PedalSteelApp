@@ -21,6 +21,7 @@
       "voicings": [
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             0,
             0,

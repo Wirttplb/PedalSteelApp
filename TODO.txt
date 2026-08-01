@@ -3,3 +3,16 @@ Persistent settings.
 Dynamically generated chords.
 
 Enable/Disable pedals (not delete) for chord generation.
+
+
+      //   if (
+      //     combo.length > maxPedals ||
+      //     // these combinations are impossible with my setup
+      //     (has("A") && has("A/2")) ||
+      //     (has("D") && has("D/2")) ||
+      //     ((has("A") || has("A/2")) && has("C")) ||
+      //     (has("E") && has("F")) ||
+      //     ((has("D") || has("D/2")) && has("G"))
+      //   ) {
+      //     toDelete.push(i);
+      //   }

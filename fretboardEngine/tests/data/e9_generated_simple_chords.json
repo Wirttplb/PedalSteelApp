@@ -5,6 +5,7 @@
       "voicings": [
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             0,
             0,
@@ -34,6 +35,9 @@
           "pedals": [
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "LKL"
+          ],
           "notes": [
             0,
             0,
@@ -62,6 +66,10 @@
         {
           "pedals": [
             "A/2",
+            "B"
+          ],
+          "pedalPhysicalNames": [
+            "A",
             "B"
           ],
           "notes": [
@@ -94,6 +102,10 @@
             "F",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKL"
+          ],
           "notes": [
             3,
             3,
@@ -123,6 +135,9 @@
           "pedals": [
             "B"
           ],
+          "pedalPhysicalNames": [
+            "B"
+          ],
           "notes": [
             5,
             "x",
@@ -150,6 +165,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -183,6 +202,10 @@
             "B",
             "E"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "RKL"
+          ],
           "notes": [
             5,
             "x",
@@ -212,6 +235,9 @@
           "pedals": [
             "A/2"
           ],
+          "pedalPhysicalNames": [
+            "A"
+          ],
           "notes": [
             8,
             "x",
@@ -240,7 +266,45 @@
         {
           "pedals": [
             "A/2",
+            "C"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "C"
+          ],
+          "notes": [
+            8,
+            "x",
+            "x",
+            8,
+            8,
+            "x",
+            8,
+            8,
+            8,
+            8
+          ],
+          "intervals": [
+            "3",
+            "x",
+            "x",
+            "b7",
+            "1",
+            "x",
+            "b7",
+            "1",
+            "5",
+            "b7"
+          ]
+        },
+        {
+          "pedals": [
+            "A/2",
             "E"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKL"
           ],
           "notes": [
             8,
@@ -271,6 +335,10 @@
           "pedals": [
             "F",
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKR"
           ],
           "notes": [
             9,
@@ -304,6 +372,7 @@
       "voicings": [
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             0,
             0,
@@ -331,6 +400,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -362,6 +434,9 @@
           "pedals": [
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "LKL"
+          ],
           "notes": [
             0,
             0,
@@ -392,6 +467,10 @@
             "C",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
+          ],
           "notes": [
             0,
             0,
@@ -420,6 +499,10 @@
         {
           "pedals": [
             "A/2",
+            "B"
+          ],
+          "pedalPhysicalNames": [
+            "A",
             "B"
           ],
           "notes": [
@@ -452,6 +535,10 @@
             "C",
             "E"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "RKL"
+          ],
           "notes": [
             3,
             "x",
@@ -482,6 +569,10 @@
             "C",
             "F"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "RKR"
+          ],
           "notes": [
             3,
             "x",
@@ -509,6 +600,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -552,6 +647,7 @@
       "voicings": [
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             0,
             "x",
@@ -579,6 +675,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -612,6 +712,10 @@
             "B",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
+          ],
           "notes": [
             "x",
             2,
@@ -641,6 +745,10 @@
           "pedals": [
             "A",
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKR"
           ],
           "notes": [
             3,
@@ -672,6 +780,10 @@
             "F",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKL"
+          ],
           "notes": [
             "x",
             3,
@@ -702,6 +814,10 @@
             "A/2",
             "G"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKR"
+          ],
           "notes": [
             4,
             "x",
@@ -731,6 +847,9 @@
           "pedals": [
             "E"
           ],
+          "pedalPhysicalNames": [
+            "RKL"
+          ],
           "notes": [
             5,
             "x",
@@ -758,6 +877,10 @@
         },
         {
           "pedals": [
+            "A",
+            "B"
+          ],
+          "pedalPhysicalNames": [
             "A",
             "B"
           ],
@@ -791,6 +914,10 @@
             "B",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
+          ],
           "notes": [
             "x",
             7,
@@ -820,6 +947,10 @@
           "pedals": [
             "A/2",
             "E"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKL"
           ],
           "notes": [
             8,
@@ -855,6 +986,9 @@
           "pedals": [
             "G"
           ],
+          "pedalPhysicalNames": [
+            "LKR"
+          ],
           "notes": [
             0,
             "x",
@@ -882,6 +1016,9 @@
         },
         {
           "pedals": [
+            "A"
+          ],
+          "pedalPhysicalNames": [
             "A"
           ],
           "notes": [
@@ -913,6 +1050,9 @@
           "pedals": [
             "D"
           ],
+          "pedalPhysicalNames": [
+            "LKL"
+          ],
           "notes": [
             "x",
             3,
@@ -943,6 +1083,10 @@
             "A",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKL"
+          ],
           "notes": [
             3,
             3,
@@ -973,6 +1117,10 @@
             "C",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
+          ],
           "notes": [
             "x",
             3,
@@ -1001,6 +1149,9 @@
         {
           "pedals": [
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "LKL"
           ],
           "notes": [
             5,
@@ -1031,6 +1182,10 @@
           "pedals": [
             "C",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
           ],
           "notes": [
             5,
@@ -1062,6 +1217,10 @@
             "A/2",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             7,
             "x",
@@ -1091,6 +1250,9 @@
           "pedals": [
             "E"
           ],
+          "pedalPhysicalNames": [
+            "RKL"
+          ],
           "notes": [
             8,
             "x",
@@ -1118,6 +1280,10 @@
         },
         {
           "pedals": [
+            "A",
+            "B"
+          ],
+          "pedalPhysicalNames": [
             "A",
             "B"
           ],
@@ -1151,6 +1317,10 @@
             "B",
             "C"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "C"
+          ],
           "notes": [
             "x",
             "x",
@@ -1181,6 +1351,10 @@
             "B",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
+          ],
           "notes": [
             "x",
             10,
@@ -1210,6 +1384,10 @@
           "pedals": [
             "A/2",
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKR"
           ],
           "notes": [
             11,
@@ -1245,6 +1423,9 @@
           "pedals": [
             "G"
           ],
+          "pedalPhysicalNames": [
+            "LKR"
+          ],
           "notes": [
             0,
             0,
@@ -1273,6 +1454,9 @@
         {
           "pedals": [
             "D"
+          ],
+          "pedalPhysicalNames": [
+            "LKL"
           ],
           "notes": [
             3,
@@ -1304,6 +1488,10 @@
             "C",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
+          ],
           "notes": [
             3,
             3,
@@ -1333,6 +1521,9 @@
           "pedals": [
             "B"
           ],
+          "pedalPhysicalNames": [
+            "B"
+          ],
           "notes": [
             5,
             5,
@@ -1360,6 +1551,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -1393,6 +1588,10 @@
             "B",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
+          ],
           "notes": [
             5,
             5,
@@ -1420,6 +1619,7 @@
         },
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             8,
             "x",
@@ -1447,6 +1647,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -1478,6 +1681,9 @@
           "pedals": [
             "E"
           ],
+          "pedalPhysicalNames": [
+            "RKL"
+          ],
           "notes": [
             8,
             "x",
@@ -1505,6 +1711,10 @@
         },
         {
           "pedals": [
+            "A",
+            "B"
+          ],
+          "pedalPhysicalNames": [
             "A",
             "B"
           ],
@@ -1538,6 +1748,10 @@
             "B",
             "C"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "C"
+          ],
           "notes": [
             "x",
             "x",
@@ -1568,6 +1782,10 @@
             "B",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
+          ],
           "notes": [
             "x",
             10,
@@ -1597,6 +1815,10 @@
           "pedals": [
             "A/2",
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKR"
           ],
           "notes": [
             11,
@@ -1630,6 +1852,7 @@
       "voicings": [
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             0,
             "x",
@@ -1660,6 +1883,10 @@
             "A",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             2,
             2,
@@ -1687,6 +1914,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -1720,6 +1951,10 @@
             "A/2",
             "G"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKR"
+          ],
           "notes": [
             8,
             "x",
@@ -1752,6 +1987,7 @@
       "voicings": [
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             0,
             "x",
@@ -1781,6 +2017,10 @@
           "pedals": [
             "B",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
           ],
           "notes": [
             "x",
@@ -1812,6 +2052,10 @@
             "A",
             "E"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKL"
+          ],
           "notes": [
             3,
             "x",
@@ -1842,6 +2086,10 @@
             "E",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "RKL",
+            "LKL"
+          ],
           "notes": [
             "x",
             3,
@@ -1870,6 +2118,9 @@
         {
           "pedals": [
             "D"
+          ],
+          "pedalPhysicalNames": [
+            "LKL"
           ],
           "notes": [
             5,
@@ -1901,6 +2152,10 @@
             "C",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
+          ],
           "notes": [
             5,
             5,
@@ -1928,6 +2183,9 @@
         },
         {
           "pedals": [
+            "B"
+          ],
+          "pedalPhysicalNames": [
             "B"
           ],
           "notes": [
@@ -1959,6 +2217,9 @@
           "pedals": [
             "A"
           ],
+          "pedalPhysicalNames": [
+            "A"
+          ],
           "notes": [
             10,
             "x",
@@ -1986,6 +2247,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -2017,6 +2281,9 @@
           "pedals": [
             "D"
           ],
+          "pedalPhysicalNames": [
+            "LKL"
+          ],
           "notes": [
             "x",
             10,
@@ -2045,7 +2312,45 @@
         {
           "pedals": [
             "A",
+            "C"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "C"
+          ],
+          "notes": [
+            10,
+            "x",
+            "x",
+            10,
+            10,
+            "x",
+            10,
+            10,
+            "x",
+            10
+          ],
+          "intervals": [
+            "5",
+            "x",
+            "x",
+            "1",
+            "2",
+            "x",
+            "1",
+            "2",
+            "x",
+            "1"
+          ]
+        },
+        {
+          "pedals": [
+            "A",
             "D"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKL"
           ],
           "notes": [
             10,
@@ -2076,6 +2381,10 @@
           "pedals": [
             "C",
             "D"
+          ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
           ],
           "notes": [
             "x",
@@ -2111,6 +2420,9 @@
           "pedals": [
             "B"
           ],
+          "pedalPhysicalNames": [
+            "B"
+          ],
           "notes": [
             0,
             "x",
@@ -2138,6 +2450,9 @@
         },
         {
           "pedals": [
+            "A"
+          ],
+          "pedalPhysicalNames": [
             "A"
           ],
           "notes": [
@@ -2169,6 +2484,9 @@
           "pedals": [
             "C"
           ],
+          "pedalPhysicalNames": [
+            "C"
+          ],
           "notes": [
             "x",
             "x",
@@ -2197,6 +2515,9 @@
         {
           "pedals": [
             "D"
+          ],
+          "pedalPhysicalNames": [
+            "LKL"
           ],
           "notes": [
             "x",
@@ -2226,7 +2547,45 @@
         {
           "pedals": [
             "A",
+            "C"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "C"
+          ],
+          "notes": [
+            3,
+            "x",
+            "x",
+            3,
+            3,
+            "x",
+            3,
+            3,
+            "x",
+            3
+          ],
+          "intervals": [
+            "1",
+            "x",
+            "x",
+            "4",
+            "5",
+            "x",
+            "4",
+            "5",
+            "x",
+            "4"
+          ]
+        },
+        {
+          "pedals": [
+            "A",
             "D"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKL"
           ],
           "notes": [
             3,
@@ -2258,6 +2617,10 @@
             "C",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
+          ],
           "notes": [
             "x",
             3,
@@ -2285,6 +2648,7 @@
         },
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             5,
             "x",
@@ -2314,6 +2678,10 @@
           "pedals": [
             "B",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
           ],
           "notes": [
             "x",
@@ -2345,6 +2713,10 @@
             "A",
             "E"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKL"
+          ],
           "notes": [
             8,
             "x",
@@ -2375,6 +2747,10 @@
             "E",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "RKL",
+            "LKL"
+          ],
           "notes": [
             "x",
             8,
@@ -2403,6 +2779,9 @@
         {
           "pedals": [
             "D"
+          ],
+          "pedalPhysicalNames": [
+            "LKL"
           ],
           "notes": [
             10,
@@ -2433,6 +2812,10 @@
           "pedals": [
             "C",
             "D"
+          ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
           ],
           "notes": [
             10,
@@ -2466,6 +2849,7 @@
       "voicings": [
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             0,
             "x",
@@ -2493,6 +2877,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -2524,6 +2911,9 @@
           "pedals": [
             "B"
           ],
+          "pedalPhysicalNames": [
+            "B"
+          ],
           "notes": [
             "x",
             2,
@@ -2551,6 +2941,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -2584,6 +2978,10 @@
             "B",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
+          ],
           "notes": [
             "x",
             2,
@@ -2613,6 +3011,10 @@
           "pedals": [
             "A",
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKR"
           ],
           "notes": [
             3,
@@ -2644,6 +3046,10 @@
             "C",
             "E"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "RKL"
+          ],
           "notes": [
             "x",
             "x",
@@ -2674,6 +3080,10 @@
             "A/2",
             "G"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKR"
+          ],
           "notes": [
             4,
             4,
@@ -2701,6 +3111,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -2733,6 +3146,10 @@
             "C",
             "E"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "RKL"
+          ],
           "notes": [
             5,
             "x",
@@ -2763,6 +3180,10 @@
             "E",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "RKL",
+            "LKL"
+          ],
           "notes": [
             5,
             5,
@@ -2793,6 +3214,10 @@
             "B",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
+          ],
           "notes": [
             7,
             7,
@@ -2822,6 +3247,10 @@
           "pedals": [
             "B",
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKR"
           ],
           "notes": [
             9,
@@ -2857,6 +3286,9 @@
           "pedals": [
             "A"
           ],
+          "pedalPhysicalNames": [
+            "A"
+          ],
           "notes": [
             3,
             "x",
@@ -2884,8 +3316,46 @@
         },
         {
           "pedals": [
+            "A",
+            "C"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "C"
+          ],
+          "notes": [
+            3,
+            "x",
+            3,
+            "x",
+            3,
+            3,
+            "x",
+            3,
+            3,
+            "x"
+          ],
+          "intervals": [
+            "1",
+            "x",
+            "b3",
+            "x",
+            "5",
+            "2",
+            "x",
+            "5",
+            "2",
+            "x"
+          ]
+        },
+        {
+          "pedals": [
             "A/2",
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKR"
           ],
           "notes": [
             4,
@@ -2914,6 +3384,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -2945,6 +3418,10 @@
           "pedals": [
             "C",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
           ],
           "notes": [
             5,
@@ -2980,6 +3457,9 @@
           "pedals": [
             "D"
           ],
+          "pedalPhysicalNames": [
+            "LKL"
+          ],
           "notes": [
             0,
             0,
@@ -3010,6 +3490,10 @@
             "C",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
+          ],
           "notes": [
             0,
             0,
@@ -3039,6 +3523,9 @@
           "pedals": [
             "B"
           ],
+          "pedalPhysicalNames": [
+            "B"
+          ],
           "notes": [
             2,
             2,
@@ -3066,6 +3553,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -3099,6 +3590,10 @@
             "B",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
+          ],
           "notes": [
             2,
             2,
@@ -3126,6 +3621,7 @@
         },
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             5,
             "x",
@@ -3153,6 +3649,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -3184,6 +3683,9 @@
           "pedals": [
             "E"
           ],
+          "pedalPhysicalNames": [
+            "RKL"
+          ],
           "notes": [
             5,
             "x",
@@ -3211,6 +3713,10 @@
         },
         {
           "pedals": [
+            "A",
+            "B"
+          ],
+          "pedalPhysicalNames": [
             "A",
             "B"
           ],
@@ -3244,6 +3750,10 @@
             "B",
             "C"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "C"
+          ],
           "notes": [
             "x",
             "x",
@@ -3273,6 +3783,10 @@
           "pedals": [
             "B",
             "D"
+          ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
           ],
           "notes": [
             "x",
@@ -3304,6 +3818,10 @@
             "A/2",
             "F"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKR"
+          ],
           "notes": [
             8,
             "x",
@@ -3332,6 +3850,9 @@
         {
           "pedals": [
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "LKR"
           ],
           "notes": [
             9,
@@ -3367,6 +3888,9 @@
           "pedals": [
             "A/2"
           ],
+          "pedalPhysicalNames": [
+            "A"
+          ],
           "notes": [
             0,
             "x",
@@ -3396,6 +3920,10 @@
           "pedals": [
             "E",
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "RKL",
+            "LKR"
           ],
           "notes": [
             1,
@@ -3426,6 +3954,9 @@
           "pedals": [
             "A/2"
           ],
+          "pedalPhysicalNames": [
+            "A"
+          ],
           "notes": [
             4,
             "x",
@@ -3455,6 +3986,10 @@
           "pedals": [
             "E",
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "RKL",
+            "LKR"
           ],
           "notes": [
             5,
@@ -3485,6 +4020,9 @@
           "pedals": [
             "A/2"
           ],
+          "pedalPhysicalNames": [
+            "A"
+          ],
           "notes": [
             8,
             "x",
@@ -3514,6 +4052,10 @@
           "pedals": [
             "E",
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "RKL",
+            "LKR"
           ],
           "notes": [
             9,
@@ -3550,6 +4092,10 @@
             "B",
             "C"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "C"
+          ],
           "notes": [
             "x",
             "x",
@@ -3580,6 +4126,10 @@
             "B",
             "E"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "RKL"
+          ],
           "notes": [
             "x",
             "x",
@@ -3609,6 +4159,10 @@
           "pedals": [
             "F",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKL"
           ],
           "notes": [
             "x",
@@ -3640,6 +4194,10 @@
             "A",
             "G"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKR"
+          ],
           "notes": [
             3,
             "x",
@@ -3669,6 +4227,10 @@
           "pedals": [
             "A/2",
             "E"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKL"
           ],
           "notes": [
             4,
@@ -3700,6 +4262,10 @@
             "F",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKL"
+          ],
           "notes": [
             5,
             5,
@@ -3728,6 +4294,9 @@
         {
           "pedals": [
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "LKL"
           ],
           "notes": [
             8,
@@ -3759,6 +4328,10 @@
             "A/2",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             10,
             "x",
@@ -3787,6 +4360,9 @@
         {
           "pedals": [
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "RKR"
           ],
           "notes": [
             11,
@@ -3822,6 +4398,9 @@
           "pedals": [
             "C"
           ],
+          "pedalPhysicalNames": [
+            "C"
+          ],
           "notes": [
             "x",
             2,
@@ -3851,6 +4430,9 @@
           "pedals": [
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "LKL"
+          ],
           "notes": [
             "x",
             2,
@@ -3873,6 +4455,40 @@
             "x",
             "b5",
             "1",
+            "3"
+          ]
+        },
+        {
+          "pedals": [
+            "A/2",
+            "C"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "C"
+          ],
+          "notes": [
+            "x",
+            2,
+            "x",
+            2,
+            2,
+            2,
+            2,
+            2,
+            "x",
+            2
+          ],
+          "intervals": [
+            "x",
+            "1",
+            "x",
+            "3",
+            "b5",
+            "1",
+            "3",
+            "b5",
+            "x",
             "3"
           ]
         },
@@ -3880,6 +4496,10 @@
           "pedals": [
             "C",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
           ],
           "notes": [
             "x",
@@ -3909,6 +4529,9 @@
         {
           "pedals": [
             "A/2"
+          ],
+          "pedalPhysicalNames": [
+            "A"
           ],
           "notes": [
             4,
@@ -3940,6 +4563,10 @@
             "A/2",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKL"
+          ],
           "notes": [
             8,
             8,
@@ -3969,6 +4596,10 @@
           "pedals": [
             "B",
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "B",
+            "RKR"
           ],
           "notes": [
             11,
@@ -4005,6 +4636,10 @@
             "A",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             1,
             "x",
@@ -4032,6 +4667,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -4065,6 +4704,10 @@
             "A/2",
             "F"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKR"
+          ],
           "notes": [
             2,
             2,
@@ -4095,6 +4738,10 @@
             "B",
             "F"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "RKR"
+          ],
           "notes": [
             5,
             5,
@@ -4122,6 +4769,7 @@
         },
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             8,
             8,
@@ -4149,6 +4797,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -4180,6 +4831,9 @@
           "pedals": [
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "LKL"
+          ],
           "notes": [
             8,
             8,
@@ -4209,6 +4863,10 @@
           "pedals": [
             "C",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
           ],
           "notes": [
             8,
@@ -4240,6 +4898,10 @@
             "A/2",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             10,
             "x",
@@ -4268,6 +4930,9 @@
         {
           "pedals": [
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "RKR"
           ],
           "notes": [
             11,
@@ -4298,6 +4963,10 @@
           "pedals": [
             "C",
             "E"
+          ],
+          "pedalPhysicalNames": [
+            "C",
+            "RKL"
           ],
           "notes": [
             11,
@@ -4334,6 +5003,10 @@
             "A/2",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             1,
             "x",
@@ -4362,6 +5035,9 @@
         {
           "pedals": [
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "RKR"
           ],
           "notes": [
             2,
@@ -4393,6 +5069,10 @@
             "F",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKL"
+          ],
           "notes": [
             2,
             2,
@@ -4421,6 +5101,10 @@
         {
           "pedals": [
             "A/2",
+            "B"
+          ],
+          "pedalPhysicalNames": [
+            "A",
             "B"
           ],
           "notes": [
@@ -4452,6 +5136,9 @@
           "pedals": [
             "F"
           ],
+          "pedalPhysicalNames": [
+            "RKR"
+          ],
           "notes": [
             5,
             5,
@@ -4482,6 +5169,10 @@
             "F",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKL"
+          ],
           "notes": [
             5,
             5,
@@ -4510,6 +5201,10 @@
         {
           "pedals": [
             "A/2",
+            "B"
+          ],
+          "pedalPhysicalNames": [
+            "A",
             "B"
           ],
           "notes": [
@@ -4541,6 +5236,9 @@
           "pedals": [
             "F"
           ],
+          "pedalPhysicalNames": [
+            "RKR"
+          ],
           "notes": [
             8,
             8,
@@ -4570,6 +5268,10 @@
           "pedals": [
             "F",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKL"
           ],
           "notes": [
             8,
@@ -4601,6 +5303,10 @@
             "A/2",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             10,
             "x",
@@ -4629,6 +5335,9 @@
         {
           "pedals": [
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "RKR"
           ],
           "notes": [
             11,
@@ -4659,6 +5368,10 @@
           "pedals": [
             "F",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKL"
           ],
           "notes": [
             11,
@@ -4694,6 +5407,9 @@
           "pedals": [
             "C"
           ],
+          "pedalPhysicalNames": [
+            "C"
+          ],
           "notes": [
             0,
             "x",
@@ -4722,6 +5438,9 @@
         {
           "pedals": [
             "D"
+          ],
+          "pedalPhysicalNames": [
+            "LKL"
           ],
           "notes": [
             0,
@@ -4753,6 +5472,10 @@
             "C",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
+          ],
           "notes": [
             0,
             0,
@@ -4782,6 +5505,9 @@
           "pedals": [
             "B"
           ],
+          "pedalPhysicalNames": [
+            "B"
+          ],
           "notes": [
             2,
             2,
@@ -4809,6 +5535,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -4842,6 +5572,10 @@
             "B",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
+          ],
           "notes": [
             2,
             2,
@@ -4869,6 +5603,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -4901,6 +5638,10 @@
             "C",
             "E"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "RKL"
+          ],
           "notes": [
             5,
             "x",
@@ -4931,6 +5672,10 @@
             "E",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "RKL",
+            "LKL"
+          ],
           "notes": [
             5,
             5,
@@ -4958,6 +5703,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -4991,6 +5740,10 @@
             "B",
             "D"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKL"
+          ],
           "notes": [
             7,
             7,
@@ -5020,6 +5773,10 @@
           "pedals": [
             "B",
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKR"
           ],
           "notes": [
             9,
@@ -5055,6 +5812,9 @@
           "pedals": [
             "C"
           ],
+          "pedalPhysicalNames": [
+            "C"
+          ],
           "notes": [
             0,
             "x",
@@ -5082,6 +5842,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -5114,6 +5878,10 @@
           "pedals": [
             "C",
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKR"
           ],
           "notes": [
             9,
@@ -5150,6 +5918,10 @@
             "A/2",
             "G"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKR"
+          ],
           "notes": [
             4,
             "x",
@@ -5177,6 +5949,7 @@
         },
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             8,
             "x",
@@ -5207,6 +5980,10 @@
             "A",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             10,
             10,
@@ -5234,6 +6011,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -5272,6 +6053,10 @@
             "B",
             "F"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "RKR"
+          ],
           "notes": [
             2,
             2,
@@ -5299,6 +6084,7 @@
         },
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             5,
             5,
@@ -5326,6 +6112,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -5357,6 +6146,9 @@
           "pedals": [
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "LKL"
+          ],
           "notes": [
             5,
             5,
@@ -5386,6 +6178,10 @@
           "pedals": [
             "C",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
           ],
           "notes": [
             5,
@@ -5417,6 +6213,10 @@
             "A/2",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             7,
             "x",
@@ -5445,6 +6245,9 @@
         {
           "pedals": [
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "RKR"
           ],
           "notes": [
             8,
@@ -5476,6 +6279,10 @@
             "C",
             "E"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "RKL"
+          ],
           "notes": [
             8,
             "x",
@@ -5503,6 +6310,10 @@
         },
         {
           "pedals": [
+            "A",
+            "B"
+          ],
+          "pedalPhysicalNames": [
             "A",
             "B"
           ],
@@ -5536,6 +6347,10 @@
             "B",
             "C"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "C"
+          ],
           "notes": [
             "x",
             "x",
@@ -5565,6 +6380,10 @@
           "pedals": [
             "A/2",
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKR"
           ],
           "notes": [
             11,
@@ -5598,6 +6417,7 @@
       "voicings": [
         {
           "pedals": [],
+          "pedalPhysicalNames": [],
           "notes": [
             0,
             "x",
@@ -5625,6 +6445,9 @@
         },
         {
           "pedals": [
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "C"
           ],
           "notes": [
@@ -5657,6 +6480,10 @@
             "A",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             2,
             2,
@@ -5684,6 +6511,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -5721,6 +6552,9 @@
           "pedals": [
             "C"
           ],
+          "pedalPhysicalNames": [
+            "C"
+          ],
           "notes": [
             3,
             3,
@@ -5751,6 +6585,10 @@
             "C",
             "D/2"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKL"
+          ],
           "notes": [
             3,
             3,
@@ -5780,6 +6618,10 @@
           "pedals": [
             "A/2",
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "RKR"
           ],
           "notes": [
             11,
@@ -5816,6 +6658,10 @@
             "C",
             "G"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "LKR"
+          ],
           "notes": [
             0,
             0,
@@ -5845,6 +6691,9 @@
           "pedals": [
             "C"
           ],
+          "pedalPhysicalNames": [
+            "C"
+          ],
           "notes": [
             3,
             "x",
@@ -5872,6 +6721,10 @@
         },
         {
           "pedals": [
+            "B",
+            "C"
+          ],
+          "pedalPhysicalNames": [
             "B",
             "C"
           ],
@@ -5910,6 +6763,10 @@
             "A/2",
             "B"
           ],
+          "pedalPhysicalNames": [
+            "A",
+            "B"
+          ],
           "notes": [
             2,
             2,
@@ -5940,6 +6797,10 @@
             "C",
             "E"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "RKL"
+          ],
           "notes": [
             3,
             3,
@@ -5970,6 +6831,10 @@
             "C",
             "F"
           ],
+          "pedalPhysicalNames": [
+            "C",
+            "RKR"
+          ],
           "notes": [
             3,
             3,
@@ -5999,6 +6864,10 @@
           "pedals": [
             "C",
             "F"
+          ],
+          "pedalPhysicalNames": [
+            "C",
+            "RKR"
           ],
           "notes": [
             9,
@@ -6029,6 +6898,10 @@
           "pedals": [
             "F",
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKR"
           ],
           "notes": [
             9,
@@ -6064,6 +6937,9 @@
           "pedals": [
             "G"
           ],
+          "pedalPhysicalNames": [
+            "LKR"
+          ],
           "notes": [
             0,
             0,
@@ -6091,6 +6967,9 @@
         },
         {
           "pedals": [
+            "B"
+          ],
+          "pedalPhysicalNames": [
             "B"
           ],
           "notes": [
@@ -6123,6 +7002,10 @@
             "B",
             "C"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "C"
+          ],
           "notes": [
             5,
             5,
@@ -6152,6 +7035,10 @@
           "pedals": [
             "B",
             "E"
+          ],
+          "pedalPhysicalNames": [
+            "B",
+            "RKL"
           ],
           "notes": [
             5,
@@ -6188,6 +7075,10 @@
             "B",
             "G"
           ],
+          "pedalPhysicalNames": [
+            "B",
+            "LKR"
+          ],
           "notes": [
             1,
             "x",
@@ -6217,6 +7108,9 @@
           "pedals": [
             "A/2"
           ],
+          "pedalPhysicalNames": [
+            "A"
+          ],
           "notes": [
             4,
             "x",
@@ -6244,8 +7138,46 @@
         },
         {
           "pedals": [
+            "A/2",
+            "C"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "C"
+          ],
+          "notes": [
+            4,
+            "x",
+            4,
+            4,
+            4,
+            "x",
+            4,
+            4,
+            "x",
+            4
+          ],
+          "intervals": [
+            "1",
+            "x",
+            "3",
+            "b5",
+            "b6",
+            "x",
+            "b5",
+            "b6",
+            "x",
+            "b5"
+          ]
+        },
+        {
+          "pedals": [
             "F",
             "G"
+          ],
+          "pedalPhysicalNames": [
+            "RKR",
+            "LKR"
           ],
           "notes": [
             5,
@@ -6276,6 +7208,9 @@
           "pedals": [
             "A/2"
           ],
+          "pedalPhysicalNames": [
+            "A"
+          ],
           "notes": [
             8,
             8,
@@ -6304,7 +7239,45 @@
         {
           "pedals": [
             "A/2",
+            "C"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "C"
+          ],
+          "notes": [
+            8,
+            8,
+            8,
+            "x",
+            8,
+            8,
+            "x",
+            8,
+            "x",
+            "x"
+          ],
+          "intervals": [
+            "3",
+            "b5",
+            "b6",
+            "x",
+            "1",
+            "b5",
+            "x",
+            "1",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "pedals": [
+            "A/2",
             "D/2"
+          ],
+          "pedalPhysicalNames": [
+            "A",
+            "LKL"
           ],
           "notes": [
             8,

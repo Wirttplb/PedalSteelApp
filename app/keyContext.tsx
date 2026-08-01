@@ -1,23 +1,25 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
-import { E9_PEDAL_CHANGES, Pedal } from "../fretboardEngine/pedal";
+import { Pedal, PhysicalPedal, STANDARD_E9_PEDAL_CHANGES } from "../fretboardEngine/pedal";
 
 const STORAGE_KEY = "pedalsteel_settings";
 
-function buildInitialPedals(): Pedal[] {
-  return Object.keys(E9_PEDAL_CHANGES).map((name) => {
+export function buildInitialPedals(): Pedal[] {
+  return Object.keys(STANDARD_E9_PEDAL_CHANGES).map((name) => {
     const p = new Pedal();
     p.name = name;
-    p.changes = E9_PEDAL_CHANGES[name];
+    p.physicalName = name as PhysicalPedal;
+    p.changes = STANDARD_E9_PEDAL_CHANGES[name];
     return p;
   });
 }
 
 function pedalsFromJSON(raw: unknown): Pedal[] {
   if (!Array.isArray(raw)) return buildInitialPedals();
-  return raw.map((item: { name: string; changes: [number, number][] }) => {
+  return raw.map((item: { name: string; physicalName: PhysicalPedal; changes: [number, number][] }) => {
     const p = new Pedal();
     p.name = item.name;
+    p.physicalName = item.physicalName;
     p.changes = item.changes;
     return p;
   });
@@ -88,7 +90,7 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
       chordMode,
       chordType,
       tuning,
-      pedals: pedals.map((p) => ({ name: p.name, changes: p.changes })),
+      pedals: pedals.map((p) => ({ name: p.name, physicalName: p.physicalName, changes: p.changes })),
       intervalsColorCode,
       chordsGeneratedDynamically,
     };
