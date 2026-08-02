@@ -192,7 +192,7 @@ const Neck = ({
   const diameter = (2 * screenWidth) / 70;
 
   let maxIdx = 1;
-  if (chordMode === "Chord") {
+  if (chordMode === "Chord" && tuning === "E9") {
     maxIdx = chordsGeneratedDynamically ? dynamicVoicings.length : 9;
   }
 
@@ -201,7 +201,7 @@ const Neck = ({
     if (chordMode === "Scale") {
       fretboardNotes = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret, activePedals);
     } else if (chordMode === "Chord") {
-      // For Open E and Standard tunings, display chord formula as a scale (only first octave)
+      // For Open E and Standard tunings, display chord formula as a scale
       if (tuning === "Open E" || tuning === "Standard") {
         const formula = CHORD_FORMULAS[chordType];
         if (formula) {
