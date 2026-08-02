@@ -4,13 +4,14 @@ import { PanResponder, Pressable, ScrollView, StyleSheet, Text, TextInput, View 
 import RNPickerSelect from "react-native-picker-select";
 import { buildInitialPedals, useKey } from "../app/keyContext";
 import { Pedal, PHYSICAL_PEDALS, PhysicalPedal } from "../fretboardEngine/pedal";
+import ProfileManager from "./ProfileManager";
 
 const COLUMN_WIDTH = 60;
 
 const PHYSICAL_PEDAL_ITEMS = PHYSICAL_PEDALS.map((p) => ({ label: p, value: p }));
 
 export default function CopedantConfig() {
-  const { tuning, pedals, setPedals } = useKey();
+  const { tuning, pedals, setPedals, profiles, currentProfile, saveProfile, loadProfile, deleteProfile } = useKey();
   const [draggingIdx, setDraggingIdx] = useState<number | null>(null);
   const [dropIdx, setDropIdx] = useState<number | null>(null);
   const draggingRef = useRef<number | null>(null);
@@ -131,6 +132,7 @@ export default function CopedantConfig() {
 
   return (
     <View style={styles.pedalConfigSection}>
+      <Text style={styles.currentProfileName}>{currentProfile ? currentProfile : "—"}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={styles.table}>
           {/* Fixed string label column */}
@@ -226,6 +228,13 @@ export default function CopedantConfig() {
           <Text style={styles.resetButtonText}>Reset</Text>
         </Pressable>
       </View>
+
+      <ProfileManager
+        profiles={profiles}
+        onSaveProfile={saveProfile}
+        onLoadProfile={loadProfile}
+        onDeleteProfile={deleteProfile}
+      />
     </View>
   );
 }
@@ -299,7 +308,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingVertical: 8,
     paddingHorizontal: 20,
-    backgroundColor: "rgba(116, 116, 116, 0.75)",
+    backgroundColor: "rgba(116, 116, 116, 1)",
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#666",
@@ -312,19 +321,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     gap: 10,
-    marginTop: 10,
+    marginTop: 0,
   },
   resetButton: {
     marginTop: 10,
     paddingVertical: 8,
     paddingHorizontal: 20,
-    backgroundColor: "#ac89574d",
+    backgroundColor: "#ac8957",
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#fa990f",
   },
   resetButtonText: {
-    color: "#fa990f",
+    color: "white",
     fontSize: 14,
   },
   pedalLabelInput: {
@@ -338,5 +347,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 14,
     fontWeight: "bold",
+  },
+  currentProfileName: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 20,
+    fontStyle: "italic",
   },
 });

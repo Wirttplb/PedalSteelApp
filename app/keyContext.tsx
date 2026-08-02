@@ -1,6 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { Pedal, PhysicalPedal, STANDARD_E9_PEDAL_CHANGES } from "../fretboardEngine/pedal";
+import { CopedantProfile } from "./profiles";
+import { useProfiles } from "./useProfiles";
 
 const STORAGE_KEY = "pedalsteel_settings";
 
@@ -63,6 +65,13 @@ type KeyContextType = {
   setShowPedalChangeLabels: (v: boolean) => void;
   showPedalNameLabels: boolean;
   setShowPedalNameLabels: (v: boolean) => void;
+  // Profile management
+  profiles: CopedantProfile[];
+  currentProfile: string | null;
+  setCurrentProfile: (name: string | null) => void;
+  saveProfile: (name: string) => Promise<void>;
+  loadProfile: (profileName: string) => Promise<void>;
+  deleteProfile: (profileName: string) => Promise<void>;
 };
 
 const KeyContext = createContext<KeyContextType | undefined>(undefined);
@@ -80,6 +89,9 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
   const [chordsGeneratedDynamically, setChordsGeneratedDynamically] = useState(false);
   const [showPedalChangeLabels, setShowPedalChangeLabels] = useState(true);
   const [showPedalNameLabels, setShowPedalNameLabels] = useState(true);
+
+  // Use the profiles hook
+  const { profiles, currentProfile, setCurrentProfile, saveProfile, loadProfile, deleteProfile } = useProfiles();
 
   // Load persisted settings once on mount
   const loaded = useRef(false);
@@ -163,6 +175,19 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
         setShowPedalChangeLabels,
         showPedalNameLabels,
         setShowPedalNameLabels,
+        // Profile management
+        profiles,
+        currentProfile,
+        setCurrentProfile,
+        saveProfile: (name: string) => saveProfile(name, pedals),
+        loadProfile: async (profileName: string) => {
+          const profile = loadProfile(profileName);
+          if (profile) {
+            setPedals(profile.pedals);
+            setCurrentProfile(profileName);
+          }
+        },
+        deleteProfile,
       }}
     >
       {children}

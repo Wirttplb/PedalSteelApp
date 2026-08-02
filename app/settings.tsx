@@ -177,8 +177,8 @@ const styles = StyleSheet.create({
     zIndex: 5,
   },
   scrollContent: {
-    paddingTop: 60,
-    paddingBottom: 40,
+    paddingTop: 20,
+    paddingBottom: 50,
   },
   backButton: {
     position: "absolute",
