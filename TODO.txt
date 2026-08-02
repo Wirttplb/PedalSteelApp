@@ -1,10 +1,7 @@
 TODO:
 FILTER CHORDS BY COMPLEXITY (ONLY TWO PEDALS OR LEVERS)
-Disabling pedals in chord mode doesn't work anymore.
 
 Editing names on phone: dont open a window with the character, do it in place.
 And for dropdowns: make the selection window when opened be as small as possible.
 
-Profiles for copedant configurations
-
-limit 12th fret on screen, right now I can see octave and octave +1, I dont want octave + 1.
+Dictionary is broken.

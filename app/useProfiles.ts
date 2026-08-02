@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { getAllFactoryProfiles, isFactoryProfile } from "../fretboardEngine/factoryProfiles";
 import { Pedal } from "../fretboardEngine/pedal";
 import { CopedantProfile, PROFILES_STORAGE_KEY, ProfileContextType } from "./profiles";
 
@@ -37,6 +38,12 @@ export function useProfiles(): ProfileContextType {
   const [profiles, setProfiles] = useState<CopedantProfile[]>([]);
   const [currentProfile, setCurrentProfile] = useState<string | null>(null);
 
+  // Load factory profiles
+  const factoryProfiles = useMemo(() => getAllFactoryProfiles(), []);
+
+  // Combine user profiles with factory profiles
+  const allProfiles = useMemo(() => [...factoryProfiles, ...profiles], [factoryProfiles, profiles]);
+
   // Load profiles from storage
   const loadProfiles = useCallback(async () => {
     try {
@@ -72,6 +79,12 @@ export function useProfiles(): ProfileContextType {
       const trimmedName = name.trim();
       if (!trimmedName) return;
 
+      // Prevent overwriting factory profiles
+      if (isFactoryProfile(trimmedName)) {
+        console.warn(`Cannot overwrite factory profile: ${trimmedName}`);
+        return;
+      }
+
       const newProfile: CopedantProfile = {
         name: trimmedName,
         pedals: [...pedals],
@@ -88,13 +101,25 @@ export function useProfiles(): ProfileContextType {
 
   const loadProfile = useCallback(
     (profileName: string): CopedantProfile | undefined => {
+      // Check factory profiles first
+      const factoryProfile = factoryProfiles.find((p) => p.name === profileName);
+      if (factoryProfile) {
+        return { name: factoryProfile.name, pedals: factoryProfile.pedals };
+      }
+      // Then check user profiles
       return profiles.find((p) => p.name === profileName);
     },
-    [profiles],
+    [profiles, factoryProfiles],
   );
 
   const deleteProfile = useCallback(
     async (profileName: string) => {
+      // Prevent deleting factory profiles
+      if (isFactoryProfile(profileName)) {
+        console.warn(`Cannot delete factory profile: ${profileName}`);
+        return;
+      }
+
       const updatedProfiles = profiles.filter((p) => p.name !== profileName);
       await saveProfiles(updatedProfiles);
       if (currentProfile === profileName) {
@@ -105,7 +130,7 @@ export function useProfiles(): ProfileContextType {
   );
 
   return {
-    profiles,
+    profiles: allProfiles,
     currentProfile,
     setCurrentProfile,
     saveProfile,

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Alert, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { CopedantProfile } from "../app/profiles";
+import { isFactoryProfile } from "../fretboardEngine/factoryProfiles";
 
 interface ProfileManagerProps {
   profiles: CopedantProfile[];
@@ -68,12 +69,13 @@ export default function ProfileManager({
   };
 
   const openDeleteModal = () => {
-    if (profiles.length === 0) {
+    const deletableProfiles = profiles.filter((p) => !isFactoryProfile(p.name));
+    if (deletableProfiles.length === 0) {
       Alert.alert("No Profiles", "No saved profiles to delete");
       return;
     }
     setAction("delete");
-    setSelectedProfile(profiles[0].name);
+    setSelectedProfile(deletableProfiles[0].name);
     setShowModal(true);
   };
 
@@ -124,6 +126,8 @@ export default function ProfileManager({
     }
 
     if (action === "load" || action === "delete") {
+      const displayProfiles = action === "delete" ? profiles.filter((p) => !isFactoryProfile(p.name)) : profiles;
+
       return (
         <View style={styles.modalPickerContainer}>
           <Text style={styles.modalPickerLabel}>
@@ -132,7 +136,7 @@ export default function ProfileManager({
           <RNPickerSelect
             placeholder={{}}
             onValueChange={(val) => setSelectedProfile(val)}
-            items={profiles.map((p) => ({ label: p.name, value: p.name }))}
+            items={displayProfiles.map((p) => ({ label: p.name, value: p.name }))}
             value={selectedProfile || ""}
             style={smallPickerStyles}
             useNativeAndroidPickerStyle={false}
@@ -222,20 +226,15 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
   },
-  profileList: {
-    marginTop: 15,
-    width: "100%",
-    alignItems: "center",
+  factoryProfileItem: {
+    color: "#fa990f",
+    fontWeight: "bold",
   },
-  profileListTitle: {
-    color: "#aaa",
-    fontSize: 13,
-    marginBottom: 5,
-  },
-  profileListItem: {
-    color: "#fff",
-    fontSize: 12,
-    marginVertical: 2,
+  factoryBadge: {
+    color: "#fa990f",
+    fontSize: 10,
+    fontWeight: "bold",
+    marginLeft: 4,
   },
   // Modal styles
   modalOverlay: {

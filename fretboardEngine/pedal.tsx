@@ -1,7 +1,7 @@
 type PedalChange = [number, number];
 
 // Physical pedal/lever names for E9 - these are the actual hardware controls
-export const PHYSICAL_PEDALS = ["A", "B", "C", "LKL", "LKR", "RKL", "RKR"] as const;
+export const PHYSICAL_PEDALS = ["A", "B", "C", "LKL", "LKV", "LKR", "RKL", "RKV", "RKR"] as const;
 
 export type PhysicalPedal = (typeof PHYSICAL_PEDALS)[number];
 
