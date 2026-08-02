@@ -173,8 +173,8 @@ export function createBuddyEmmonsE9Profile(): Pedal[] {
   rklPedal.name = "RKL";
   rklPedal.physicalName = "RKL";
   rklPedal.changes = [
-    [1, 1],
-    [5, -1],
+    [8, 1],
+    [4, -2],
   ]; // String 1: D#→E (+1), String 5: G#→F# (-1)
   pedals.push(rklPedal);
 
