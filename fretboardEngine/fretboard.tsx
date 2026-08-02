@@ -1,8 +1,10 @@
+import { CHORD_FORMULAS } from "./chord_generator";
 import { ChordsFile, importE9ChordsFromJson } from "./chord_importer";
 import { Voicing } from "./chords";
 import {
     convertIntIntervalToStr,
     convertIntNotesToStr,
+    convertStrIntervalToInt,
     convertStrNoteToInt,
     convertStrNotesToInt,
     getScaleAsIntegers,
@@ -241,7 +243,20 @@ export class Fretboard {
       const voicing = chord.voicings[voicingIdx];
       const fretboardDataAsInts = this.generateVoicing(voicing, selectedKey);
       const pedals = voicing.pedalObjects; // Use Pedal objects
-      const fretboardData = Fretboard.convertFretboardScaleToIntervals(selectedKey, fretboardDataAsInts, pedals);
+      let fretboardData = Fretboard.convertFretboardScaleToIntervals(selectedKey, fretboardDataAsInts, pedals);
+
+      // Post-filtering for profiles missing the pedal change: remove notes that are not in the chord formula
+      const formula = CHORD_FORMULAS[chordType];
+      if (formula) {
+        const formulaIntervals = formula.map(convertStrIntervalToInt);
+        fretboardData = fretboardData.map((stringScale) =>
+          stringScale.map((interval) => {
+            if (interval === null) return null;
+            return formulaIntervals.includes(convertStrIntervalToInt(interval)) ? interval : null;
+          }),
+        );
+      }
+
       return { fretboardData, pedals };
     } else {
       console.error("Chord not found in imported chords.");
