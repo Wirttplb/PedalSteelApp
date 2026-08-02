@@ -1,4 +1,4 @@
-import { convertIntIntervalToStr, convertStrNoteToInt, MUTED_STRING_CHAR } from "./notes_utils";
+import { convertIntIntervalToStr, convertStrNoteToInt, MUTED_STRING_CHAR } from "./notesUtils";
 import { Pedal } from "./pedal";
 
 export class Voicing {

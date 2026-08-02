@@ -2,6 +2,7 @@ import { Entypo } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
+import { useKey } from "../appContext/keyContext";
 import ChordSelector from "../components/ChordSelector";
 import CopedantConfig from "../components/CopedantConfig";
 import KeySelector from "../components/KeySelector";
@@ -9,7 +10,6 @@ import Neck from "../components/Neck";
 import PedalControls from "../components/PedalControls";
 import ScaleSelector from "../components/ScaleSelector";
 import TuningSelector from "../components/TuningSelector";
-import { useKey } from "./keyContext";
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -90,12 +90,10 @@ export default function SettingsScreen() {
               value={chordMode === "Chord"}
               onValueChange={(value) => setChordMode(value ? "Chord" : "Scale")}
               trackColor={{
-                false: bidirectionalSwitchColors.track,
-                true: bidirectionalSwitchColors.track,
+                false: switchColors.track,
+                true: switchColors.track,
               }}
-              thumbColor={
-                chordMode === "Chord" ? bidirectionalSwitchColors.thumbOn : bidirectionalSwitchColors.thumbOff
-              }
+              thumbColor={chordMode === "Chord" ? switchColors.thumbOn : switchColors.thumbOff}
               style={styles.switch}
             />
             <Text style={styles.toggleLabel}>Chord</Text>
@@ -127,12 +125,10 @@ export default function SettingsScreen() {
               value={!chordsGeneratedDynamically}
               onValueChange={(value) => setChordsGeneratedDynamically(!value)}
               trackColor={{
-                false: bidirectionalSwitchColors.track,
-                true: bidirectionalSwitchColors.track,
+                false: switchColors.track,
+                true: switchColors.track,
               }}
-              thumbColor={
-                !chordsGeneratedDynamically ? bidirectionalSwitchColors.thumbOn : bidirectionalSwitchColors.thumbOff
-              }
+              thumbColor={!chordsGeneratedDynamically ? switchColors.thumbOn : switchColors.thumbOff}
               style={[styles.switch, chordMode === "Scale" && { opacity: 0.5 }]}
             />
             <Text style={styles.toggleLabel}>Use dictionary</Text>
@@ -144,6 +140,10 @@ export default function SettingsScreen() {
               value={allowTwoLeversPlusPedals}
               onValueChange={setAllowTwoLeversPlusPedals}
               style={styles.switch}
+              trackColor={{
+                false: switchColors.track,
+                true: switchColors.track,
+              }}
             />
           </View>
 
@@ -157,15 +157,39 @@ export default function SettingsScreen() {
           <Text style={styles.sectionTitle}>UI Customization</Text>
           <View style={styles.toggleRow}>
             <Text style={styles.toggleLabel}>Intervals color code</Text>
-            <Switch value={intervalsColorCode} onValueChange={setIntervalsColorCode} style={styles.switch} />
+            <Switch
+              value={intervalsColorCode}
+              onValueChange={setIntervalsColorCode}
+              style={styles.switch}
+              trackColor={{
+                false: switchColors.track,
+                true: switchColors.track,
+              }}
+            />
           </View>
           <View style={styles.toggleRow}>
             <Text style={styles.toggleLabel}>Show pedal change labels (+n/-n)</Text>
-            <Switch value={showPedalChangeLabels} onValueChange={setShowPedalChangeLabels} style={styles.switch} />
+            <Switch
+              value={showPedalChangeLabels}
+              onValueChange={setShowPedalChangeLabels}
+              style={styles.switch}
+              trackColor={{
+                false: switchColors.track,
+                true: switchColors.track,
+              }}
+            />
           </View>
           <View style={styles.toggleRow}>
             <Text style={styles.toggleLabel}>Show pedal name labels</Text>
-            <Switch value={showPedalNameLabels} onValueChange={setShowPedalNameLabels} style={styles.switch} />
+            <Switch
+              value={showPedalNameLabels}
+              onValueChange={setShowPedalNameLabels}
+              style={styles.switch}
+              trackColor={{
+                false: switchColors.track,
+                true: switchColors.track,
+              }}
+            />
           </View>
         </View>
       </ScrollView>
@@ -173,7 +197,7 @@ export default function SettingsScreen() {
   );
 }
 
-const bidirectionalSwitchColors = {
+const switchColors = {
   track: "#a3d3cf",
   thumbOn: "#009688",
   thumbOff: "#009688",

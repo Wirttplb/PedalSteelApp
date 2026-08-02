@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
-import { CHORD_FORMULAS, ChordGenerator } from "../fretboardEngine/chord_generator";
+import { CHORD_FORMULAS, ChordGenerator } from "../fretboardEngine/chordGenerator";
 import { Voicing } from "../fretboardEngine/chords";
 import * as fretboardEngine from "../fretboardEngine/fretboard";
-import { convertStrIntervalToInt } from "../fretboardEngine/notes_utils";
+import { convertStrIntervalToInt } from "../fretboardEngine/notesUtils";
 import { Pedal, getPedalsFromString } from "../fretboardEngine/pedal";
 import InlayDot from "./Dot";
 import Fret from "./Fret";

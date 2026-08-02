@@ -1,5 +1,5 @@
-import { CHORD_FORMULAS } from "./chord_generator";
-import { ChordsFile, importE9ChordsFromJson } from "./chord_importer";
+import { CHORD_FORMULAS } from "./chordGenerator";
+import { ChordsFile, importE9ChordsFromJson } from "./chordImporter";
 import { Voicing } from "./chords";
 import {
     convertIntIntervalToStr,
@@ -8,7 +8,7 @@ import {
     convertStrNoteToInt,
     convertStrNotesToInt,
     getScaleAsIntegers,
-} from "./notes_utils";
+} from "./notesUtils";
 import { DEFAULT_E9_PEDAL_CHANGES, Pedal } from "./pedal";
 import chordsData from "./tests/data/e9_chords_shortlist.json";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { useKey } from "../app/keyContext";
+import { useKey } from "../appContext/keyContext";
 import BaseSelector from "./BaseSelector";
 
 export default function ChordSelector() {

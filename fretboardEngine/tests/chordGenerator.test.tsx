@@ -2,8 +2,8 @@
 import fs from "fs";
 import path from "path";
 
-import { ChordGenerator } from "../chord_generator";
-import { importE9ChordsFromJson } from "../chord_importer";
+import { ChordGenerator } from "../chordGenerator";
+import { importE9ChordsFromJson } from "../chordImporter";
 import { Chord } from "../chords";
 import { readJsonFile } from "../file_utils";
 import { Fretboard } from "../fretboard";

@@ -2,12 +2,12 @@ import { Entypo } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { useKey } from "../appContext/keyContext";
 import ChordSelector from "../components/ChordSelector";
 import KeySelector from "../components/KeySelector";
 import Neck from "../components/Neck";
 import PedalControls from "../components/PedalControls";
 import ScaleSelector from "../components/ScaleSelector";
-import { useKey } from "./keyContext";
 
 export default function Index() {
   const {

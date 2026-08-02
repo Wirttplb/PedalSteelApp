@@ -2,7 +2,7 @@
 
 import { Chord, Voicing } from "./chords";
 import { Fretboard } from "./fretboard";
-import { convertStrIntervalToInt } from "./notes_utils";
+import { convertStrIntervalToInt } from "./notesUtils";
 import { Pedal } from "./pedal";
 
 export const CHORD_FORMULAS: Record<string, string[]> = {

@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { KeyProvider } from "./keyContext";
+import { KeyProvider } from "../appContext/keyContext";
 
 export default function RootLayout() {
   // Hide the navigation bar on Android

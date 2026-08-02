@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from "react";
 import type { ViewStyle } from "react-native";
 import { PanResponder, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
-import { buildInitialPedals, useKey } from "../app/keyContext";
+import { buildInitialPedals, useKey } from "../appContext/keyContext";
 import { Pedal, PHYSICAL_PEDALS, PhysicalPedal } from "../fretboardEngine/pedal";
 import ProfileManager from "./ProfileManager";
 

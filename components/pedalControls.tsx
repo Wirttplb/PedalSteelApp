@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
-import { useKey } from "../app/keyContext";
+import { useKey } from "../appContext/keyContext";
 
 export default function PedalControls() {
   const { pedals, activePedals, setActivePedals, disabledPedals, setDisabledPedals, chordMode } = useKey();
