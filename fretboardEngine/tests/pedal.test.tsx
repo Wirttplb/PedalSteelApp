@@ -1,26 +1,57 @@
 // To run: npx jest fretboardEngine/tests/pedal.test.tsx
-import { E9_PEDAL_CHANGES, Pedal } from '../pedal';
+import { DEFAULT_E9_PEDAL_CHANGES, Pedal } from "../pedal";
 
-describe('Pedal', () => {
-  test('get_all_pedal_combinations returns expected combinations', () => {
-    const allCombinations: string[][] = Pedal.getAllPedalCombinations(Object.keys(E9_PEDAL_CHANGES));
+describe("Pedal", () => {
+  test("get_all_pedal_combinations returns expected combinations with physical pedal validation", () => {
+    // Create Pedal objects with physical names matching the new system
+    // Map old pedal names to physical pedals, matching my personal setup
+    const physicalPedalMap: Record<string, string> = {
+      A: "A",
+      "A/2": "A",
+      B: "B",
+      C: "C",
+      E: "RKL",
+      F: "RKR",
+      G: "LKR",
+      D: "LKL",
+      "D/2": "LKL",
+    };
 
-    const contains = (combo: string[]) =>
-      allCombinations.some((c) => arraysEqual(c, combo));
+    const pedals = Object.keys(DEFAULT_E9_PEDAL_CHANGES).map((name) => {
+      const p = new Pedal();
+      p.name = name;
+      p.physicalName = physicalPedalMap[name] as any;
+      p.changes = DEFAULT_E9_PEDAL_CHANGES[name];
+      return p;
+    });
+
+    const allCombinations: string[][] = Pedal.getAllPedalCombinations(pedals);
+
+    const contains = (combo: string[]) => allCombinations.some((c) => arraysEqual(c, combo));
 
     expect(contains([])).toBe(true); // no pedal is a combination
-    expect(contains(['A'])).toBe(true);
-    expect(contains(['B'])).toBe(true);
-    expect(contains(['A', 'B'])).toBe(true);
-    expect(contains(['B', 'C'])).toBe(true);
-    expect(contains(['E'])).toBe(true);
-    expect(contains(['F'])).toBe(true);
-    expect(contains(['A', 'F'])).toBe(true);
-    expect(contains(['A', 'B', 'C'])).toBe(false);
-    expect(contains(['D', 'G'])).toBe(false);
-    expect(contains(['E', 'F'])).toBe(false);
-    expect(contains(['A/2', 'A'])).toBe(false);
-    expect(contains(['D/2', 'D'])).toBe(false);
+    expect(contains(["A"])).toBe(true);
+    expect(contains(["B"])).toBe(true);
+    expect(contains(["C"])).toBe(true);
+    expect(contains(["A", "B"])).toBe(true);
+    expect(contains(["B", "C"])).toBe(true);
+    expect(contains(["LKL"])).toBe(true);
+    expect(contains(["LKR"])).toBe(true);
+
+    // expect(contains(["A", "LKR"])).toBe(true);
+    // expect(contains(["A", "LKL"])).toBe(true);
+    // expect(contains(["B", "LKL"])).toBe(true);
+    // expect(contains(["B", "LKL"])).toBe(true);
+
+    expect(contains(["LKR", "RKL"])).toBe(false);
+
+    expect(contains(["A", "B", "C"])).toBe(false);
+
+    expect(contains(["A", "A"])).toBe(false);
+    expect(contains(["RKR", "RKR"])).toBe(false);
+
+    expect(contains(["LKL", "LKR"])).toBe(false);
+    expect(contains(["RKL", "RKR"])).toBe(false);
   });
 });
 

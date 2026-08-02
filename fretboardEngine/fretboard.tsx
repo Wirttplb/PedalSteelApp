@@ -7,7 +7,7 @@ import {
     convertStrNotesToInt,
     getScaleAsIntegers,
 } from "./notes_utils";
-import { Pedal, STANDARD_E9_PEDAL_CHANGES } from "./pedal";
+import { DEFAULT_E9_PEDAL_CHANGES, Pedal } from "./pedal";
 import chordsData from "./tests/data/e9_chords_shortlist.json";
 
 export class Fretboard {
@@ -32,7 +32,7 @@ export class Fretboard {
 
   static initAsPedalSteelE9(): Fretboard {
     const fretboard = Fretboard.initFromTuning(["B", "D", "E", "F#", "G#", "B", "E", "G#", "D#", "F#"]);
-    for (const pedalName of Object.keys(STANDARD_E9_PEDAL_CHANGES)) {
+    for (const pedalName of Object.keys(DEFAULT_E9_PEDAL_CHANGES)) {
       fretboard.pedals.push(Pedal.initFromName(pedalName));
     }
     return fretboard;

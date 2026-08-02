@@ -39,8 +39,8 @@ export function createRomainE9Profile(): Pedal[] {
   ped2.name = "B";
   ped2.physicalName = "B";
   ped2.changes = [
-    [4, 2],
-    [7, 2],
+    [4, 1],
+    [7, 1],
   ];
   pedals.push(ped2);
 
@@ -217,8 +217,8 @@ export function createLloydGreenE9Profile(): Pedal[] {
   ped2.name = "B";
   ped2.physicalName = "B";
   ped2.changes = [
-    [4, 2],
-    [7, 2],
+    [4, 1],
+    [7, 1],
   ];
   pedals.push(ped2);
 
@@ -234,14 +234,14 @@ export function createLloydGreenE9Profile(): Pedal[] {
 
   // LKL
   const lklPedal = new Pedal();
-  lklPedal.name = "LKL";
+  lklPedal.name = "G";
   lklPedal.physicalName = "LKL";
   lklPedal.changes = [[9, 1]];
   pedals.push(lklPedal);
 
   // LKR
   const lkrPedal = new Pedal();
-  lkrPedal.name = "LKR";
+  lkrPedal.name = "F";
   lkrPedal.physicalName = "LKR";
   lkrPedal.changes = [
     [2, 1],
@@ -251,21 +251,21 @@ export function createLloydGreenE9Profile(): Pedal[] {
 
   // RKL
   const rklPedal = new Pedal();
-  rklPedal.name = "RKL";
+  rklPedal.name = "D";
   rklPedal.physicalName = "RKL";
   rklPedal.changes = [[8, -2]];
   pedals.push(rklPedal);
 
   // RKL/2
   const rkl2Pedal = new Pedal();
-  rkl2Pedal.name = "RKL/2";
+  rkl2Pedal.name = "D/2";
   rkl2Pedal.physicalName = "RKL";
   rkl2Pedal.changes = [[8, -1]];
   pedals.push(rkl2Pedal);
 
   // RKR
   const rkrPedal = new Pedal();
-  rkrPedal.name = "RKR";
+  rkrPedal.name = "E";
   rkrPedal.physicalName = "RKR";
   rkrPedal.changes = [[2, -1]];
   pedals.push(rkrPedal);

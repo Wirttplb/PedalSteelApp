@@ -5,7 +5,7 @@ export const PHYSICAL_PEDALS = ["A", "B", "C", "LKL", "LKV", "LKR", "RKL", "RKV"
 
 export type PhysicalPedal = (typeof PHYSICAL_PEDALS)[number];
 
-export const STANDARD_E9_PEDAL_CHANGES: Record<string, PedalChange[]> = {
+export const DEFAULT_E9_PEDAL_CHANGES: Record<string, PedalChange[]> = {
   A: [
     [0, 2],
     [5, 2],
@@ -22,6 +22,15 @@ export const STANDARD_E9_PEDAL_CHANGES: Record<string, PedalChange[]> = {
     [5, 2],
     [6, 2],
   ],
+  D: [
+    [1, -1],
+    [8, -2],
+  ],
+  "D/2": [[8, -1]],
+  G: [
+    [3, 1],
+    [9, 1],
+  ],
   E: [
     [2, -1],
     [6, -1],
@@ -30,19 +39,10 @@ export const STANDARD_E9_PEDAL_CHANGES: Record<string, PedalChange[]> = {
     [2, 1],
     [6, 1],
   ],
-  G: [
-    [3, 1],
-    [9, 1],
-  ],
-  D: [
-    [1, -1],
-    [8, -2],
-  ],
-  "D/2": [[8, -1]],
 };
 
 // Alias for backward compatibility
-export const E9_PEDAL_CHANGES = STANDARD_E9_PEDAL_CHANGES;
+export const E9_PEDAL_CHANGES = DEFAULT_E9_PEDAL_CHANGES;
 
 // PEDAL_COMBINATIONS: [["A"], ["B"], ["C"], ["A", "B"], ["B", "C"], ["E"], ["F"], ["A", "E"], ["A", "F"], ["B", "F"], ["B", "F"], ["G"], ""]
 
@@ -67,7 +67,7 @@ export class Pedal {
       "D/2": "LKL",
     };
     pedal.physicalName = physicalPedalMap[name] || "A";
-    pedal.changes = STANDARD_E9_PEDAL_CHANGES[name];
+    pedal.changes = DEFAULT_E9_PEDAL_CHANGES[name];
     return pedal;
   }
 
@@ -108,18 +108,20 @@ export class Pedal {
       }
 
       // Check for mutually exclusive physical pedals
-      // Left knee levers: LKL and LKR are mutually exclusive
+      // Left knee levers: LKL, LKV and LKR are mutually exclusive
       const hasLKL = comboPhysicalNames.includes("LKL");
+      const hasLKV = comboPhysicalNames.includes("LKV");
       const hasLKR = comboPhysicalNames.includes("LKR");
-      if (hasLKL && hasLKR) {
+      if ((hasLKL && hasLKR) || (hasLKL && hasLKV) || (hasLKV && hasLKR)) {
         toDelete.push(i);
         return;
       }
 
-      // Right knee levers: RKL and RKR are mutually exclusive
+      // Right knee levers: RKL, RKV and RKR are mutually exclusive
       const hasRKL = comboPhysicalNames.includes("RKL");
       const hasRKR = comboPhysicalNames.includes("RKR");
-      if (hasRKL && hasRKR) {
+      const hasRKV = comboPhysicalNames.includes("RKV");
+      if ((hasRKL && hasRKR) || (hasRKL && hasRKV) || (hasRKV && hasRKR)) {
         toDelete.push(i);
         return;
       }

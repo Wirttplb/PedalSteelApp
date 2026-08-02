@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
-import { Pedal, PhysicalPedal, STANDARD_E9_PEDAL_CHANGES } from "../fretboardEngine/pedal";
+import { DEFAULT_E9_PEDAL_CHANGES, Pedal, PhysicalPedal } from "../fretboardEngine/pedal";
 import { CopedantProfile } from "./profiles";
 import { useProfiles } from "./useProfiles";
 
@@ -20,11 +20,11 @@ export function buildInitialPedals(): Pedal[] {
     "D/2": "LKL",
   };
 
-  return Object.keys(STANDARD_E9_PEDAL_CHANGES).map((name) => {
+  return Object.keys(DEFAULT_E9_PEDAL_CHANGES).map((name) => {
     const p = new Pedal();
     p.name = name;
     p.physicalName = physicalPedalMap[name] || "A";
-    p.changes = STANDARD_E9_PEDAL_CHANGES[name];
+    p.changes = DEFAULT_E9_PEDAL_CHANGES[name];
     return p;
   });
 }

@@ -4,4 +4,4 @@ FILTER CHORDS BY COMPLEXITY (ONLY TWO PEDALS OR LEVERS)
 Editing names on phone: dont open a window with the character, do it in place.
 And for dropdowns: make the selection window when opened be as small as possible.
 
-Dictionary is broken.
+Dictionary is broken for different copedants.
