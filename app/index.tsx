@@ -23,6 +23,7 @@ export default function Index() {
     chordsGeneratedDynamically,
     showPedalChangeLabels,
     showPedalNameLabels,
+    allowTwoLeversPlusPedals,
   } = useKey();
 
   return (
@@ -40,6 +41,7 @@ export default function Index() {
         chordsGeneratedDynamically={chordsGeneratedDynamically}
         showPedalChangeLabels={showPedalChangeLabels}
         showPedalNameLabels={showPedalNameLabels}
+        allowTwoLeversPlusPedals={allowTwoLeversPlusPedals}
       />
 
       <View style={styles.selectorContainer}>

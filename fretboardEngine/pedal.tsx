@@ -71,7 +71,11 @@ export class Pedal {
     return pedal;
   }
 
-  static getAllPedalCombinations(pedals: (Pedal | string)[], maxPedals: number = 7): string[][] {
+  static getAllPedalCombinations(
+    pedals: (Pedal | string)[],
+    maxPedals: number = 7,
+    allowTwoLeversPlusPedals = false,
+  ): string[][] {
     // Convert strings to Pedal objects if needed
     const pedalObjects: Pedal[] = pedals.map((p) => {
       if (typeof p === "string") {
@@ -137,6 +141,23 @@ export class Pedal {
       // Check max pedals
       if (combo.length > maxPedals) {
         toDelete.push(i);
+      }
+
+      // Check for 2 physical levers + at least one pedal (if not allowed)
+      if (!allowTwoLeversPlusPedals) {
+        const leftLevers = ["LKL", "LKV", "LKR"];
+        const rightLevers = ["RKL", "RKV", "RKR"];
+        const mainPedals = ["A", "B", "C"];
+
+        const leftLeverCount = comboPhysicalNames.filter((p) => leftLevers.includes(p)).length;
+        const rightLeverCount = comboPhysicalNames.filter((p) => rightLevers.includes(p)).length;
+        const mainPedalCount = comboPhysicalNames.filter((p) => mainPedals.includes(p)).length;
+
+        const totalLevers = leftLeverCount + rightLeverCount;
+        if (totalLevers >= 2 && mainPedalCount >= 1) {
+          toDelete.push(i);
+          return;
+        }
       }
     });
 

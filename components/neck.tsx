@@ -49,6 +49,7 @@ type NeckProps = {
   chordsGeneratedDynamically?: boolean;
   showPedalChangeLabels?: boolean;
   showPedalNameLabels?: boolean;
+  allowTwoLeversPlusPedals?: boolean;
 };
 
 const Neck = ({
@@ -64,6 +65,7 @@ const Neck = ({
   chordsGeneratedDynamically = false,
   showPedalChangeLabels = true,
   showPedalNameLabels = true,
+  allowTwoLeversPlusPedals = false,
 }: NeckProps) => {
   // Initialize fretboard
   let fretboard: fretboardEngine.Fretboard;
@@ -127,7 +129,7 @@ const Neck = ({
     if (!formula) return [];
     const fb = fretboardEngine.Fretboard.initAsPedalSteelE9();
     fb.pedals = pedals;
-    const allVoicings = new ChordGenerator(fb).generateVoicings(formula, selectedKey);
+    const allVoicings = new ChordGenerator(fb).generateVoicings(formula, selectedKey, 7, allowTwoLeversPlusPedals);
 
     // Filter out voicings that use disabled pedals
     const filteredVoicings = allVoicings.filter((voicing) => {
@@ -179,7 +181,7 @@ const Neck = ({
     }
 
     return voicingsWithOctave;
-  }, [chordsGeneratedDynamically, chordMode, chordType, selectedKey, pedals, disabledPedals]);
+  }, [chordsGeneratedDynamically, chordMode, chordType, selectedKey, pedals, disabledPedals, allowTwoLeversPlusPedals]);
 
   // Notes, render disks for each note to display
   const startFret = 0;

@@ -43,6 +43,8 @@ export default function SettingsScreen() {
     setShowPedalChangeLabels,
     showPedalNameLabels,
     setShowPedalNameLabels,
+    allowTwoLeversPlusPedals,
+    setAllowTwoLeversPlusPedals,
   } = useKey();
 
   return (
@@ -60,6 +62,7 @@ export default function SettingsScreen() {
         chordsGeneratedDynamically={chordsGeneratedDynamically}
         showPedalChangeLabels={showPedalChangeLabels}
         showPedalNameLabels={showPedalNameLabels}
+        allowTwoLeversPlusPedals={allowTwoLeversPlusPedals}
       />
 
       {/* Top-right selectors like in main view */}
@@ -133,6 +136,15 @@ export default function SettingsScreen() {
               style={[styles.switch, chordMode === "Scale" && { opacity: 0.5 }]}
             />
             <Text style={styles.toggleLabel}>Use dictionary</Text>
+          </View>
+
+          <View style={styles.toggleRow}>
+            <Text style={styles.toggleLabel}>Allow two levers + pedals</Text>
+            <Switch
+              value={allowTwoLeversPlusPedals}
+              onValueChange={setAllowTwoLeversPlusPedals}
+              style={styles.switch}
+            />
           </View>
 
           {tuning === "E9" && (

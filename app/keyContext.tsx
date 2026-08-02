@@ -65,6 +65,8 @@ type KeyContextType = {
   setShowPedalChangeLabels: (v: boolean) => void;
   showPedalNameLabels: boolean;
   setShowPedalNameLabels: (v: boolean) => void;
+  allowTwoLeversPlusPedals: boolean;
+  setAllowTwoLeversPlusPedals: (v: boolean) => void;
   // Profile management
   profiles: CopedantProfile[];
   currentProfile: string | null;
@@ -89,6 +91,7 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
   const [chordsGeneratedDynamically, setChordsGeneratedDynamically] = useState(false);
   const [showPedalChangeLabels, setShowPedalChangeLabels] = useState(true);
   const [showPedalNameLabels, setShowPedalNameLabels] = useState(true);
+  const [allowTwoLeversPlusPedals, setAllowTwoLeversPlusPedals] = useState(false);
 
   // Use the profiles hook
   const { profiles, currentProfile, setCurrentProfile, saveProfile, loadProfile, deleteProfile } = useProfiles();
@@ -112,6 +115,7 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
             setChordsGeneratedDynamically(s.chordsGeneratedDynamically);
           if (typeof s.showPedalChangeLabels === "boolean") setShowPedalChangeLabels(s.showPedalChangeLabels);
           if (typeof s.showPedalNameLabels === "boolean") setShowPedalNameLabels(s.showPedalNameLabels);
+          if (typeof s.allowTwoLeversPlusPedals === "boolean") setAllowTwoLeversPlusPedals(s.allowTwoLeversPlusPedals);
         } catch {}
       }
       loaded.current = true;
@@ -133,6 +137,7 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
       chordsGeneratedDynamically,
       showPedalChangeLabels,
       showPedalNameLabels,
+      allowTwoLeversPlusPedals,
     };
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }, [
@@ -146,6 +151,7 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
     chordsGeneratedDynamically,
     showPedalChangeLabels,
     showPedalNameLabels,
+    allowTwoLeversPlusPedals,
   ]);
 
   return (
@@ -175,6 +181,8 @@ export const KeyProvider = ({ children }: { children: React.ReactNode }) => {
         setShowPedalChangeLabels,
         showPedalNameLabels,
         setShowPedalNameLabels,
+        allowTwoLeversPlusPedals,
+        setAllowTwoLeversPlusPedals,
         // Profile management
         profiles,
         currentProfile,

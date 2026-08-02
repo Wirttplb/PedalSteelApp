@@ -43,9 +43,9 @@ export class ChordGenerator {
     this.fretboard = fretboard;
   }
 
-  generateVoicings(formula: string[], key: string, maxPedals = 7): Voicing[] {
+  generateVoicings(formula: string[], key: string, maxPedals = 7, allowTwoLeversPlusPedals = false): Voicing[] {
     const formulaAsInt = formula.map(convertStrIntervalToInt);
-    const pedalCombinations = Pedal.getAllPedalCombinations(this.fretboard.pedals, maxPedals);
+    const pedalCombinations = Pedal.getAllPedalCombinations(this.fretboard.pedals, maxPedals, allowTwoLeversPlusPedals);
     const voicings: Voicing[] = [];
 
     for (let fret = 0; fret < 12; fret++) {
