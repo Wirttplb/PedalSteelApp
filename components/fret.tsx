@@ -1,35 +1,34 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 interface FretProps {
-  left: number
+  left: number;
 }
 
 const Fret = ({ left }: FretProps) => {
   return (
     <View style={[styles.container, { left }]}>
-        <View style={styles.fretLine} />
-        <View style={styles.shadowLine} />
+      <View style={styles.fretLine} />
+      <View style={styles.shadowLine} />
     </View>
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    flexDirection: 'row',
-    height: '100%',
-    width: '1%'
+    position: "absolute",
+    flexDirection: "row",
+    height: "100%",
+    width: "0.5%", // Half of before since content is now 2x wider (24 frets vs 12)
   },
   fretLine: {
-    width: '60%',
-    backgroundColor: '#d7d6d6', // light silver
+    width: "60%",
+    backgroundColor: "#d7d6d6", // light silver
   },
   shadowLine: {
-    width: '40%',
+    width: "40%",
     marginLeft: 0,
-    backgroundColor: '#686868', // darker shadow color
+    backgroundColor: "#686868", // darker shadow color
   },
 });
 

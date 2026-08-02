@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import { CHORD_FORMULAS, ChordGenerator } from "../fretboardEngine/chord_generator";
 import { Voicing } from "../fretboardEngine/chords";
 import * as fretboardEngine from "../fretboardEngine/fretboard";
@@ -11,7 +11,7 @@ import { PedalChangeLabel } from "./PedalChangeLabel";
 import { PedalLabel } from "./PedalLabel";
 import { StringComponent } from "./StringComponent";
 
-const NUM_FRETS = 12; // + 1
+const NUM_FRETS = 24; // 24 frets (2 octaves)
 const screenWidth = Dimensions.get("window").width;
 const NUT_WIDTH = 0.043 * screenWidth;
 
@@ -83,7 +83,7 @@ const Neck = ({
   }
 
   // Calculate fret positions based on screen width
-  const fretSpacing = screenWidth / (NUM_FRETS + 1);
+  const fretSpacing = screenWidth / (12 + 1); // 12 frets per screen width
   const fretOffset = 0.9 * NUT_WIDTH + fretSpacing; // distance to 1st fret (not nut)
   const frets = Array.from({ length: NUM_FRETS }, (_, index) => (
     <Fret key={index} left={index * fretSpacing + 1 * fretOffset} />
@@ -91,7 +91,7 @@ const Neck = ({
 
   // Inlay dots
   const screenHeight = Dimensions.get("window").height;
-  const inlayFrets = [3, 5, 7, 9, 12];
+  const inlayFrets = [3, 5, 7, 9, 12, 15, 17, 19, 21, 24];
   const dotTop = 0.5 * screenHeight;
 
   const dots = inlayFrets.map((fret, index) => {
@@ -182,7 +182,7 @@ const Neck = ({
 
   // Notes, render disks for each note to display
   const startFret = 0;
-  const endFret = 12;
+  const endFret = 24;
   let fretboardNotes: (string | null)[][] = [];
   let pedalsData: Pedal[] = [];
 
@@ -203,7 +203,7 @@ const Neck = ({
       if (chordsGeneratedDynamically) {
         if (voicingIdx >= dynamicVoicings.length) continue;
         const voicing = dynamicVoicings[voicingIdx];
-        const fretboardDataAsInts = fretboard.generateVoicing(voicing, selectedKey);
+        const fretboardDataAsInts = fretboard.generateVoicing(voicing, selectedKey, endFret);
         // Use the actual Pedal objects from the voicing
         pedalsData = voicing.pedalObjects;
         fretboardNotes = fretboardEngine.Fretboard.convertFretboardScaleToIntervals(
@@ -304,15 +304,25 @@ const Neck = ({
   // Add everything
   return (
     <View style={styles.container}>
-      <View style={styles.neck} />
-      <View style={styles.nut} />
-      <View style={styles.nutLine} />
-      {frets}
-      {dots}
-      {strings}
-      {noteDisks}
-      {pedalLabels}
-      {pedalChangeLabels}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={true}
+        style={{ width: "100%", height: "100%" }}
+        contentContainerStyle={{
+          width: (NUM_FRETS + 1) * fretSpacing + NUT_WIDTH,
+          height: "100%",
+        }}
+      >
+        <View style={styles.neck} />
+        <View style={styles.nut} />
+        <View style={styles.nutLine} />
+        {frets}
+        {dots}
+        {strings}
+        {noteDisks}
+        {pedalLabels}
+        {pedalChangeLabels}
+      </ScrollView>
     </View>
   );
 };

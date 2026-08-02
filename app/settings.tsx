@@ -1,13 +1,13 @@
 import { Entypo } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Dimensions, Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
+import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
 import ChordSelector from "../components/ChordSelector";
 import CopedantConfig from "../components/CopedantConfig";
 import KeySelector from "../components/KeySelector";
 import Neck from "../components/Neck";
 import ScaleSelector from "../components/ScaleSelector";
+import TuningSelector from "../components/TuningSelector";
 import { useKey } from "./keyContext";
 
 export default function SettingsScreen() {
@@ -82,29 +82,21 @@ export default function SettingsScreen() {
           </View>
           <View style={styles.dropdownRow}>
             <View style={styles.dropdownWrapper}>
-              <RNPickerSelect
-                placeholder={{}}
-                useNativeAndroidPickerStyle={false}
-                onValueChange={(itemValue) => {
-                  setTuning(itemValue);
-                  setChordMode("Scale");
-                }}
-                items={[
-                  { label: "E9", value: "E9" },
-                  { label: "Open E", value: "Open E" },
-                  { label: "Standard", value: "Standard" },
-                ]}
-                value={tuning}
-                style={pickerStyles}
-              />
+              <Text style={styles.dropdownLabel}>Tuning</Text>
+              <TuningSelector />
             </View>
-            <KeySelector />
+            <View style={styles.dropdownWrapper}>
+              <Text style={styles.dropdownLabel}>Key</Text>
+              <KeySelector />
+            </View>
           </View>
           <View style={styles.dropdownRow}>
             <View style={[styles.dropdownWrapper, { opacity: chordMode === "Scale" ? 1 : 0.5 }]}>
+              <Text style={styles.dropdownLabel}>Scale</Text>
               <ScaleSelector />
             </View>
             <View style={[styles.dropdownWrapper, { opacity: chordMode === "Chord" ? 1 : 0.5 }]}>
+              <Text style={styles.dropdownLabel}>Chord</Text>
               <ChordSelector />
             </View>
           </View>
@@ -148,11 +140,9 @@ export default function SettingsScreen() {
   );
 }
 
-const screenHeight = Dimensions.get("window").height;
-
 const pickerStyles = {
-  inputIOS: { fontSize: 24, color: "white", padding: 10 },
-  inputAndroid: { fontSize: 24, color: "white", padding: 10 },
+  inputIOS: { fontSize: 24, color: "white", padding: 8 },
+  inputAndroid: { fontSize: 24, color: "white", padding: 8 },
 };
 
 const bidirectionalSwitchColors = {
@@ -226,5 +216,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#333",
     marginHorizontal: 10,
     minWidth: 120,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  dropdownLabel: {
+    color: "white",
+    fontSize: 12,
+    fontWeight: "bold",
+    marginBottom: 4,
+    textAlign: "center",
   },
 });

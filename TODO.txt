@@ -1,18 +1,6 @@
 TODO:
-Persistent settings.
-Dynamically generated chords.
+FILTER CHORDS BY COMPLEXITY (ONLY TWO PEDALS OR LEVERS)
+Disabling pedals in chord mode doesn't work anymore.
 
-Enable/Disable pedals (not delete) for chord generation.
-
-
-      //   if (
-      //     combo.length > maxPedals ||
-      //     // these combinations are impossible with my setup
-      //     (has("A") && has("A/2")) ||
-      //     (has("D") && has("D/2")) ||
-      //     ((has("A") || has("A/2")) && has("C")) ||
-      //     (has("E") && has("F")) ||
-      //     ((has("D") || has("D/2")) && has("G"))
-      //   ) {
-      //     toDelete.push(i);
-      //   }
+Editing names on phone: dont open a window with the character, do it in place.
+And for dropdowns: make the selection window when opened be as small as possible.

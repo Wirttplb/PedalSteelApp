@@ -63,7 +63,7 @@ export class Fretboard {
     const fretboard = this.generateFretboard(startFret, endFret);
 
     return fretboard.map((stringNotes, stringIndex) =>
-      stringNotes.map((note) => {
+      stringNotes.map((note, fretIndex) => {
         let actualNote = note;
         for (const pedalIdx of activePedals) {
           const pedal = this.pedals[pedalIdx];
@@ -74,7 +74,21 @@ export class Fretboard {
             }
           }
         }
-        return intervals.includes((actualNote - keyInt + 12) % 12) ? note : null;
+        // Loop the scale pattern after 12th fret (octave)
+        const effectiveFret = fretIndex + startFret;
+        const loopedFret = effectiveFret % 12;
+        const loopedNote = (this.tuning[stringIndex] + loopedFret + 12) % 12;
+        let loopedActualNote = loopedNote;
+        for (const pedalIdx of activePedals) {
+          const pedal = this.pedals[pedalIdx];
+          if (pedal) {
+            const change = pedal.changes.find((c) => c[0] === stringIndex);
+            if (change) {
+              loopedActualNote += change[1];
+            }
+          }
+        }
+        return intervals.includes((loopedActualNote - keyInt + 12) % 12) ? note : null;
       }),
     );
   }
@@ -94,8 +108,8 @@ export class Fretboard {
     return Fretboard.convertFretboardScaleToIntervals(key, scaleInts, pedalsToApply);
   }
 
-  generateVoicing(voicing: Voicing, key: string = "E"): (number | null)[][] {
-    const fretboard = this.generateFretboard(0, 12);
+  generateVoicing(voicing: Voicing, key: string = "E", maxFret: number = 24): (number | null)[][] {
+    const fretboard = this.generateFretboard(0, maxFret);
 
     if (fretboard.length !== voicing.notes.length) {
       throw new Error("Voicing and tuning do not match!");
@@ -116,8 +130,13 @@ export class Fretboard {
           const voicingNote = (transposedFret + this.tuning[stringIndex] + 12) % 12;
           return voicingNote === note ? (voicingNote + 12) % 12 : null;
         }
-        // Voicing was generated for the same key - only show note at the correct fret position
-        return fretIndex === fret ? note : null;
+        // Voicing was generated for the same key - show note at the correct fret position
+        // Also show at octave positions (fret + 12, fret + 24, etc.)
+        const isAtFret =
+          fretIndex === fret ||
+          (fret !== null && fretIndex === fret + 12) ||
+          (fret !== null && fretIndex === fret + 24);
+        return isAtFret ? note : null;
       });
     });
   }
