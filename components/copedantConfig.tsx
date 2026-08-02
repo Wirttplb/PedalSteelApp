@@ -4,6 +4,7 @@ import { PanResponder, Pressable, ScrollView, StyleSheet, Text, TextInput, View 
 import RNPickerSelect from "react-native-picker-select";
 import { buildInitialPedals, useKey } from "../appContext/keyContext";
 import { Pedal, PHYSICAL_PEDALS, PhysicalPedal } from "../fretboardEngine/pedal";
+import { getStringNames } from "../fretboardEngine/tuningUtils";
 import ProfileManager from "./ProfileManager";
 
 const COLUMN_WIDTH = 60;
@@ -128,7 +129,12 @@ export default function CopedantConfig() {
     [pedals.length],
   );
 
-  if (tuning !== "E9") return null;
+  // Get string names for the current tuning (ordered from lowest to highest)
+  // We need to reverse for display (highest to lowest)
+  const stringNames = getStringNames(tuning).slice().reverse();
+  const stringCount = stringNames.length;
+
+  if (stringCount === 0) return null;
 
   return (
     <View style={styles.pedalConfigSection}>
@@ -140,9 +146,12 @@ export default function CopedantConfig() {
             <View key="lbl-drag" style={[styles.cell, styles.stringLabelCell]} />
             <View key="lbl-name" style={[styles.cell, styles.stringLabelCell]} />
             <View key="lbl-physical" style={[styles.cell, styles.stringLabelCell]} />
-            {Array.from({ length: 10 }, (_, rowIdx) => 9 - rowIdx).map((i, rowIdx) => (
-              <View key={`lbl-${i}`} style={[styles.cell, styles.stringLabelCell]}>
-                <Text style={styles.stringLabel}>{rowIdx + 1}</Text>
+            {stringNames.map((noteName, rowIdx) => (
+              <View key={`lbl-${rowIdx}`} style={[styles.cell, styles.stringLabelCell]}>
+                <Text style={styles.stringLabel}>
+                  {rowIdx + 1 + " "}
+                  {noteName}
+                </Text>
               </View>
             ))}
             <View key="lbl-delete" style={[styles.cell, styles.stringLabelCell]} />
@@ -185,14 +194,16 @@ export default function CopedantConfig() {
               </View>
 
               {/* String pickers */}
-              {Array.from({ length: 10 }, (_, rowIdx) => 9 - rowIdx).map((i) => {
-                const change = pedal.changes.find((c) => c[0] === i);
+              {stringNames.map((_, rowIdx) => {
+                // stringNames is reversed (highest to lowest), but pedal changes use index from lowest (0) to highest
+                const stringIndex = stringCount - 1 - rowIdx;
+                const change = pedal.changes.find((c) => c[0] === stringIndex);
                 const value = change ? change[1] : 0;
                 return (
-                  <View key={`row-${i}`} style={styles.cell}>
+                  <View key={`row-${stringIndex}`} style={styles.cell}>
                     <RNPickerSelect
                       placeholder={{}}
-                      onValueChange={(val) => handlePedalChange(colIdx, i, val)}
+                      onValueChange={(val) => handlePedalChange(colIdx, stringIndex, val)}
                       items={[
                         { label: "+2", value: 2 },
                         { label: "+1", value: 1 },
@@ -347,6 +358,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 14,
     fontWeight: "bold",
+  },
+  stringNoteLabel: {
+    color: "rgba(250, 153, 15, 0.8)",
+    fontSize: 12,
+    fontWeight: "bold",
+    marginTop: -2,
   },
   currentProfileName: {
     color: "white",

@@ -1,6 +1,6 @@
-import { CHORD_FORMULAS } from "./chordGenerator";
 import { ChordsFile, importE9ChordsFromJson } from "./chordImporter";
 import { Voicing } from "./chords";
+import { CHORD_FORMULAS } from "./chordUtils";
 import {
     convertIntIntervalToStr,
     convertIntNotesToStr,
@@ -11,6 +11,7 @@ import {
 } from "./notesUtils";
 import { DEFAULT_E9_PEDAL_CHANGES, Pedal } from "./pedal";
 import chordsData from "./tests/data/e9_chords_shortlist.json";
+import { getTuningAsIntArray } from "./tuningUtils";
 
 export class Fretboard {
   tuning: number[] = [];
@@ -24,16 +25,20 @@ export class Fretboard {
     return new Fretboard(convertStrNotesToInt(tuning));
   }
 
+  static initFromTuningInt(tuning: number[]): Fretboard {
+    return new Fretboard(tuning);
+  }
+
   static initAsGuitarStandard(): Fretboard {
-    return Fretboard.initFromTuning(["E", "A", "D", "G", "G", "E"]);
+    return Fretboard.initFromTuningInt(getTuningAsIntArray("Standard"));
   }
 
   static initAsGuitarOpenE(): Fretboard {
-    return Fretboard.initFromTuning(["E", "B", "E", "G#", "B", "E"]);
+    return Fretboard.initFromTuningInt(getTuningAsIntArray("OpenE"));
   }
 
   static initAsPedalSteelE9(): Fretboard {
-    const fretboard = Fretboard.initFromTuning(["B", "D", "E", "F#", "G#", "B", "E", "G#", "D#", "F#"]);
+    const fretboard = Fretboard.initFromTuningInt(getTuningAsIntArray("E9"));
     for (const pedalName of Object.keys(DEFAULT_E9_PEDAL_CHANGES)) {
       fretboard.pedals.push(Pedal.initFromName(pedalName));
     }

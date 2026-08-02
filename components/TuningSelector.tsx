@@ -1,15 +1,14 @@
 import React from "react";
 import { useKey } from "../appContext/keyContext";
+import { getAllTuningDisplayNames } from "../fretboardEngine/tuningUtils";
 import BaseSelector from "./BaseSelector";
 
 export default function TuningSelector() {
   const { tuning, setTuning } = useKey();
 
-  const tuningItems = [
-    { label: "E9", value: "E9" },
-    { label: "Open E", value: "Open E" },
-    { label: "Standard", value: "Standard" },
-  ];
+  const tuningItems = getAllTuningDisplayNames().map((displayName) => {
+    return { label: displayName, value: displayName };
+  });
 
   return <BaseSelector value={tuning} onValueChange={setTuning} items={tuningItems} />;
 }

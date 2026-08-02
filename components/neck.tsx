@@ -1,10 +1,12 @@
 import React, { useMemo } from "react";
 import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
-import { CHORD_FORMULAS, ChordGenerator } from "../fretboardEngine/chordGenerator";
+import { ChordGenerator } from "../fretboardEngine/chordGenerator";
+import { CHORD_FORMULAS } from "../fretboardEngine/chordUtils";
 import { Voicing } from "../fretboardEngine/chords";
 import * as fretboardEngine from "../fretboardEngine/fretboard";
 import { convertStrIntervalToInt } from "../fretboardEngine/notesUtils";
 import { Pedal, getPedalsFromString } from "../fretboardEngine/pedal";
+import { getStringNames, tuningSupportsPedals } from "../fretboardEngine/tuningUtils";
 import InlayDot from "./Dot";
 import Fret from "./Fret";
 import { NoteDisk } from "./NoteDisk";
@@ -67,23 +69,16 @@ const Neck = ({
   showPedalNameLabels = true,
   allowTwoLeversPlusPedals = false,
 }: NeckProps) => {
-  // Initialize fretboard
-  let fretboard: fretboardEngine.Fretboard;
-  let numStrings = 10;
+  // Initialize fretboard using tuningUtils
+  const stringNames = getStringNames(tuning);
+  const fretboard = fretboardEngine.Fretboard.initFromTuning(stringNames);
+  const numStrings = stringNames.length;
+  const supportsPedals = tuningSupportsPedals(tuning);
 
-  if (tuning === "E9") {
-    fretboard = fretboardEngine.Fretboard.initAsPedalSteelE9();
-    fretboard.pedals = pedals;
-    numStrings = 10;
-  } else if (tuning === "Open E") {
-    fretboard = fretboardEngine.Fretboard.initAsGuitarOpenE();
-    numStrings = 6;
-  } else if (tuning === "Standard") {
-    fretboard = fretboardEngine.Fretboard.initAsGuitarStandard();
-    numStrings = 6;
-  } else {
-    throw new Error("Invalid tuning!");
-  }
+  // Set pedals for E9 tuning
+  //if (supportsPedals) {
+  fretboard.pedals = pedals;
+  //}
 
   // Calculate fret positions based on screen width
   const fretSpacing = screenWidth / 12; // 12 frets per screen width

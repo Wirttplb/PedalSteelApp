@@ -2,4 +2,7 @@ TODO:
 Editing names on phone: dont open a window with the character, do it in place.
 And for dropdowns: make the selection window when opened be as small as possible.
 
-Add current tuning string name in configurator
+Add support for C6 10 et 6, Palm benders on C6/OpenE.
+1 more setting "Guitar/Steel" for 6 string tunings.
+
+Add support for custom tunings.
