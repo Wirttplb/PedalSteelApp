@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 import { useKey } from "../app/keyContext";
 
 export default function PedalControls() {
@@ -24,7 +24,12 @@ export default function PedalControls() {
   };
 
   return (
-    <View style={styles.pedalControls}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.pedalControlsContent}
+      style={styles.pedalControls}
+    >
       {pedals.map((pedal, index) => {
         const isActive = chordMode === "Scale" && activePedals.includes(index);
         const isDisabled = chordMode === "Chord" && disabledPedals.includes(index);
@@ -46,7 +51,7 @@ export default function PedalControls() {
           </Pressable>
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -56,10 +61,14 @@ const styles = StyleSheet.create({
     bottom: 20,
     left: 0,
     right: 0,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
     paddingHorizontal: 10,
+  },
+  pedalControlsContent: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    minWidth: "100%",
+    paddingBottom: 10, // Add some bottom padding for better touch target
   },
   pedalButton: {
     backgroundColor: "#333",
@@ -80,8 +89,8 @@ const styles = StyleSheet.create({
   },
   pedalButtonDisabled: {
     opacity: 0.3,
-    backgroundColor: "#666",
-    borderColor: "#999",
+    backgroundColor: "#adacac",
+    borderColor: "#000000",
   },
   pedalButtonText: {
     color: "white",
@@ -92,6 +101,6 @@ const styles = StyleSheet.create({
     color: "black",
   },
   pedalButtonTextDisabled: {
-    color: "#999",
+    color: "white",
   },
 });

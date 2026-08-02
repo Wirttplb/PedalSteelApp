@@ -167,7 +167,6 @@ export default function CopedantConfig() {
                   style={styles.pedalLabelInput}
                   value={pedal.name}
                   onChangeText={(text) => handleRename(colIdx, text)}
-                  selectTextOnFocus
                 />
               </View>
 

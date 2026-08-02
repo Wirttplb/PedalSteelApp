@@ -161,11 +161,6 @@ export default function SettingsScreen() {
   );
 }
 
-const pickerStyles = {
-  inputIOS: { fontSize: 24, color: "white", padding: 8 },
-  inputAndroid: { fontSize: 24, color: "white", padding: 8 },
-};
-
 const bidirectionalSwitchColors = {
   track: "#a3d3cf",
   thumbOn: "#009688",

@@ -84,7 +84,7 @@ const Neck = ({
   }
 
   // Calculate fret positions based on screen width
-  const fretSpacing = screenWidth / (12 + 1); // 12 frets per screen width
+  const fretSpacing = screenWidth / 12; // 12 frets per screen width
   const fretOffset = 0.9 * NUT_WIDTH + fretSpacing; // distance to 1st fret (not nut)
   const frets = Array.from({ length: NUM_FRETS }, (_, index) => (
     <Fret key={index} left={index * fretSpacing + 1 * fretOffset} />
@@ -321,11 +321,9 @@ const Neck = ({
         showsHorizontalScrollIndicator={true}
         style={{ width: "100%", height: "100%" }}
         contentContainerStyle={{
-          width: (NUM_FRETS + 1) * fretSpacing + NUT_WIDTH,
+          width: NUM_FRETS * fretSpacing + NUT_WIDTH + fretOffset,
           height: "100%",
-          pointerEvents: "box-none",
         }}
-        pointerEvents="box-none"
       >
         <View style={styles.neck} pointerEvents="box-none" />
         <View style={styles.nut} pointerEvents="box-none" />
