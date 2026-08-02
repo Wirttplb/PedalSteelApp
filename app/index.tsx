@@ -42,12 +42,10 @@ export default function Index() {
         showPedalNameLabels={showPedalNameLabels}
       />
 
-      {tuning === "E9" && (
-        <View style={styles.selectorContainer}>
-          <KeySelector />
-          {chordMode === "Chord" ? <ChordSelector /> : <ScaleSelector />}
-        </View>
-      )}
+      <View style={styles.selectorContainer}>
+        <KeySelector />
+        {chordMode === "Chord" ? <ChordSelector /> : <ScaleSelector />}
+      </View>
 
       {chordMode === "Scale" && tuning === "E9" && <PedalControls />}
       {chordMode === "Chord" && tuning === "E9" && <PedalControls />}

@@ -1,13 +1,13 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewProps } from "react-native";
 
-interface StringProps {
+interface StringProps extends ViewProps {
   index: number;
   numStrings: number;
   screenHeight: number;
 }
 
-export const StringComponent = ({ index, numStrings, screenHeight }: StringProps) => {
+export const StringComponent = ({ index, numStrings, screenHeight, pointerEvents, ...props }: StringProps) => {
   const top = (index + 1) * ((1.08 * screenHeight) / (numStrings + 1)) - 0.04 * screenHeight;
   let height = screenHeight / 150;
   if (index < 0.3 * numStrings) {
@@ -16,9 +16,14 @@ export const StringComponent = ({ index, numStrings, screenHeight }: StringProps
     height *= 4 / 5;
   }
   return (
-    <View key={`string-${index}`} style={{ position: "absolute", width: "100%", top }}>
-      <View style={[styles.string, { height }]} />
-      <View style={[styles.stringShadow, { height: 0.3 * height, marginTop: height }]} />
+    <View
+      key={`string-${index}`}
+      style={{ position: "absolute", width: "100%", top }}
+      pointerEvents={pointerEvents}
+      {...props}
+    >
+      <View style={[styles.string, { height }]} pointerEvents={pointerEvents} />
+      <View style={[styles.stringShadow, { height: 0.3 * height, marginTop: height }]} pointerEvents={pointerEvents} />
     </View>
   );
 };

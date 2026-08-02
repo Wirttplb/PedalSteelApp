@@ -3,6 +3,7 @@ import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import { CHORD_FORMULAS, ChordGenerator } from "../fretboardEngine/chord_generator";
 import { Voicing } from "../fretboardEngine/chords";
 import * as fretboardEngine from "../fretboardEngine/fretboard";
+import { convertStrIntervalToInt } from "../fretboardEngine/notes_utils";
 import { Pedal, getPedalsFromString } from "../fretboardEngine/pedal";
 import InlayDot from "./Dot";
 import Fret from "./Fret";
@@ -200,7 +201,18 @@ const Neck = ({
     if (chordMode === "Scale") {
       fretboardNotes = fretboard.generateScaleAsIntervals(selectedKey, selectedMode, startFret, endFret, activePedals);
     } else if (chordMode === "Chord") {
-      if (chordsGeneratedDynamically) {
+      // For Open E and Standard tunings, display chord formula as a scale (only first octave)
+      if (tuning === "Open E" || tuning === "Standard") {
+        const formula = CHORD_FORMULAS[chordType];
+        if (formula) {
+          const formulaAsInt = formula.map((interval) => convertStrIntervalToInt(interval));
+          // Use scale generation with chord intervals
+          fretboardNotes = fretboard.generateScaleAsIntervals(selectedKey, formulaAsInt, startFret, 24, activePedals);
+        } else {
+          fretboardNotes = [];
+        }
+        pedalsData = [];
+      } else if (chordsGeneratedDynamically) {
         if (voicingIdx >= dynamicVoicings.length) continue;
         const voicing = dynamicVoicings[voicingIdx];
         const fretboardDataAsInts = fretboard.generateVoicing(voicing, selectedKey, endFret);
@@ -272,9 +284,9 @@ const Neck = ({
     }
   }
 
-  // Pedal change labels shown left of the nut when pedals are active
+  // Pedal change labels shown left of the nut when pedals are active (for E9 tuning)
   const pedalChangeLabels: React.ReactNode[] = [];
-  if (chordMode === "Scale" && activePedals.length > 0 && showPedalChangeLabels) {
+  if (tuning === "E9" && activePedals.length > 0 && showPedalChangeLabels) {
     const stringChanges: Record<number, number> = {};
     for (const pedalIdx of activePedals) {
       const pedal = pedals[pedalIdx];
@@ -303,7 +315,7 @@ const Neck = ({
 
   // Add everything
   return (
-    <View style={styles.container}>
+    <View style={styles.container} pointerEvents="box-none">
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={true}
@@ -311,11 +323,13 @@ const Neck = ({
         contentContainerStyle={{
           width: (NUM_FRETS + 1) * fretSpacing + NUT_WIDTH,
           height: "100%",
+          pointerEvents: "box-none",
         }}
+        pointerEvents="box-none"
       >
-        <View style={styles.neck} />
-        <View style={styles.nut} />
-        <View style={styles.nutLine} />
+        <View style={styles.neck} pointerEvents="box-none" />
+        <View style={styles.nut} pointerEvents="box-none" />
+        <View style={styles.nutLine} pointerEvents="box-none" />
         {frets}
         {dots}
         {strings}

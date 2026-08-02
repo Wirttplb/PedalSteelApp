@@ -1,20 +1,22 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, ViewProps } from "react-native";
 
-interface PedalLabelProps {
+interface PedalLabelProps extends ViewProps {
   left: number;
   top: number;
   diameter: number;
   pedalName: string;
 }
 
-export const PedalLabel = ({ left, top, diameter, pedalName }: PedalLabelProps) => (
+export const PedalLabel = ({ left, top, diameter, pedalName, pointerEvents, ...props }: PedalLabelProps) => (
   <View
     style={{
       position: "absolute",
       left: left + 0.03 * diameter * 35, // 0.04 * screenWidth ≈ 0.04 * diameter * 35
       top: top + 0.02 * diameter * 35,
     }}
+    pointerEvents={pointerEvents}
+    {...props}
   >
     <Text
       style={{
@@ -25,6 +27,7 @@ export const PedalLabel = ({ left, top, diameter, pedalName }: PedalLabelProps) 
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 2,
       }}
+      pointerEvents={pointerEvents}
     >
       {pedalName}
     </Text>

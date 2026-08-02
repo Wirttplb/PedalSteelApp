@@ -1,7 +1,7 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, ViewProps } from "react-native";
 
-interface NoteDiskProps {
+interface NoteDiskProps extends ViewProps {
   left: number;
   top: number;
   diameter: number;
@@ -23,6 +23,8 @@ export const NoteDisk = ({
   chordMode,
   getIntervalColor,
   showPedalChangeLabels = true,
+  pointerEvents,
+  ...props
 }: NoteDiskProps) => {
   const displayInterval = interval.replace(/b/g, "♭");
   const showChange = chordMode === "Chord" && stringTotalChange !== 0 && showPedalChangeLabels;
@@ -41,6 +43,8 @@ export const NoteDisk = ({
         alignItems: "center",
         backgroundColor: "transparent",
       }}
+      pointerEvents={pointerEvents}
+      {...props}
     >
       <View
         style={{
@@ -55,6 +59,7 @@ export const NoteDisk = ({
           shadowRadius: diameter / 2,
           elevation: 5,
         }}
+        pointerEvents={pointerEvents}
       ></View>
       <Text
         style={{
@@ -63,6 +68,7 @@ export const NoteDisk = ({
           fontSize: diameter,
           top: -0.05 * diameter,
         }}
+        pointerEvents={pointerEvents}
       >
         {displayInterval}
       </Text>
@@ -79,6 +85,7 @@ export const NoteDisk = ({
             textShadowOffset: { width: 1, height: 1 },
             textShadowRadius: 2,
           }}
+          pointerEvents={pointerEvents}
         >
           {changeLabel}
         </Text>

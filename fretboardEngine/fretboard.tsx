@@ -93,14 +93,43 @@ export class Fretboard {
     );
   }
 
-  generateScaleAsIntervals(
+  generateChordFormulaAsIntegers(
     key: string,
-    scale: string,
+    intervals: number[],
     startFret: number,
     endFret: number,
     activePedals: number[] = [],
   ): (string | null)[][] {
-    const scaleAsInts = getScaleAsIntegers(scale);
+    const keyInt = convertStrNoteToInt(key);
+    const fretboard = this.generateFretboard(startFret, endFret);
+
+    return fretboard.map((stringNotes, stringIndex) =>
+      stringNotes.map((note, fretIndex) => {
+        let actualNote = note;
+        for (const pedalIdx of activePedals) {
+          const pedal = this.pedals[pedalIdx];
+          if (pedal) {
+            const change = pedal.changes.find((c) => c[0] === stringIndex);
+            if (change) {
+              actualNote += change[1];
+            }
+          }
+        }
+        // For chord formula, don't loop octaves - only show at actual fret position
+        const intervalNum = (actualNote - keyInt + 12) % 12;
+        return intervals.includes(intervalNum) ? convertIntIntervalToStr(intervalNum) : null;
+      }),
+    );
+  }
+
+  generateScaleAsIntervals(
+    key: string,
+    scale: string | number[],
+    startFret: number,
+    endFret: number,
+    activePedals: number[] = [],
+  ): (string | null)[][] {
+    const scaleAsInts = Array.isArray(scale) ? scale : getScaleAsIntegers(scale);
     const scaleInts = this.generateScaleAsIntegers(key, scaleAsInts, startFret, endFret, activePedals);
 
     const pedalsToApply = activePedals.map((idx) => this.pedals[idx]).filter((p): p is Pedal => !!p);

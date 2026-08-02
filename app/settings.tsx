@@ -6,6 +6,7 @@ import ChordSelector from "../components/ChordSelector";
 import CopedantConfig from "../components/CopedantConfig";
 import KeySelector from "../components/KeySelector";
 import Neck from "../components/Neck";
+import PedalControls from "../components/PedalControls";
 import ScaleSelector from "../components/ScaleSelector";
 import TuningSelector from "../components/TuningSelector";
 import { useKey } from "./keyContext";
@@ -32,6 +33,8 @@ export default function SettingsScreen() {
     tuning,
     setTuning,
     pedals,
+    activePedals,
+    disabledPedals,
     intervalsColorCode,
     setIntervalsColorCode,
     chordsGeneratedDynamically,
@@ -51,11 +54,25 @@ export default function SettingsScreen() {
         chordType={chordType}
         tuning={tuning}
         pedals={pedals}
+        activePedals={activePedals}
+        disabledPedals={disabledPedals}
         intervalsColorCode={intervalsColorCode}
         chordsGeneratedDynamically={chordsGeneratedDynamically}
         showPedalChangeLabels={showPedalChangeLabels}
         showPedalNameLabels={showPedalNameLabels}
       />
+
+      {/* Top-right selectors like in main view */}
+      {(tuning === "E9" || tuning === "Open E" || tuning === "Standard") && (
+        <View style={styles.selectorContainer}>
+          <KeySelector />
+          {chordMode === "Chord" ? <ChordSelector /> : <ScaleSelector />}
+        </View>
+      )}
+
+      {/* Pedal controls for E9 tuning */}
+      {tuning === "E9" && <PedalControls />}
+
       <View style={styles.overlay} pointerEvents="none" />
       <Pressable onPress={handleBack} style={styles.backButton}>
         {<Entypo name="back" size={24} color="white" />}
@@ -118,8 +135,12 @@ export default function SettingsScreen() {
             <Text style={styles.toggleLabel}>Use dictionary</Text>
           </View>
 
-          <Text style={styles.sectionTitle}>Copedant Configuration</Text>
-          <CopedantConfig />
+          {tuning === "E9" && (
+            <>
+              <Text style={styles.sectionTitle}>Copedant Configuration</Text>
+              <CopedantConfig />
+            </>
+          )}
 
           <Text style={styles.sectionTitle}>UI Customization</Text>
           <View style={styles.toggleRow}>
@@ -225,5 +246,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 4,
     textAlign: "center",
+  },
+  selectorContainer: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    zIndex: 10,
+    backgroundColor: "rgba(0, 0, 0, 0.0)",
+    borderRadius: 8,
+    padding: 8,
+    flexDirection: "row",
+    gap: 8,
+    opacity: 0.7,
   },
 });

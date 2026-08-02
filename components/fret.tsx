@@ -1,15 +1,15 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewProps } from "react-native";
 
-interface FretProps {
+interface FretProps extends ViewProps {
   left: number;
 }
 
-const Fret = ({ left }: FretProps) => {
+const Fret = ({ left, pointerEvents, ...props }: FretProps) => {
   return (
-    <View style={[styles.container, { left }]}>
-      <View style={styles.fretLine} />
-      <View style={styles.shadowLine} />
+    <View style={[styles.container, { left }]} pointerEvents={pointerEvents} {...props}>
+      <View style={styles.fretLine} pointerEvents={pointerEvents} />
+      <View style={styles.shadowLine} pointerEvents={pointerEvents} />
     </View>
   );
 };

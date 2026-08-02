@@ -1,7 +1,7 @@
 import React from "react";
-import { Text } from "react-native";
+import { Text, TextProps } from "react-native";
 
-interface PedalChangeLabelProps {
+interface PedalChangeLabelProps extends TextProps {
   stringIdx: number;
   numStrings: number;
   screenHeight: number;
@@ -17,6 +17,8 @@ export const PedalChangeLabel = ({
   diameter,
   NUT_WIDTH,
   label,
+  pointerEvents,
+  ...props
 }: PedalChangeLabelProps) => {
   const top = (numStrings - stringIdx) * ((1.08 * screenHeight) / (numStrings + 1)) - 0.065 * screenHeight;
 
@@ -36,6 +38,8 @@ export const PedalChangeLabel = ({
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 2,
       }}
+      pointerEvents={pointerEvents}
+      {...props}
     >
       {label}
     </Text>

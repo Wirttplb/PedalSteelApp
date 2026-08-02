@@ -3,7 +3,7 @@ import { useKey } from "../app/keyContext";
 import BaseSelector from "./BaseSelector";
 
 export default function TuningSelector() {
-  const { tuning, setTuning, setChordMode } = useKey();
+  const { tuning, setTuning } = useKey();
 
   const tuningItems = [
     { label: "E9", value: "E9" },
@@ -11,14 +11,5 @@ export default function TuningSelector() {
     { label: "Standard", value: "Standard" },
   ];
 
-  return (
-    <BaseSelector
-      value={tuning}
-      onValueChange={(itemValue) => {
-        setTuning(itemValue);
-        setChordMode("Scale");
-      }}
-      items={tuningItems}
-    />
-  );
+  return <BaseSelector value={tuning} onValueChange={setTuning} items={tuningItems} />;
 }
