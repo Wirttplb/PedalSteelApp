@@ -266,13 +266,15 @@ const Neck = ({
           );
 
           if (pedalForString.length >= 1 && showPedalNameLabels) {
+            // Join multiple pedal names with "+" (e.g., "A+B" for 2 pedals)
+            const pedalNames = pedalForString.map((p) => p.name).join("+");
             pedalLabels.push(
               <PedalLabel
                 key={`pedal-${voicingIdx}-${stringIdx}-${fretIdx}`}
                 left={left}
                 top={top}
                 diameter={diameter}
-                pedalName={pedalForString[0].name}
+                pedalName={pedalNames}
               />,
             );
           }

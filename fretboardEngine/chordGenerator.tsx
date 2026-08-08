@@ -1,5 +1,3 @@
-// Converted from Python to TypeScript
-
 import { Chord, Voicing } from "./chords";
 import { CHORD_FORMULAS } from "./chordUtils";
 import { Fretboard } from "./fretboard";

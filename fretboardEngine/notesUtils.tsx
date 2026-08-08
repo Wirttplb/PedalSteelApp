@@ -106,6 +106,7 @@ export function convertStrIntervalToInt(interval: string): number {
     b3: 3,
     "3": 4,
     "4": 5,
+    "#4": 6,
     b5: 6,
     "5": 7,
     "#5": 8,
@@ -114,9 +115,14 @@ export function convertStrIntervalToInt(interval: string): number {
     bb7: 9,
     b7: 10,
     "7": 11,
+    b9: 1,
     "9": 2,
+    "#9": 3,
     "11": 5,
+    "#11": 6,
+    b13: 8,
     "13": 9,
+    "#13": 1,
   };
 
   if (interval in intervalMap) {

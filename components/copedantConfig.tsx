@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { ViewStyle } from "react-native";
 import { PanResponder, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
@@ -327,6 +327,7 @@ const styles = StyleSheet.create({
   addPedalButtonText: {
     color: "white",
     fontSize: 14,
+    fontWeight: "bold",
   },
   buttonRow: {
     flexDirection: "row",
@@ -338,14 +339,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingVertical: 8,
     paddingHorizontal: 20,
-    backgroundColor: "#ac8957",
+    backgroundColor: "#cf803f",
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#fa990f",
   },
   resetButtonText: {
     color: "white",
     fontSize: 14,
+    fontWeight: "bold",
   },
   pedalLabelInput: {
     color: "white",

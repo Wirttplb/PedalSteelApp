@@ -1,4 +1,3 @@
-import React from "react";
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 import { useKey } from "../appContext/keyContext";
 
@@ -84,7 +83,7 @@ const styles = StyleSheet.create({
   },
   pedalButtonActive: {
     backgroundColor: "#fa990f",
-    borderColor: "white",
+    borderColor: "#fa990f",
     opacity: 0.7,
   },
   pedalButtonDisabled: {
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
   pedalButtonText: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
   },
   pedalButtonTextActive: {
     color: "black",

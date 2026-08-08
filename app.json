@@ -8,7 +8,6 @@
     "scheme": "pedalsteelapp",
     "userInterfaceStyle": "automatic",
     "backgroundColor": "#25292e",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
@@ -35,7 +34,12 @@
           "resizeMode": "contain",
           "backgroundColor": "#25292e"
         }
-      ]
+      ],
+      "expo-font",
+      "expo-image",
+      "expo-status-bar",
+      "expo-web-browser",
+      "expo-dev-client"
     ],
     "experiments": {
       "typedRoutes": true

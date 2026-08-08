@@ -35,23 +35,23 @@ describe("Pedal", () => {
     expect(contains(["C"])).toBe(true);
     expect(contains(["A", "B"])).toBe(true);
     expect(contains(["B", "C"])).toBe(true);
-    expect(contains(["LKL"])).toBe(true);
-    expect(contains(["LKR"])).toBe(true);
+    expect(contains(["D"])).toBe(true);
+    expect(contains(["G"])).toBe(true);
+    expect(contains(["G", "E"])).toBe(true);
 
-    // expect(contains(["A", "LKR"])).toBe(true);
-    // expect(contains(["A", "LKL"])).toBe(true);
-    // expect(contains(["B", "LKL"])).toBe(true);
-    // expect(contains(["B", "LKL"])).toBe(true);
+    expect(contains(["A", "G"])).toBe(true);
+    expect(contains(["A", "D"])).toBe(true);
+    expect(contains(["B", "G"])).toBe(true);
+    expect(contains(["B", "D"])).toBe(true);
 
-    expect(contains(["LKR", "RKL"])).toBe(false);
-
+    expect(contains(["A", "C"])).toBe(false);
     expect(contains(["A", "B", "C"])).toBe(false);
 
     expect(contains(["A", "A"])).toBe(false);
-    expect(contains(["RKR", "RKR"])).toBe(false);
+    expect(contains(["F", "F"])).toBe(false);
 
-    expect(contains(["LKL", "LKR"])).toBe(false);
-    expect(contains(["RKL", "RKR"])).toBe(false);
+    expect(contains(["D", "G"])).toBe(false);
+    expect(contains(["E", "F"])).toBe(false);
   });
 });
 

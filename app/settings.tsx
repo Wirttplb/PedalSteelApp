@@ -1,6 +1,5 @@
 import { Entypo } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React from "react";
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
 import { useKey } from "../appContext/keyContext";
 import ChordSelector from "../components/ChordSelector";
@@ -119,7 +118,7 @@ export default function SettingsScreen() {
             </View>
           </View>
 
-          <View style={styles.toggleRow}>
+          <View style={[styles.toggleRow, { opacity: chordMode === "Chord" ? 1 : 0.5 }]}>
             <Text style={styles.toggleLabel}>Generate chords dynamically</Text>
             <Switch
               value={!chordsGeneratedDynamically}
@@ -129,12 +128,12 @@ export default function SettingsScreen() {
                 true: switchColors.track,
               }}
               thumbColor={!chordsGeneratedDynamically ? switchColors.thumbOn : switchColors.thumbOff}
-              style={[styles.switch, chordMode === "Scale" && { opacity: 0.5 }]}
+              style={styles.switch}
             />
             <Text style={styles.toggleLabel}>Use dictionary</Text>
           </View>
 
-          <View style={styles.toggleRow}>
+          <View style={[styles.toggleRow, { opacity: chordMode === "Chord" ? 0.5 : 1 }]}>
             <Text style={styles.toggleLabel}>Allow two levers + pedals</Text>
             <Switch
               value={allowTwoLeversPlusPedals}
@@ -144,6 +143,7 @@ export default function SettingsScreen() {
                 false: switchColors.track,
                 true: switchColors.track,
               }}
+              thumbColor={!chordsGeneratedDynamically ? switchColors.thumbOn : switchColors.thumbOff}
             />
           </View>
 
@@ -165,6 +165,7 @@ export default function SettingsScreen() {
                 false: switchColors.track,
                 true: switchColors.track,
               }}
+              thumbColor={!chordsGeneratedDynamically ? switchColors.thumbOn : switchColors.thumbOff}
             />
           </View>
           <View style={styles.toggleRow}>
@@ -177,6 +178,7 @@ export default function SettingsScreen() {
                 false: switchColors.track,
                 true: switchColors.track,
               }}
+              thumbColor={!chordsGeneratedDynamically ? switchColors.thumbOn : switchColors.thumbOff}
             />
           </View>
           <View style={styles.toggleRow}>
@@ -189,6 +191,7 @@ export default function SettingsScreen() {
                 false: switchColors.track,
                 true: switchColors.track,
               }}
+              thumbColor={!chordsGeneratedDynamically ? switchColors.thumbOn : switchColors.thumbOff}
             />
           </View>
         </View>
@@ -209,7 +212,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#211f1d",
   },
   scrollView: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     zIndex: 5,
   },
   scrollContent: {
@@ -224,7 +227,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   overlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "rgba(0, 0, 0, 0.65)",
   },
   sectionTitle: {

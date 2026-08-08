@@ -1,4 +1,4 @@
-import * as NavigationBar from "expo-navigation-bar";
+import { NavigationBar } from "expo-navigation-bar";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
@@ -9,8 +9,8 @@ import { KeyProvider } from "../appContext/keyContext";
 export default function RootLayout() {
   // Hide the navigation bar on Android
   useEffect(() => {
-    NavigationBar.setVisibilityAsync("hidden");
-    NavigationBar.setBehaviorAsync("overlay-swipe");
+    NavigationBar.setStyle("dark");
+    NavigationBar.setHidden(true);
   });
 
   return (
